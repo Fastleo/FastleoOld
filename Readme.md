@@ -1,6 +1,6 @@
 **Install Fastleo**
 
-* Install laravel-page-speed Composer Package
+* Install fastleo Composer Package
 
 `composer require camanru/fastleo`
 
