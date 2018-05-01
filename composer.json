@@ -1,11 +1,27 @@
 {
     "name": "camanru/fastleo",
     "type": "project",
+    "version": "0.1.1",
     "authors": [
         {
             "name": "Roman Zakharov",
             "email": "camanru@ya.ru"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "7.2",
+        "illuminate/support": "5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Camanru\\Fastleo\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Camanru\\Fastleo\\ServiceProvider"
+            ]
+        }
+    }
 }
