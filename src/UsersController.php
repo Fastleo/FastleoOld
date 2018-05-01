@@ -5,10 +5,10 @@ namespace Camanru\Fastleo;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MainController extends Controller
+class UsersController extends Controller
 {
     public function index()
     {
-        return view('fastleo::app');
+        return view('fastleo::users');
     }
 }
