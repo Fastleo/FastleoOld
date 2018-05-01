@@ -1,4 +1,4 @@
-@extends('fasteleo::app')
+@extends('fastleo::app')
 
 @section('content')
 
