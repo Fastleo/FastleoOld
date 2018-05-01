@@ -8,7 +8,8 @@
 </head>
 <body>
 <div class="container">
-    <form action="" method="post">
+    <form action="/fastleo" method="post">
+        {{ csrf_field() }}
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" name="email" class="form-control" id="email" placeholder="Enter email">

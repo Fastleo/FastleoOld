@@ -15,7 +15,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CreateUser::class
+                Console::class
             ]);
         }
 

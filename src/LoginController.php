@@ -3,21 +3,26 @@
 namespace Camanru\Fastleo;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-
     /**
      * Авторизация
-     * @return mixed
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function login(Request $request)
     {
-        if (count($request->post()) > 0) {
-            if (Auth::attempt(['email' => $request->post('email'), 'password' => $request->post('password'), 'admin' => 1])) {
-                return redirect()->intended('/fastleo/info');
+        if ($request->post('email') and $request->post('password')) {
+            $user = User::where(['email' => $request->post('email'), 'admin' => 1])->first();
+            if (Hash::check($request->post('password'), $user->getAuthPassword())) {
+                $request->session()->put('id', $user->id);
+                $request->session()->put('admin', $user->admin);
+                $request->session()->save();
+                return redirect('/fastleo/info');
             }
         }
         return view('fastleo::login');
@@ -27,9 +32,10 @@ class LoginController extends Controller
      * Выход
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::logout();
-        return redirect()->intended('/fastleo');
+        $request->session()->flush();
+        $request->session()->save();
+        return redirect('/fastleo');
     }
 }
