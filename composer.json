@@ -1,0 +1,11 @@
+{
+    "name": "camanru/fastleo",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Roman Zakharov",
+            "email": "camanru@ya.ru"
+        }
+    ],
+    "require": {}
+}
