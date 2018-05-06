@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Hash;
 class LoginController extends Controller
 {
     /**
-     * Авторизация
+     * Login
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function login(Request $request)
     {
         if ($request->post('email') and $request->post('password')) {
-            $user = User::where(['email' => $request->post('email'), 'admin' => 1])->first();
-            if (Hash::check($request->post('password'), $user->getAuthPassword())) {
+            $user = User::where('email', $request->post('email'))->first();
+            if (Hash::check($request->post('password'), $user->getAuthPassword()) and $user->admin == 1) {
                 $request->session()->put('id', $user->id);
                 $request->session()->put('admin', $user->admin);
                 $request->session()->save();
@@ -29,7 +29,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Выход
+     * Logout
      * @return \Illuminate\Http\RedirectResponse
      */
     public function logout(Request $request)
