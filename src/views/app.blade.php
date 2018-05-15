@@ -17,7 +17,16 @@
                 <li class="nav-item"><a class="nav-link {{ Request::is('fastleo/pages') ? 'active' : '' }}" href="{{ route('fastleo.pages') }}"><i class="far fa-newspaper"></i> Static pages</a></li>
                 <li class="nav-item"><a class="nav-link {{ Request::is('fastleo/users') ? 'active' : '' }}" href="{{ route('fastleo.users') }}"><i class="fas fa-users"></i> Users and roles</a></li>
                 <li class="nav-item"><a class="nav-link {{ Request::is('fastleo/config') ? 'active' : '' }}" href="{{ route('fastleo.config') }}"><i class="fas fa-cogs"></i> Configuration</a></li>
-                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-globe"></i> Go to site</a></li>
+                @if(count(request()->attributes->get('models')) > 0)
+                    @foreach(request()->attributes->get('models') as $model)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('fastleo') }}/app/{{ strtolower($model) }}">
+                                <i class="fas fa-cogs"></i> {{ $model }}s
+                            </a>
+                        </li>
+                    @endforeach
+                @endif
+                <li class="nav-item"><a class="nav-link" href="/" target="_blank"><i class="fas fa-globe"></i> Go to site</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('fastleo.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
