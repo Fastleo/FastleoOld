@@ -2,10 +2,11 @@
 
 namespace Camanru\Fastleo;
 
-use \Illuminate\Support\Facades\Hash;
-use \Illuminate\Console\Command as BaseCommand;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Console\Command;
+use App\User;
 
-class Console extends BaseCommand
+class Fastleo extends Command
 {
     /**
      * The name and signature of the console command.
@@ -19,7 +20,7 @@ class Console extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Create user';
+    protected $description = 'Create new user';
 
     /**
      * @var array
@@ -28,6 +29,8 @@ class Console extends BaseCommand
 
     /**
      * Create a new command instance.
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -35,19 +38,13 @@ class Console extends BaseCommand
     }
 
     /**
-     * @return bool
+     * Execute the console command.
+     *
+     * @return mixed
      */
     public function handle()
     {
-        $class = config(
-            'auth.providers.' . config(
-                'auth.guards.' . config(
-                    'auth.defaults.guard'
-                ) . '.provider'
-            ) . '.model'
-        );
-
-        $user = new $class;
+        $user = new User;
         $fillables = $this->fillable;
 
         foreach ($fillables as $k => $fillable) {
