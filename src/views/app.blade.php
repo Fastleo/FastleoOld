@@ -21,7 +21,7 @@
                     @foreach(request()->attributes->get('models') as $model)
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('fastleo') }}/app/{{ strtolower($model) }}">
-                                <i class="fas fa-cogs"></i> {{ $model }}s
+                                <i class="fas fa-box-open"></i> {{ $model }}s
                             </a>
                         </li>
                     @endforeach

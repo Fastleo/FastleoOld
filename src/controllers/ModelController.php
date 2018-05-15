@@ -3,13 +3,15 @@
 namespace Camanru\Fastleo;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class ModelController extends Controller
 {
-    var $app, $columns, $model, $name;
+    var $app, $columns, $model, $name, $schema, $table;
+
+    public $exclude_type = ['text', 'longtext'];
+    public $exclude_name = ['password', 'remember_token', 'admin'];
 
     /**
      * ModelController constructor.
@@ -17,11 +19,20 @@ class ModelController extends Controller
      */
     public function __construct(Request $request)
     {
-        $this->name = $request->segment(count($request->segments()));
+        $this->name = $request->segment(3);
         $this->model = 'App\\' . ucfirst($this->name);
-        $this->columns = Schema::getColumnListing($this->name . 's');
+        $this->table = $this->name . 's';
+        $this->schema = Schema::getColumnListing($this->table);
 
-        dump(DB::connection()->getDoctrineColumn('users')->getType()->getName());
+        // Table columns
+        if(count($this->schema) > 0) {
+            foreach (Schema::getColumnListing($this->table) as $k => $column) {
+                $this->columns[$k]['name'] = $column;
+                $this->columns[$k]['type'] = Schema::getColumnType($this->table, $column);
+            }
+        } else {
+            dd('Not exist table ' . $this->table);
+        }
 
         // Start App
         $this->app = new $this->model();
@@ -33,8 +44,11 @@ class ModelController extends Controller
      */
     public function index()
     {
-        $rows = $this->app::get();
+        $rows = $this->app::limit(20)->get();
         return view('fastleo::model', [
+            'exclude_type' => $this->exclude_type,
+            'exclude_name' => $this->exclude_name,
+            'columns_model' => $this->columns,
             'title_model' => ucfirst($this->name),
             'name_model' => $this->name,
             'rows' => $rows
@@ -48,6 +62,7 @@ class ModelController extends Controller
     public function add()
     {
         return view('fastleo::model-edit', [
+            'columns_model' => $this->columns,
             'title_model' => ucfirst($this->name),
             'name_model' => $this->name,
         ]);
@@ -62,6 +77,7 @@ class ModelController extends Controller
     {
         $row = $this->app::where('id', $row_id)->first();
         return view('fastleo::model-edit', [
+            'columns_model' => $this->columns,
             'title_model' => ucfirst($this->name),
             'name_model' => $this->name,
             'row' => $row
