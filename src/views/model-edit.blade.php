@@ -20,7 +20,7 @@
                             @if(in_array($column['type'], ['text','longtext']))
                                 <div class="form-group">
                                     <label for="{{ $column['name'] }}">{{ ucfirst($column['name']) }}</label>
-                                    <textarea name="{{ $column['name'] }}" class="form-control" id="{{ $column['name'] }}" placeholder="{{ $column['type'] }}">@if(isset($row->{$column['name']})){{ $row->{$column['name']} }}@endif</textarea>
+                                    <textarea name="{{ $column['name'] }}" class="form-control" id="{{ $column['name'] }}" rows="10" placeholder="{{ $column['type'] }}">@if(isset($row->{$column['name']})){{ $row->{$column['name']} }}@endif</textarea>
                                 </div>
                             @else
                                 <div class="form-group">

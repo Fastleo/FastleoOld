@@ -37,5 +37,26 @@
 <script src="//code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.13/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        theme: 'modern',
+        plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+        toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor removeformat | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | link image media',
+        image_advtab: true,
+        relative_urls: false,
+        external_filemanager_path: "/filemanager/",
+        filemanager_title: "Responsive Filemanager" ,
+        external_plugins: {
+            "filemanager" : "/filemanager/plugin.min.js"
+        },
+        verify_html: true,
+        paste_auto_cleanup_on_paste : true,
+        paste_remove_styles: true,
+        paste_remove_styles_if_webkit: true,
+        paste_strip_class_attributes: "all"
+    });
+</script>
 </body>
 </html>
