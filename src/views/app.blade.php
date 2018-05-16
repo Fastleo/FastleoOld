@@ -14,9 +14,6 @@
         <div class="col-lg-2 col-md-3 col-sm-4 bg-light">
             <ul class="nav flex-column">
                 <li class="nav-item"><a class="nav-link {{ Request::is('fastleo/info') ? 'active' : '' }}" href="{{ route('fastleo.info') }}"><i class="fas fa-home"></i> Information</a></li>
-                <li class="nav-item"><a class="nav-link {{ Request::is('fastleo/pages') ? 'active' : '' }}" href="{{ route('fastleo.pages') }}"><i class="far fa-newspaper"></i> Static pages</a></li>
-                <li class="nav-item"><a class="nav-link {{ Request::is('fastleo/users') ? 'active' : '' }}" href="{{ route('fastleo.users') }}"><i class="fas fa-users"></i> Users and roles</a></li>
-                <li class="nav-item"><a class="nav-link {{ Request::is('fastleo/config') ? 'active' : '' }}" href="{{ route('fastleo.config') }}"><i class="fas fa-cogs"></i> Configuration</a></li>
                 @if(count(request()->attributes->get('models')) > 0)
                     @foreach(request()->attributes->get('models') as $model)
                         <li class="nav-item">

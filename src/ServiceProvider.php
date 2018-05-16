@@ -31,10 +31,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        $this->app->make('Camanru\Fastleo\ConfigController');
-        $this->app->make('Camanru\Fastleo\InfoController');
-        $this->app->make('Camanru\Fastleo\LoginController');
-        $this->app->make('Camanru\Fastleo\PagesController');
-        $this->app->make('Camanru\Fastleo\UsersController');
+        // $this->app->make('Camanru\Fastleo\LoginController');
     }
 }

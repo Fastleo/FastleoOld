@@ -12,14 +12,8 @@ Route::middleware($middlewares)->group(function () {
     Route::match(['get', 'post'], '/fastleo', 'Camanru\Fastleo\LoginController@login')->name('fastleo');
     Route::get('/fastleo/logout', 'Camanru\Fastleo\LoginController@logout')->name('fastleo.logout');
 
-    // Config
-    Route::get('/fastleo/config', 'Camanru\Fastleo\ConfigController@index')->name('fastleo.config');
-
     // Info
     Route::get('/fastleo/info', 'Camanru\Fastleo\InfoController@index')->name('fastleo.info');
-
-    // Pages
-    Route::get('/fastleo/pages', 'Camanru\Fastleo\PagesController@index')->name('fastleo.pages');
 
     // Users
     Route::get('/fastleo/users', 'Camanru\Fastleo\UsersController@index')->name('fastleo.users');
@@ -31,6 +25,6 @@ Route::middleware($middlewares)->group(function () {
     Route::get('/fastleo/app/{model}', 'Camanru\Fastleo\ModelController@index');
     Route::get('/fastleo/app/{model}/add', 'Camanru\Fastleo\ModelController@add');
     Route::get('/fastleo/app/{model}/edit/{row_id}', 'Camanru\Fastleo\ModelController@edit')->where('row_id', '[0-9]+');
+    Route::any('/fastleo/app/{model}/save/{row_id?}', 'Camanru\Fastleo\ModelController@save')->where('row_id', '[0-9]+');
     Route::get('/fastleo/app/{model}/delete/{row_id}', 'Camanru\Fastleo\ModelController@delete')->where('row_id', '[0-9]+');
-    Route::post('/fastleo/app/{model}/save/{row_id}', 'Camanru\Fastleo\ModelController@save')->where('row_id', '[0-9]+');
 });

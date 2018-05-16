@@ -19,9 +19,7 @@ class ModelsList
         foreach (scandir(base_path('app')) as $file) {
             $pathInfo = pathinfo($file);
             if (isset($pathInfo['extension']) and $pathInfo['extension'] == 'php') {
-                if ($pathInfo['filename'] != 'User') {
-                    $models[] = $pathInfo['filename'];
-                }
+                $models[] = $pathInfo['filename'];
             }
         }
         $request->attributes->add(['models' => $models]);
