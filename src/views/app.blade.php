@@ -47,15 +47,29 @@
         image_advtab: true,
         relative_urls: false,
         external_filemanager_path: "/filemanager/",
-        filemanager_title: "Responsive Filemanager" ,
+        filemanager_title: "Responsive Filemanager",
         external_plugins: {
-            "filemanager" : "/filemanager/plugin.min.js"
+            "filemanager": "/filemanager/plugin.min.js"
         },
         verify_html: true,
-        paste_auto_cleanup_on_paste : true,
+        paste_auto_cleanup_on_paste: true,
         paste_remove_styles: true,
         paste_remove_styles_if_webkit: true,
         paste_strip_class_attributes: "all"
+    });
+
+    function responsive_filemanager_callback(field_id) {
+        $('#' + field_id).observe_field();
+    }
+
+    $(function () {
+        $('.filemanager').fancybox({
+            'width': 900,
+            'height': 600,
+            'minHeight': 600,
+            'type': 'iframe',
+            'autoScale': false
+        });
     });
 </script>
 </body>
