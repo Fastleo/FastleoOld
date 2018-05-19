@@ -1,12 +1,6 @@
 <?php
 
-$middlewares = [
-    'web',
-    Camanru\Fastleo\CheckAuth::class,
-    Camanru\Fastleo\ModelsList::class
-];
-
-Route::middleware($middlewares)->group(function () {
+Route::middleware(['web', Camanru\Fastleo\CheckAuth::class, Camanru\Fastleo\ModelsList::class])->group(function () {
 
     // Auth
     Route::match(['get', 'post'], '/fastleo', 'Camanru\Fastleo\LoginController@login')->name('fastleo');
@@ -27,4 +21,8 @@ Route::middleware($middlewares)->group(function () {
     Route::get('/fastleo/app/{model}/edit/{row_id}', 'Camanru\Fastleo\ModelController@edit')->where('row_id', '[0-9]+');
     Route::any('/fastleo/app/{model}/save/{row_id?}', 'Camanru\Fastleo\ModelController@save')->where('row_id', '[0-9]+');
     Route::get('/fastleo/app/{model}/delete/{row_id}', 'Camanru\Fastleo\ModelController@delete')->where('row_id', '[0-9]+');
+
+    // Filemanager
+    Route::get('/fastleo/filemanager', 'Camanru\Fastleo\FilemanagerController@index');
+    Route::any('/fastleo/filemanager/uploads', 'Camanru\Fastleo\FilemanagerController@uploads');
 });

@@ -46,30 +46,16 @@
         toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor removeformat | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | link image media',
         image_advtab: true,
         relative_urls: false,
-        external_filemanager_path: "/filemanager/",
-        filemanager_title: "Responsive Filemanager",
-        external_plugins: {
-            "filemanager": "/filemanager/plugin.min.js"
-        },
-        verify_html: true,
-        paste_auto_cleanup_on_paste: true,
-        paste_remove_styles: true,
-        paste_remove_styles_if_webkit: true,
-        paste_strip_class_attributes: "all"
-    });
-
-    function responsive_filemanager_callback(field_id) {
-        $('#' + field_id).observe_field();
-    }
-
-    $(function () {
-        $('.filemanager').fancybox({
-            'width': 900,
-            'height': 600,
-            'minHeight': 600,
-            'type': 'iframe',
-            'autoScale': false
-        });
+        file_browser_callback: function (field_name, url, type, win) {
+            tinyMCE.activeEditor.windowManager.open({
+                url: "/fastleo/filemanager",
+                width: 1000,
+                height: 600,
+            }, {
+                window: win,
+                input: field_name
+            });
+        }
     });
 </script>
 </body>

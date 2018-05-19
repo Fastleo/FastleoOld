@@ -24,5 +24,13 @@
                 "Camanru\\Fastleo\\ServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan vendor:publish --tag=fastleo --force"
+        ],
+        "post-update-cmd": [
+            "php artisan vendor:publish --tag=fastleo --force"
+        ]
     }
 }
