@@ -6,13 +6,9 @@ Create admin
 
 `php artisan fastleo:user`
 
-If use filemanager
-
 Publish the package’s 
 
-`php artisan vendor:publish --tag=lfm_config`
-
-`php artisan vendor:publish --tag=lfm_public`
+`php artisan vendor:publish --tag=fastleo --force`
 
 Clear cache
 
