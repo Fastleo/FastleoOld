@@ -27,7 +27,7 @@ class ModelController extends Controller
         $this->name = $request->segment(3);
 
         // Model namespace
-        $this->model = 'App\\' . ucfirst($this->name);
+        $this->model = 'App\\' . $request->appmodels[$this->name];
 
         // Model test
         if (!class_exists($this->model)) {

@@ -1,6 +1,6 @@
 <?php
 
-Route::middleware(['web', Camanru\Fastleo\CheckAuth::class, Camanru\Fastleo\ModelsList::class])->group(function () {
+Route::middleware(['web', Camanru\Fastleo\CheckAuth::class])->group(function () {
 
     // Auth
     Route::match(['get', 'post'], '/fastleo', 'Camanru\Fastleo\LoginController@login')->name('fastleo');

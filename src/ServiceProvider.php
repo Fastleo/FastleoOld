@@ -35,6 +35,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        // $this->app->make('Camanru\Fastleo\LoginController');
+
     }
 }

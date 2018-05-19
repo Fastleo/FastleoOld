@@ -16,8 +16,8 @@
                 <li class="nav-item">
                     <a href="/fastleo/info" class="nav-link"><i class="fas fa-home"></i> Information</a>
                 </li>
-                @if(count(request()->attributes->get('models')) > 0)
-                    @foreach(request()->attributes->get('models') as $model)
+                @if(count(request()->appmodels) > 0)
+                    @foreach(request()->appmodels as $model)
                         <li class="nav-item">
                             <a class="nav-link" href="/fastleo/app/{{ strtolower($model) }}">
                                 <i class="fas fa-box-open"></i> {{ $model }}s

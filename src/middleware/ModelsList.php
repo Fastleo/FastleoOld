@@ -24,7 +24,7 @@ class ModelsList
                 }
             }
         }
-        $request->attributes->add(['models' => $models]);
+        $request->appmodels =  $models;
         return $next($request);
     }
 }

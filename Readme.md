@@ -2,13 +2,21 @@
 
 `composer require camanru/fastleo`
 
-Create admin
+Add middleware
 
-`php artisan fastleo:user`
+`protected $middleware = [`
+
+`\Camanru\Fastleo\ModelsList::class,`
+
+`]`
 
 Publish the package’s 
 
 `php artisan vendor:publish --tag=fastleo --force`
+
+Create admin
+
+`php artisan fastleo:user`
 
 Clear cache
 
