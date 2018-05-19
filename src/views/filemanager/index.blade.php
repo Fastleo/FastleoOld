@@ -3,9 +3,21 @@
 @section('content')
 
     <div class="row">
+
+        @if(request()->input('folder'))
+            @php $getfolder = explode('/', request()->input('folder')); @endphp
+            @php array_pop($getfolder); @endphp
+            @php $getfolder = implode('/', $getfolder); @endphp
+            <a href="?folder={{ $getfolder }}">
+                <div class="block" style="background-image: url('/ico/folder.png');">
+                    <span class="filename">..</span>
+                </div>
+            </a>
+        @endif
+
         @if(isset($folders) and count($folders) > 0)
             @foreach($folders as $folder)
-                <a href="?folder">
+                <a href="?folder=@if(request()->input('folder')){{ request()->input('folder') . '/' }}@endif{{ $folder }}">
                     <div class="block" style="background-image: url('/ico/folder.png');">
                         <span class="filename">{{ $folder }}</span>
                     </div>

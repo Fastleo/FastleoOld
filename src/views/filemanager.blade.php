@@ -13,8 +13,8 @@
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap">
     <a class="navbar-brand" href="/fastleo/filemanager">Fastleo Filemanager</a>
     <div class="pull-right">
-        <a href="/fastleo/filemanager/uploads">Загрузить файл</a> /
-        <a href="/fastleo/filemanager/create">Создать папку</a>
+        <a href="/fastleo/filemanager/uploads?folder={{ request()->input('folder') }}">Загрузить файл</a> /
+        <a href="/fastleo/filemanager/create?folder={{ request()->input('folder') }}">Создать папку</a>
     </div>
 </nav>
 <div class="container-fluid">
