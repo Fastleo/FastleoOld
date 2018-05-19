@@ -3,7 +3,6 @@
 @section('content')
 
     <div class="row">
-
         @if(request()->input('folder'))
             @php $getfolder = explode('/', request()->input('folder')); @endphp
             @php array_pop($getfolder); @endphp
@@ -14,7 +13,6 @@
                 </div>
             </a>
         @endif
-
         @if(isset($folders) and count($folders) > 0)
             @foreach($folders as $folder)
                 <a href="?folder=@if(request()->input('folder')){{ request()->input('folder') . '/' }}@endif{{ $folder }}">
@@ -24,7 +22,6 @@
                 </a>
             @endforeach
         @endif
-
         @if(isset($files) and count($files) > 0)
             @foreach($files as $file)
                 @php (in_array($file['ext'], $images)) ? $background = $file['thumbs'] : $background = '/ico/'.$file['ext'].'.jpg'; @endphp
@@ -36,7 +33,6 @@
             @endforeach
         @endif
     </div>
-
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
             $('div.image').on('click', function () {
@@ -48,5 +44,5 @@
             });
         });
     </script>
-
+    
 @endsection

@@ -29,24 +29,29 @@ class ModelController extends Controller
         // Model namespace
         $this->model = 'App\\' . ucfirst($this->name);
 
+        // Model test
+        if (!class_exists($this->model)) {
+            return false;
+        }
+
+        // Start App
+        $this->app = new $this->model();
+
         // Table name
-        $this->table = $this->name . 's';
+        $this->table = $this->app->getTable();
 
         // Table column list
         $this->schema = Schema::getColumnListing($this->table);
 
         // Table columns
         if (count($this->schema) > 0) {
-            foreach (Schema::getColumnListing($this->table) as $k => $column) {
+            foreach ($this->schema as $k => $column) {
                 $this->columns[$k]['name'] = $column;
                 $this->columns[$k]['type'] = Schema::getColumnType($this->table, $column);
             }
         } else {
             die('Not exist table ' . $this->table);
         }
-
-        // Start App
-        $this->app = new $this->model();
     }
 
     /**
@@ -55,7 +60,7 @@ class ModelController extends Controller
      */
     public function index()
     {
-        $rows = $this->app::limit(20)->get();
+        $rows = $this->app::paginate(10);
         return view('fastleo::model', [
             'exclude_type' => $this->exclude_list_type,
             'exclude_name' => $this->exclude_list_name,
@@ -83,6 +88,7 @@ class ModelController extends Controller
 
     /**
      * Row edit
+     * @param $model
      * @param $row_id
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -95,13 +101,27 @@ class ModelController extends Controller
             'columns_model' => $this->columns,
             'title_model' => ucfirst($this->name),
             'name_model' => $this->name,
+            'row_id' => $row_id,
             'row' => $row
         ]);
     }
 
-    public function save($model, $row_id)
+    public function menu($model, $row_id)
     {
 
+    }
+
+    public function create(Request $request, $model)
+    {
+        dump($model);
+        dd($request->all());
+    }
+
+    public function save(Request $request, $model, $row_id)
+    {
+        dump($model);
+        dump($row_id);
+        dd($request->all());
     }
 
     public function delete($model, $row_id)

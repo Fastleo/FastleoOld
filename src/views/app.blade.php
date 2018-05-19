@@ -13,18 +13,20 @@
     <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-4 bg-light">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link {{ Request::is('fastleo/info') ? 'active' : '' }}" href="{{ route('fastleo.info') }}"><i class="fas fa-home"></i> Information</a></li>
+                <li class="nav-item">
+                    <a href="/fastleo/info" class="nav-link"><i class="fas fa-home"></i> Information</a>
+                </li>
                 @if(count(request()->attributes->get('models')) > 0)
                     @foreach(request()->attributes->get('models') as $model)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('fastleo') }}/app/{{ strtolower($model) }}">
+                            <a class="nav-link" href="/fastleo/app/{{ strtolower($model) }}">
                                 <i class="fas fa-box-open"></i> {{ $model }}s
                             </a>
                         </li>
                     @endforeach
                 @endif
                 <li class="nav-item"><a class="nav-link" href="/" target="_blank"><i class="fas fa-globe"></i> Go to site</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('fastleo.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="/fastleo/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </div>
         <div class="col-lg-10 col-md-9 col-sm-8 ">
