@@ -35,12 +35,20 @@
     </div>
 </div>
 <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css">
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.12/css/all.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css">
+<link rel="stylesheet" href="/css/fastleo.admin.css">
 <script src="//code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.13/tinymce.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+
 <script>
+    function filemanager(field, value) {
+        $('#' + field).val(value);
+    }
+
     tinymce.init({
         selector: 'textarea.tinymce',
         theme: 'modern',
@@ -58,6 +66,9 @@
                 input: field_name
             });
         }
+    });
+    $(document).ready(function () {
+        $('.filemanager').fancybox();
     });
 </script>
 </body>

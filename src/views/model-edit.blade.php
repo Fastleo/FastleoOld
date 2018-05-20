@@ -30,7 +30,12 @@
                             @else
                                 <div class="form-group">
                                     <label for="{{ $column }}">{{ ucfirst($column) }}</label>
-                                    <input type="text" name="{{ $column }}" class="form-control" id="{{ $column }}" placeholder="{{ $type }}" value="@if(isset($row->{$column})){{ $row->{$column} }}@endif">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager?field={{ $column }}">
+                                            <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
+                                        </div>
+                                        <input type="text" name="{{ $column }}" class="form-control" id="{{ $column }}" placeholder="{{ $type }}" value="@if(isset($row->{$column})){{ $row->{$column} }}@endif">
+                                    </div>
                                 </div>
                             @endif
                         @endif
