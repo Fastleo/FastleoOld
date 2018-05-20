@@ -16,9 +16,9 @@
                 <thead>
                 <tr>
                     @php $i = 1; @endphp
-                    @foreach($columns_model as $column)
-                        @if(!in_array($column['type'], $exclude_type) and !in_array($column['name'], $exclude_name) and $i < 10)
-                            <th>{{ ucfirst($column['name']) }}</th>
+                    @foreach($columns_model as $column => $type)
+                        @if(!in_array($type, $exclude_type) and !in_array($column, $exclude_name) and $i < 10)
+                            <th>{{ ucfirst($column) }}</th>
                             @php ++$i; @endphp
                         @endif
                     @endforeach
@@ -28,10 +28,10 @@
                 @foreach($rows as $row)
                     <tr>
                         @php $i = 1; @endphp
-                        @foreach($columns_model as $column)
-                            @if(!in_array($column['type'], $exclude_type) and !in_array($column['name'], $exclude_name) and $i < 10)
+                        @foreach($columns_model as $column => $type)
+                            @if(!in_array($type, $exclude_type) and !in_array($column, $exclude_name) and $i < 10)
                                 <td>
-                                    <a href="/fastleo/app/{{ $name_model }}/edit/{{ $row->id }}">{{ $row->{$column['name']} }}</a>
+                                    <a href="/fastleo/app/{{ $name_model }}/edit/{{ $row->id }}">{{ $row->{$column} }}</a>
                                 </td>
                                 @php ++$i; @endphp
                             @endif

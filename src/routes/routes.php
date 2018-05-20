@@ -11,12 +11,9 @@ Route::middleware(['web', Camanru\Fastleo\CheckAuth::class])->group(function () 
 
     // Models
     Route::get('/fastleo/app/{model}', 'Camanru\Fastleo\ModelController@index');
-    Route::get('/fastleo/app/{model}/add', 'Camanru\Fastleo\ModelController@add');
-    Route::get('/fastleo/app/{model}/edit/{row_id}', 'Camanru\Fastleo\ModelController@edit')->where('row_id', '[0-9]+');
+    Route::any('/fastleo/app/{model}/add', 'Camanru\Fastleo\ModelController@add');
+    Route::any('/fastleo/app/{model}/edit/{row_id}', 'Camanru\Fastleo\ModelController@edit')->where('row_id', '[0-9]+');
     Route::get('/fastleo/app/{model}/delete/{row_id}', 'Camanru\Fastleo\ModelController@delete')->where('row_id', '[0-9]+');
-
-    Route::post('/fastleo/app/{model}/create', 'Camanru\Fastleo\ModelController@create');
-    Route::post('/fastleo/app/{model}/save/{row_id}', 'Camanru\Fastleo\ModelController@save')->where('row_id', '[0-9]+');
 
     // Filemanager
     Route::get('/fastleo/filemanager', 'Camanru\Fastleo\FilemanagerController@index');

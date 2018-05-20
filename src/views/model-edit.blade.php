@@ -12,26 +12,25 @@
     </div>
     <div class="row">
         <div class="col">
-            <form action="/fastleo/app/{{ $name_model }}/create/@if(isset($row_id)){{ $row_id }}@endif" method="post">
-                {{ @csrf_field() }}
-                {{ method_field('POST') }}
+            <form action="" method="post">
+                {{ csrf_field() }}
                 @if(count($columns_model) > 0)
-                    @foreach($columns_model as $column)
-                        @if(!in_array($column['type'], $exclude_type) and !in_array($column['name'], $exclude_name))
-                            @if(in_array($column['type'], ['text','longtext']))
+                    @foreach($columns_model as $column => $type)
+                        @if(!in_array($type, $exclude_type) and !in_array($column, $exclude_name))
+                            @if(in_array($type, ['text','longtext']))
                                 <div class="form-group">
-                                    <label for="{{ $column['name'] }}">{{ ucfirst($column['name']) }}</label>
-                                    <textarea name="{{ $column['name'] }}" class="form-control" id="{{ $column['name'] }}" rows="10" placeholder="{{ $column['type'] }}">@if(isset($row->{$column['name']})){{ $row->{$column['name']} }}@endif</textarea>
+                                    <label for="{{ $column }}">{{ ucfirst($column) }}</label>
+                                    <textarea name="{{ $column }}" class="form-control tinymce" id="{{ $column }}" rows="10" placeholder="{{ $type }}">@if(isset($row->{$column})){!! $row->{$column} !!}@endif</textarea>
                                 </div>
-                            @elseif(in_array($column['name'], ['password']))
+                            @elseif(in_array($column, ['password']))
                                 <div class="form-group">
-                                    <label for="{{ $column['name'] }}">{{ ucfirst($column['name']) }}</label>
-                                    <input type="text" name="{{ $column['name'] }}" class="form-control" id="{{ $column['name'] }}" placeholder="{{ $column['type'] }}">
+                                    <label for="{{ $column }}">{{ ucfirst($column) }}</label>
+                                    <input type="text" name="{{ $column }}" class="form-control" id="{{ $column }}" placeholder="{{ $type }}">
                                 </div>
                             @else
                                 <div class="form-group">
-                                    <label for="{{ $column['name'] }}">{{ ucfirst($column['name']) }}</label>
-                                    <input type="text" name="{{ $column['name'] }}" class="form-control" id="{{ $column['name'] }}" placeholder="{{ $column['type'] }}" value="@if(isset($row->{$column['name']})){{ $row->{$column['name']} }}@endif">
+                                    <label for="{{ $column }}">{{ ucfirst($column) }}</label>
+                                    <input type="text" name="{{ $column }}" class="form-control" id="{{ $column }}" placeholder="{{ $type }}" value="@if(isset($row->{$column})){{ $row->{$column} }}@endif">
                                 </div>
                             @endif
                         @endif

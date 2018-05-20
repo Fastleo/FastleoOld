@@ -42,16 +42,16 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.13/tinymce.min.js"></script>
 <script>
     tinymce.init({
-        selector: 'textarea',
+        selector: 'textarea.tinymce',
         theme: 'modern',
-        plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+        plugins: 'print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
         toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor removeformat | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | link image media',
         image_advtab: true,
         relative_urls: false,
         file_browser_callback: function (field_name, url, type, win) {
             tinyMCE.activeEditor.windowManager.open({
                 url: "/fastleo/filemanager",
-                width: 1000,
+                width: 1020,
                 height: 600,
             }, {
                 window: win,

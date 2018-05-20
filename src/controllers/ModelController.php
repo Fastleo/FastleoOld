@@ -21,13 +21,13 @@ class ModelController extends Controller
      * ModelController constructor.
      * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct()
     {
         // Model name
-        $this->name = $request->segment(3);
+        $this->name = request()->segment(3);
 
         // Model namespace
-        $this->model = 'App\\' . $request->appmodels[$this->name];
+        $this->model = 'App\\' . request()->appmodels[$this->name];
 
         // Model test
         if (!class_exists($this->model)) {
@@ -45,9 +45,8 @@ class ModelController extends Controller
 
         // Table columns
         if (count($this->schema) > 0) {
-            foreach ($this->schema as $k => $column) {
-                $this->columns[$k]['name'] = $column;
-                $this->columns[$k]['type'] = Schema::getColumnType($this->table, $column);
+            foreach ($this->schema as $column) {
+                $this->columns[$column] = Schema::getColumnType($this->table, $column);
             }
         } else {
             die('Not exist table ' . $this->table);
@@ -58,7 +57,7 @@ class ModelController extends Controller
      * Rows list
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $rows = $this->app::paginate(10);
         return view('fastleo::model', [
@@ -75,8 +74,19 @@ class ModelController extends Controller
      * Row add
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function add()
+    public function add(Request $request, $model)
     {
+        // add
+        if ($request->all()) {
+            if ($this->columns['created_at']) {
+                $request->request->add(['created_at' => \Carbon\Carbon::now()]);
+            }
+            $id = $this->app->insertGetId($request->except(['_token']));
+            header('Location: /fastleo/app/' . $model . '/edit/' . $id);
+            die;
+        }
+
+        // view
         return view('fastleo::model-edit', [
             'exclude_type' => $this->exclude_row_type,
             'exclude_name' => $this->exclude_row_name,
@@ -92,8 +102,19 @@ class ModelController extends Controller
      * @param $row_id
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($model, $row_id)
+    public function edit(Request $request, $model, $row_id)
     {
+        // edit
+        if ($request->all()) {
+            if ($this->columns['updated_at']) {
+                $request->request->add(['updated_at' => \Carbon\Carbon::now()]);
+            }
+            $this->app->where('id', $row_id)->update($request->except(['_token']));
+            header('Location: /fastleo/app/' . $model . '/edit/' . $row_id);
+            die;
+        }
+
+        // view
         $row = $this->app::where('id', $row_id)->first();
         return view('fastleo::model-edit', [
             'exclude_type' => $this->exclude_row_type,
@@ -104,28 +125,5 @@ class ModelController extends Controller
             'row_id' => $row_id,
             'row' => $row
         ]);
-    }
-
-    public function menu($model, $row_id)
-    {
-
-    }
-
-    public function create(Request $request, $model)
-    {
-        dump($model);
-        dd($request->all());
-    }
-
-    public function save(Request $request, $model, $row_id)
-    {
-        dump($model);
-        dump($row_id);
-        dd($request->all());
-    }
-
-    public function delete($model, $row_id)
-    {
-
     }
 }
