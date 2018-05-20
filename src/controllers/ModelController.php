@@ -15,7 +15,7 @@ class ModelController extends Controller
     public $exclude_list_name = ['password', 'remember_token', 'admin'];
 
     public $exclude_row_type = [];
-    public $exclude_row_name = ['id', 'remember_token', 'created_at', 'updated_at'];
+    public $exclude_row_name = ['id', 'password', 'remember_token', 'created_at', 'updated_at'];
 
     /**
      * ModelController constructor.
