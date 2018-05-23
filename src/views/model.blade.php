@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-6">
-            <h3>{{ $title_model }} list</h3>
+            <h3>{{ $title_model }}</h3>
         </div>
         <div class="col-6">
             <a href="/fastleo/app/{{ $name_model }}/add" class="btn btn-success float-right">Create {{ $name_model }}</a>

@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Schema;
 
 class ModelController extends Controller
 {
-    var $app, $columns, $model, $name, $schema, $table;
+    public $app, $columns, $model, $name, $schema, $table;
+
+    public $fastleo_model_name, $fastleo_columns;
 
     public $exclude_list_type = ['text', 'longtext'];
     public $exclude_list_name = ['password', 'remember_token', 'admin'];
@@ -42,6 +44,10 @@ class ModelController extends Controller
         // Table column list
         $this->schema = Schema::getColumnListing($this->table);
 
+        // Fastleo variables
+        $this->fastleo_model_name = $this->app->fastleo_model_name ?: $this->name;
+        $this->fastleo_columns = $this->app->fastleo_columns ?: [];
+
         // Table columns
         if (count($this->schema) > 0) {
             foreach ($this->schema as $column) {
@@ -65,7 +71,8 @@ class ModelController extends Controller
             'columns_model' => $this->columns,
             'title_model' => ucfirst($this->name),
             'name_model' => $this->name,
-            'rows' => $rows
+            'rows' => $rows,
+            'f' => $this->fastleo_columns,
         ]);
     }
 
@@ -92,6 +99,7 @@ class ModelController extends Controller
             'columns_model' => $this->columns,
             'title_model' => ucfirst($this->name),
             'name_model' => $this->name,
+            'f' => $this->fastleo_columns,
         ]);
     }
 
@@ -122,7 +130,8 @@ class ModelController extends Controller
             'title_model' => ucfirst($this->name),
             'name_model' => $this->name,
             'row_id' => $row_id,
-            'row' => $row
+            'row' => $row,
+            'f' => $this->fastleo_columns,
         ]);
     }
 }

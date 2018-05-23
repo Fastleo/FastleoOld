@@ -56,6 +56,7 @@
         toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor removeformat | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | link image media',
         image_advtab: true,
         relative_urls: false,
+        height: 300,
         file_browser_callback: function (field_name, url, type, win) {
             tinyMCE.activeEditor.windowManager.open({
                 url: "/fastleo/filemanager",

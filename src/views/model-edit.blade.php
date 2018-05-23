@@ -15,26 +15,30 @@
             <form action="" method="post">
                 {{ csrf_field() }}
                 @if(count($columns_model) > 0)
-                    @foreach($columns_model as $column => $type)
-                        @if(!in_array($type, $exclude_type) and !in_array($column, $exclude_name))
-                            @if(in_array($type, ['text','longtext']))
+                    @foreach($columns_model as $c => $t)
+                        @if(!in_array($t, $exclude_type) and !in_array($c, $exclude_name))
+                            @if(in_array($t, ['text','longtext']))
                                 <div class="form-group">
-                                    <label for="{{ $column }}">{{ ucfirst($column) }}</label>
-                                    <textarea name="{{ $column }}" class="form-control tinymce" id="{{ $column }}" rows="10" placeholder="{{ $type }}">@if(isset($row->{$column})){!! $row->{$column} !!}@endif</textarea>
+                                    <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
+                                    <textarea name="{{ $c }}" id="{{ $c }}" class="form-control @if(!isset($f[$c]['tinymce']) or $f[$c]['tinymce'] == true){{ 'tinymce' }}@endif">
+                                        @if(isset($row->{$c})){!! $row->{$c} !!}@endif
+                                    </textarea>
                                 </div>
-                            @elseif(in_array($column, ['password']))
+                            @elseif(in_array($c, ['password']))
                                 <div class="form-group">
-                                    <label for="{{ $column }}">{{ ucfirst($column) }}</label>
-                                    <input type="text" name="{{ $column }}" class="form-control" id="{{ $column }}" placeholder="{{ $type }}">
+                                    <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
+                                    <input type="text" name="{{ $c }}" class="form-control" id="{{ $c }}" placeholder="{{ $t }}" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                 </div>
                             @else
                                 <div class="form-group">
-                                    <label for="{{ $column }}">{{ ucfirst($column) }}</label>
+                                    <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <div class="input-group">
-                                        <div class="input-group-prepend filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager?field={{ $column }}">
-                                            <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
-                                        </div>
-                                        <input type="text" name="{{ $column }}" class="form-control" id="{{ $column }}" placeholder="{{ $type }}" value="@if(isset($row->{$column})){{ $row->{$column} }}@endif">
+                                        @if(!isset($f[$c]['media']) or $f[$c]['media'])
+                                            <div class="input-group-prepend filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager?field={{ $c }}">
+                                                <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
+                                            </div>
+                                        @endif
+                                        <input type="text" name="{{ $c }}" id="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="@if(isset($row->{$c})){{ $row->{$c} }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                     </div>
                                 </div>
                             @endif
