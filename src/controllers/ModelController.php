@@ -84,7 +84,7 @@ class ModelController extends Controller
     {
         // add
         if ($request->all()) {
-            if ($this->columns['created_at']) {
+            if (isset($this->columns['created_at'])) {
                 $request->request->add(['created_at' => \Carbon\Carbon::now()]);
             }
             $id = $this->app->insertGetId($request->except(['_token']));
@@ -113,7 +113,7 @@ class ModelController extends Controller
     {
         // edit
         if ($request->all()) {
-            if ($this->columns['updated_at']) {
+            if (isset($this->columns['updated_at'])) {
                 $request->request->add(['updated_at' => \Carbon\Carbon::now()]);
             }
             $this->app->where('id', $row_id)->update($request->except(['_token']));
