@@ -44,6 +44,10 @@ class ModelController extends Controller
         // Table column list
         $this->schema = Schema::getColumnListing($this->table);
 
+        // Exclude visible columns
+        $this->exclude_list_name = array_merge($this->exclude_list_name, $this->app->getHidden());
+        $this->exclude_row_name = array_merge($this->exclude_row_name, $this->app->getHidden());
+
         // Fastleo variables
         $this->fastleo_model_name = $this->app->fastleo_model_name ?: $this->name;
         $this->fastleo_columns = $this->app->fastleo_columns ?: [];
@@ -78,6 +82,8 @@ class ModelController extends Controller
 
     /**
      * Row add
+     * @param Request $request
+     * @param $model
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function add(Request $request, $model)

@@ -1,29 +1,44 @@
 **Install Fastleo**
 
-`composer require camanru/fastleo`
+    composer require camanru/fastleo
 
-Add middleware
+****Add middleware****
 
-`protected $middleware = [`
+    protected $middleware = [
+        ...
+        \Camanru\Fastleo\ModelsList::class,
+        ...
+    ]
 
-`\Camanru\Fastleo\ModelsList::class,`
+****Publish the package’s****
 
-`]`
+    php artisan vendor:publish --tag=fastleo --force
 
-Publish the package’s 
+****Create admin****
 
-`php artisan vendor:publish --tag=fastleo --force`
+    php artisan fastleo:user
 
-Create admin
+****Clear cache****
 
-`php artisan fastleo:user`
+    php artisan route:clear
 
-Clear cache
+    php artisan config:clear
 
-`php artisan route:clear`
+    php artisan cache:clear
 
-`php artisan config:clear`
+    composer dump-autoload
 
-`php artisan cache:clear`
+****Fastleo columns****
 
-`composer dump-autoload`
+    public $fastleo_columns = [
+        'column' => [
+            'name' => 'Column Name',
+            'type' => 'string', // [string|text|integer|checkbox|datetime|array|multiarray|select|multiselect]
+            'media' => false, // default false
+            'tinymce' => false, // default false
+            'visible' => true, // default true
+            'editing' => true, // default true
+            'data' => [], // if type array or select [array|model_name]
+        ],
+    ];
+    
