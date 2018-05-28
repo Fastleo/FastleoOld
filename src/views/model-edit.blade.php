@@ -17,25 +17,25 @@
                 @if(count($columns_model) > 0)
                     @foreach($columns_model as $c => $t)
                         @if(!in_array($t, $exclude_type) and !in_array($c, $exclude_name))
-                            @if(in_array($t, ['text','longtext']) or (isset($f[$c]) and in_array($f[$c]['type'], ['text','longtext'])))
+                            @if(in_array($t, ['text','longtext']) or (isset($f[$c]['type']) and in_array($f[$c]['type'], ['text','longtext'])))
                                 <div class="form-group">
                                     <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <textarea name="{{ $c }}" id="{{ $c }}" class="form-control @if(isset($f[$c]['tinymce']) and $f[$c]['tinymce'] == true){{ 'tinymce' }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>@if(isset($row->{$c})){!! trim($row->{$c}) !!}@endif</textarea>
                                 </div>
-                            @elseif(isset($f[$c]) and in_array($f[$c]['type'], ['integer', 'int', 'tinyint', 'float', 'double', 'decimal']))
+                            @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['integer', 'int', 'tinyint', 'float', 'double', 'decimal']))
                                 <div class="form-group">
                                     <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <div class="input-group">
                                         <input type="number" name="{{ $c }}" id="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="@if(isset($row->{$c})){{ $row->{$c} }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                     </div>
                                 </div>
-                            @elseif(isset($f[$c]) and in_array($f[$c]['type'], ['checkbox', 'boolean']))
+                            @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['checkbox', 'boolean']))
                                 <div class="form-group form-check">
                                     <input type="hidden" name="{{ $c }}" value="0">
                                     <input type="checkbox" name="{{ $c }}" class="form-check-input" id="{{ $c }}" placeholder="{{ $t }}" value="1" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif @if(isset($row->{$c}) and $row->{$c} == 1){{ 'checked' }}@endif>
                                     <label class="form-check-label" for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
                                 </div>
-                            @elseif(isset($f[$c]) and in_array($f[$c]['type'], ['array', 'multiarray']))
+                            @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['array', 'multiarray']))
                                 <div class="form-group">
                                     <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiarray'){{ 'multiple' }}@endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
@@ -46,7 +46,7 @@
                                         @endif
                                     </select>
                                 </div>
-                            @elseif(isset($f[$c]) and in_array($f[$c]['type'], ['select', 'multiselect']))
+                            @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['select', 'multiselect']))
                                 <div class="form-group">
                                     <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiselect'){{ 'multiple' }}@endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>

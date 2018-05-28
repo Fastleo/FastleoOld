@@ -20,11 +20,15 @@ class ModelsList
             $pathInfo = pathinfo($file);
             if (isset($pathInfo['extension']) and $pathInfo['extension'] == 'php') {
                 if (class_exists('App\\' . $pathInfo['filename'])) {
-                    $models[strtolower($pathInfo['filename'])] = $pathInfo['filename'];
+                    $name = 'App\\' . $pathInfo['filename'];
+                    $app = (new $name())->fastleo;
+                    if (is_null($app) or $app == true) {
+                        $models[strtolower($pathInfo['filename'])] = $pathInfo['filename'];
+                    }
                 }
             }
         }
-        $request->appmodels =  $models;
+        $request->appmodels = $models;
         return $next($request);
     }
 }
