@@ -39,7 +39,7 @@
             'visible' => true, // default true
             'editing' => true, // default true
             'description' => 'string', // default false
-            'data' => [], // if type array or select [array|model_name]
+            'data' => [], // [array|ModelName], example 'Article:column_key:column_value', example [10,20,30]
         ],
     ];
     
