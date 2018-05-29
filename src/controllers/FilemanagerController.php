@@ -150,4 +150,9 @@ class FilemanagerController extends Controller
         }
         return view('fastleo::filemanager/uploads');
     }
+
+    public function create()
+    {
+        return view('fastleo::filemanager/create');
+    }
 }

@@ -17,5 +17,6 @@ Route::middleware(['web', Camanru\Fastleo\CheckAuth::class])->group(function () 
 
     // Filemanager
     Route::get('/fastleo/filemanager', 'Camanru\Fastleo\FilemanagerController@index');
+    Route::any('/fastleo/filemanager/create', 'Camanru\Fastleo\FilemanagerController@create');
     Route::any('/fastleo/filemanager/uploads', 'Camanru\Fastleo\FilemanagerController@uploads');
 });
