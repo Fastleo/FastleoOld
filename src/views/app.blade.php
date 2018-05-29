@@ -71,7 +71,14 @@
         }
     });
     $(document).ready(function () {
-        $('.filemanager').fancybox();
+        $('.filemanager').fancybox({
+            iframe: {
+                css: {
+                    width: '1020px',
+                    height: '640px',
+                }
+            }
+        });
         $('.select2').select2();
     });
 </script>
