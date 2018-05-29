@@ -21,12 +21,14 @@
                                 <div class="form-group">
                                     <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <textarea name="{{ $c }}" id="{{ $c }}" class="form-control @if(isset($f[$c]['tinymce']) and $f[$c]['tinymce'] == true){{ 'tinymce' }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>@if(isset($row->{$c})){!! trim($row->{$c}) !!}@endif</textarea>
+                                    @if(isset($f[$c]['description']) and $f[$c]['description'] != '')<small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>@endif
                                 </div>
                             @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['integer', 'int', 'tinyint', 'float', 'double', 'decimal']))
                                 <div class="form-group">
                                     <label for="{{ $c }}">@if(isset($f[$c]['name'])){{ $f[$c]['name'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <div class="input-group">
                                         <input type="number" name="{{ $c }}" id="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="@if(isset($row->{$c})){{ $row->{$c} }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
+                                        @if(isset($f[$c]['description']) and $f[$c]['description'] != '')<small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>@endif
                                     </div>
                                 </div>
                             @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['checkbox', 'boolean']))
@@ -45,6 +47,7 @@
                                             @endforeach
                                         @endif
                                     </select>
+                                    @if(isset($f[$c]['description']) and $f[$c]['description'] != '')<small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>@endif
                                 </div>
                             @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['select', 'multiselect']))
                                 <div class="form-group">
@@ -56,6 +59,7 @@
                                             @endforeach
                                         @endif
                                     </select>
+                                    @if(isset($f[$c]['description']) and $f[$c]['description'] != '')<small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>@endif
                                 </div>
                             @else
                                 <div class="form-group">
@@ -68,6 +72,7 @@
                                         @endif
                                         <input type="text" name="{{ $c }}" id="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="@if(isset($row->{$c})){{ $row->{$c} }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                     </div>
+                                    @if(isset($f[$c]['description']) and $f[$c]['description'] != '')<small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>@endif
                                 </div>
                             @endif
                         @endif

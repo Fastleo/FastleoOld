@@ -38,6 +38,7 @@
             'tinymce' => false, // default false
             'visible' => true, // default true
             'editing' => true, // default true
+            'description' => 'string', // default false
             'data' => [], // if type array or select [array|model_name]
         ],
     ];
