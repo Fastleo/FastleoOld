@@ -15,12 +15,15 @@ class CheckAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->session()->get('admin') == 1 and $request->path() == 'fastleo') {
-            return redirect('/fastleo/info');
-        }
+        if ($request->is('fastleo/*')) {
 
-        if (is_null($request->session()->get('admin')) and $request->path() != 'fastleo') {
-            return redirect('/fastleo');
+            if ($request->session()->get('admin') == 1 and $request->path() == 'fastleo') {
+                return redirect('/fastleo/info');
+            }
+
+            if (is_null($request->session()->get('admin')) and $request->path() != 'fastleo') {
+                return redirect('/fastleo');
+            }
         }
 
         return $next($request);

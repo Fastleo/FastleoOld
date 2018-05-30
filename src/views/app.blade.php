@@ -6,30 +6,39 @@
     <title>Fastleo Admin Panel</title>
 </head>
 <body>
-<nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap">
+<nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
     <a class="navbar-brand" href="#">Fastleo Admin Panel</a>
+    <div class="pull-right">
+        <a href="#" class="filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager">Файловый менеджер</a> /
+        <a href="/" target="_blank">Перейти на сайт</a> /
+        <a href="/fastleo/logout">Выйти</a>
+    </div>
 </nav>
-<div class="container-fluid">
+<div class="container-fluid fastleo-container">
     <div class="row">
-        <div class="col-lg-2 col-md-3 col-sm-4 bg-light">
+        <div class="col-lg-2 col-md-3 col-sm-4 bg-light fastleo-menu">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a href="/fastleo/info" class="nav-link"><i class="fas fa-home"></i> Information</a>
+                    <a href="/fastleo/info" class="nav-link"><i class="fas fa-home"></i> Информация</a>
                 </li>
                 @if(count(request()->appmodels) > 0)
                     @foreach(request()->appmodels as $model)
                         <li class="nav-item">
-                            <a class="nav-link" href="/fastleo/app/{{ strtolower($model) }}">
-                                <i class="fas fa-box-open"></i> {{ $model }}s
+                            <a class="nav-link {{ Request::is('fastleo/app/'. strtolower($model['name'])) ? 'active' : '' }}" href="/fastleo/app/{{ strtolower($model['name']) }}">
+                                <i class="fas fa-box-open"></i> {{ $model['title'] }}
                             </a>
                         </li>
                     @endforeach
                 @endif
-                <li class="nav-item"><a class="nav-link" href="/" target="_blank"><i class="fas fa-globe"></i> Go to site</a></li>
-                <li class="nav-item"><a class="nav-link" href="/fastleo/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item">
+                    <br>
+                    <a href="https://softonline.org" target="_blank"><small>Fastleo v1.0.0</small></a>
+                    <br>
+                    <a href="https://github.com/Camanru/Fastleo" target="_blank"><small>Github</small></a>
+                </li>
             </ul>
         </div>
-        <div class="col-lg-10 col-md-9 col-sm-8 ">
+        <div class="col-lg-10 col-md-9 col-sm-8 fastleo-content">
             @yield('content')
         </div>
     </div>

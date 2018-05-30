@@ -145,7 +145,7 @@ class FilemanagerController extends Controller
                 $file->move($this->dir, $file->getClientOriginalName());
                 self::resize($this->dir, $file->getClientOriginalName());
             }
-            header('Location: ' . env('APP_URL') . '/fastleo/filemanager?' . request()->getQueryString());
+            header('Location: /fastleo/filemanager?' . request()->getQueryString());
             die;
         }
         return view('fastleo::filemanager/uploads');

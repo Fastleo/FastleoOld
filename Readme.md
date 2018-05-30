@@ -28,11 +28,19 @@
 
     composer dump-autoload
 
-****Fastleo columns****
+****Fastleo setting model****
+
+    public $fastleo = true;
+    
+    public $fastleo_model = [
+        'menu' => true,
+        'name' => 'ModelName',
+        'title' => 'Model Title',
+    ];
 
     public $fastleo_columns = [
-        'column' => [
-            'name' => 'Column Name',
+        'column_name' => [
+            'title' => 'Column Name',
             'type' => 'string', // [string|text|integer|checkbox|datetime|array|multiarray|select|multiselect]
             'media' => false, // default false
             'tinymce' => false, // default false

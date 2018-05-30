@@ -10,7 +10,7 @@ class ModelController extends Controller
 {
     public $app, $columns, $model, $name, $schema, $table;
 
-    public $fastleo_model_name, $fastleo_columns;
+    public $fastleo_model, $fastleo_columns;
 
     public $exclude_list_type = ['text', 'longtext'];
     public $exclude_list_name = ['sort', 'menu', 'password', 'remember_token', 'admin'];
@@ -28,7 +28,7 @@ class ModelController extends Controller
         $this->name = request()->segment(3);
 
         // Model namespace
-        $this->model = 'App\\' . request()->appmodels[$this->name];
+        $this->model = 'App\\' . request()->appmodels[$this->name]['name'];
 
         // Model test
         if (!class_exists($this->model)) {
@@ -49,7 +49,7 @@ class ModelController extends Controller
         $this->exclude_row_name = array_merge($this->exclude_row_name, $this->app->getHidden());
 
         // Fastleo variables
-        $this->fastleo_model_name = $this->app->fastleo_model_name ?: $this->name;
+        $this->fastleo_model = $this->app->fastleo_model ?: [];
         $this->fastleo_columns = $this->app->fastleo_columns ?: [];
 
         // Table columns
@@ -66,15 +66,16 @@ class ModelController extends Controller
      * Rows list
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
-        $rows = $this->app::paginate(10);
+        $rows = $this->app::paginate(16);
         return view('fastleo::model', [
             'exclude_type' => $this->exclude_list_type,
             'exclude_name' => $this->exclude_list_name,
-            'columns_model' => $this->columns,
-            'title_model' => ucfirst($this->name),
-            'name_model' => $this->name,
+            'model_columns' => $this->columns,
+            'model_title' => ucfirst($this->name),
+            'model_name' => $this->name,
+            'model' => $this->fastleo_model,
             'rows' => $rows,
             'f' => $this->fastleo_columns,
         ]);
@@ -102,15 +103,17 @@ class ModelController extends Controller
         return view('fastleo::model-edit', [
             'exclude_type' => $this->exclude_row_type,
             'exclude_name' => $this->exclude_row_name,
-            'columns_model' => $this->columns,
-            'title_model' => ucfirst($this->name),
-            'name_model' => $this->name,
+            'model_columns' => $this->columns,
+            'model_title' => ucfirst($this->name),
+            'model_name' => $this->name,
+            'model' => $this->fastleo_model,
             'f' => $this->fastleo_columns,
         ]);
     }
 
     /**
      * Row edit
+     * @param Request $request
      * @param $model
      * @param $row_id
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -132,12 +135,34 @@ class ModelController extends Controller
         return view('fastleo::model-edit', [
             'exclude_type' => $this->exclude_row_type,
             'exclude_name' => $this->exclude_row_name,
-            'columns_model' => $this->columns,
-            'title_model' => ucfirst($this->name),
-            'name_model' => $this->name,
+            'model_columns' => $this->columns,
+            'model_title' => ucfirst($this->name),
+            'model_name' => $this->name,
+            'model' => $this->fastleo_model,
             'row_id' => $row_id,
             'row' => $row,
             'f' => $this->fastleo_columns,
         ]);
+    }
+
+    /**
+     * Включение и отключение меню
+     * @param Request $request
+     * @param $model
+     * @param $row_id
+     */
+    public function menu(Request $request, $model, $row_id)
+    {
+        $menu = 1;
+        $row = $this->app::where('id', $row_id)->first();
+        if ($row->menu == 1) {
+            $menu = 0;
+        }
+        $this->app::where('id', $row_id)->update([
+            'menu' => $menu
+        ]);
+        //return $menu;
+        header('Location: /fastleo/app/' . $model . '?' . request()->getQueryString());
+        die;
     }
 }
