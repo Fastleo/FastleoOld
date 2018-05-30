@@ -36,7 +36,7 @@
                                 <a href="/fastleo/app/article/up/{{ $row->id }}"><i class="fas fa-arrow-up fa-xs"></i></a>
                             @endif
                             @if(isset($row->menu))
-                                <a href="/fastleo/app/article/menu/{{ $row->id }}"><i class="far fa-dot-circle fa-xs"></i></a>
+                                <a href="/fastleo/app/article/menu/{{ $row->id }}" style="color:{{ $row->menu == 1 ? 'green' : 'red' }}"><i class="far fa-dot-circle fa-xs"></i></a>
                             @endif
                             @if(isset($row->sort))
                                 <a href="/fastleo/app/article/down/{{ $row->id }}"><i class="fas fa-arrow-down fa-xs"></i></a>
