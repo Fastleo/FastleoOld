@@ -63,7 +63,11 @@
                                         <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiarray'){{ 'multiple' }}@endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                             @if($f[$c]['data'])
                                                 @foreach($f[$c]['data'] as $v)
-                                                    <option value="{{ $v }}" @if(isset($row->{$c}) and $row->{$c} == $v){{ 'selected' }}@endif>{{ $v }}</option>
+                                                    @if($f[$c]['type'] == 'multiselect')
+                                                        <option value="{{ $v }}" @if(isset($row->{$c}) and $row->{$c} == $v){{ 'selected' }}@endif>{{ $v }}</option>
+                                                    @else
+                                                        <option value="{{ $v }}" @if(in_array($v, explode(",", $row->{$c}))){{ 'selected' }}@endif>{{ $v }}</option>
+                                                    @endif
                                                 @endforeach
                                             @endif
                                         </select>
@@ -88,7 +92,11 @@
                                                 @if(count($parsing) == 3)
                                                     @foreach($app as $v)
                                                         @if(isset($v->{$parsing[1]}) and isset($v->{$parsing[2]}))
-                                                            <option value="{{ $v->{$parsing[1]} }}" @if((isset($row->{$c}) and $row->{$c} == $v->{$parsing[1]}) or in_array($v->{$parsing[1]}, explode(",", $row->{$c}))){{ 'selected' }}@endif>id{{ $v->id }}. {{ $v->{$parsing[2]} }}</option>
+                                                            @if($f[$c]['type'] == 'multiselect')
+                                                                <option value="{{ $v->{$parsing[1]} }}" @if(in_array($v->{$parsing[1]}, explode(",", $row->{$c}))){{ 'selected' }}@endif>id{{ $v->id }}. {{ $v->{$parsing[2]} }}</option>
+                                                            @else
+                                                                <option value="{{ $v->{$parsing[1]} }}" @if(isset($row->{$c}) and $row->{$c} == $v->{$parsing[1]}){{ 'selected' }}@endif>id{{ $v->id }}. {{ $v->{$parsing[2]} }}</option>
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                 @endif
