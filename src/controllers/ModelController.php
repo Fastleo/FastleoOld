@@ -94,6 +94,11 @@ class ModelController extends Controller
             if (isset($this->columns['created_at'])) {
                 $request->request->add(['created_at' => \Carbon\Carbon::now()]);
             }
+            foreach ($request->all() as $k => $v) {
+                if (is_array($v)) {
+                    $request->request->add([$k => implode(",", $v)]);
+                }
+            }
             $id = $this->app->insertGetId($request->except(['_token']));
             header('Location: /fastleo/app/' . $model . '/edit/' . $id);
             die;
@@ -124,6 +129,11 @@ class ModelController extends Controller
         if ($request->all()) {
             if (isset($this->columns['updated_at'])) {
                 $request->request->add(['updated_at' => \Carbon\Carbon::now()]);
+            }
+            foreach ($request->all() as $k => $v) {
+                if (is_array($v)) {
+                    $request->request->add([$k => implode(",", $v)]);
+                }
             }
             $this->app->where('id', $row_id)->update($request->except(['_token']));
             header('Location: /fastleo/app/' . $model . '/edit/' . $row_id);

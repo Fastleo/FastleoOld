@@ -60,7 +60,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiarray'){{ 'multiple' }}@endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
+                                        <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiarray') name="{{ $c }}[]" multiple @else name="{{ $c }}" @endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                             @if($f[$c]['data'])
                                                 @foreach($f[$c]['data'] as $v)
                                                     @if($f[$c]['type'] == 'multiselect')
@@ -81,7 +81,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiselect'){{ 'multiple' }}@endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
+                                        <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiselect') name="{{ $c }}[]" multiple @else name="{{ $c }}" @endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                             <option value=""></option>
                                             @if($f[$c]['data'] and is_string($f[$c]['data']))
                                                 @php
