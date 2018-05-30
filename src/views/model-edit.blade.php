@@ -88,7 +88,7 @@
                                                 @if(count($parsing) == 3)
                                                     @foreach($app as $v)
                                                         @if(isset($v->{$parsing[1]}) and isset($v->{$parsing[2]}))
-                                                            <option value="{{ $v->{$parsing[1]} }}" @if(isset($row->{$c}) and $row->{$c} == $v->{$parsing[1]}){{ 'selected' }}@endif>id{{ $v->id }}. {{ $v->{$parsing[2]} }}</option>
+                                                            <option value="{{ $v->{$parsing[1]} }}" @if((isset($row->{$c}) and $row->{$c} == $v->{$parsing[1]}) or in_array($v->{$parsing[1]}, explode(",", $row->{$c}))){{ 'selected' }}@endif>id{{ $v->id }}. {{ $v->{$parsing[2]} }}</option>
                                                         @endif
                                                     @endforeach
                                                 @endif
