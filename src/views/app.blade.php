@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Fastleo Admin Panel</title>
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.12/css/all.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+    <link rel="stylesheet" href="/css/fastleo.admin.css">
 </head>
 <body>
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
@@ -32,9 +37,13 @@
                 @endif
                 <li class="nav-item">
                     <br>
-                    <a href="https://softonline.org" target="_blank"><small>Fastleo v1.0.0</small></a>
+                    <a href="https://softonline.org" target="_blank">
+                        <small>Fastleo v1.0.0</small>
+                    </a>
                     <br>
-                    <a href="https://github.com/Camanru/Fastleo" target="_blank"><small>Github</small></a>
+                    <a href="https://github.com/Camanru/Fastleo" target="_blank">
+                        <small>Github</small>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -43,11 +52,6 @@
         </div>
     </div>
 </div>
-<link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.12/css/all.css">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-<link rel="stylesheet" href="/css/fastleo.admin.css">
 <script src="//code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
