@@ -103,11 +103,10 @@ class ModelController extends Controller
         foreach ($this->fastleo_columns as $k => $v) {
             // value = key
             $this->fastleo_columns[$k]['key'] = true;
-            
+
             if (isset($v['data']) and is_string($v['data'])) {
                 // data parsing
-                $prs = explode(isset($this->fastleo_columns[$k]['delimiter']) ? $this->fastleo_columns[$k]['delimiter'] : ":", $v['data']);
-
+                $prs = explode(":", $v['data']);
                 // create array
                 if (count($prs) == 5) {
                     // Model:column_key:column_value:where:value
@@ -115,6 +114,13 @@ class ModelController extends Controller
                 } elseif (count($prs) == 4) {
                     // Model:column_value:where:value
                     $this->fastleo_columns[$k]['data'] = app($prs[0])->where($prs[2], $prs[3])->orderBy('id')->pluck($prs[1])->toArray();
+                    // text to array
+                    if (isset($this->fastleo_columns[$k]['delimiter'])) {
+                        foreach ($this->fastleo_columns[$k]['data'] as $value) {
+                            $columns[$k]['data'] = explode($this->fastleo_columns[$k]['delimiter'], $value);
+                        }
+                        $this->fastleo_columns[$k]['data'] = $columns[$k]['data'];
+                    }
                     // value = value
                     $this->fastleo_columns[$k]['key'] = null;
                 } elseif (count($prs) == 3) {
@@ -124,7 +130,9 @@ class ModelController extends Controller
                     // error
                     $this->fastleo_columns[$k]['data'] = [];
                 }
+                dump($this->fastleo_columns[$k]['data']);
             }
+
         }
 
         return $this->fastleo_columns;
