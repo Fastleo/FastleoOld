@@ -96,6 +96,36 @@ class ModelController extends Controller
     }
 
     /**
+     * @return array
+     */
+    private function parsColumns()
+    {
+        foreach ($this->fastleo_columns as $k => $v) {
+            // value = key
+            $this->fastleo_columns[$k]['key'] = true;
+            if (isset($v['data']) and is_string($v['data'])) {
+                $prs = explode(":", $v['data']);
+                if (count($prs) == 5) {
+                    // Model:column_key:column_value:where:value
+                    $this->fastleo_columns[$k]['data'] = app($prs[0])->where($prs[3], $prs[4])->orderBy('id')->pluck($prs[2], $prs[1])->toArray();
+                } elseif (count($prs) == 4) {
+                    // Model:column_value:where:value
+                    $this->fastleo_columns[$k]['data'] = app($prs[0])->where($prs[2], $prs[3])->orderBy('id')->pluck($prs[1])->toArray();
+                    // value = value
+                    $this->fastleo_columns[$k]['key'] = null;
+                } elseif (count($prs) == 3) {
+                    // Model:column_key:column_value
+                    $this->fastleo_columns[$k]['data'] = app($prs[0])->whereNotNull('id')->orderBy('id')->pluck($prs[2], $prs[1])->toArray();
+                } else {
+                    // error
+                    $this->fastleo_columns[$k]['data'] = [];
+                }
+            }
+        }
+        return $this->fastleo_columns;
+    }
+
+    /**
      * Rows list
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -145,7 +175,7 @@ class ModelController extends Controller
             'model_title' => ucfirst($this->name),
             'model_name' => $this->name,
             'model' => $this->fastleo_model,
-            'f' => $this->fastleo_columns,
+            'f' => $this->parsColumns(),
         ]);
     }
 
@@ -184,7 +214,7 @@ class ModelController extends Controller
             'model' => $this->fastleo_model,
             'row_id' => $row_id,
             'row' => $row,
-            'f' => $this->fastleo_columns,
+            'f' => $this->parsColumns(),
         ]);
     }
 

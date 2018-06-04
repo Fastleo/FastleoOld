@@ -56,53 +56,20 @@
                                     </div>
                                 </div>
                                 <hr>
-                            @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['array', 'multiarray']))
+                            @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['select', 'multiselect']))
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiarray') name="{{ $c }}[]" multiple @else name="{{ $c }}" @endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
+                                        <select class="form-control select2" id="{{ $c }}" @if(isset($f[$c]['multiple'])) name="{{ $c }}[]" multiple @else name="{{ $c }}" @endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                             @if($f[$c]['data'] and is_array($f[$c]['data']))
-                                                @foreach($f[$c]['data'] as $v)
-                                                    @if($f[$c]['type'] == 'multiselect')
-                                                        <option value="{{ $v }}" @if(isset($row->{$c}) and $row->{$c} == $v){{ 'selected' }}@endif>{{ $v }}</option>
+                                                @foreach($f[$c]['data'] as $k => $v)
+                                                    @php isset($f[$c]['key']) ? $value = $k : $value = $v; @endphp
+                                                    @if(isset($f[$c]['multiple']))
+                                                        <option value="{{ $value }}" @if(in_array($value, explode(",", $row->{$c}))){{ 'selected' }}@endif>{{ $v }}</option>
                                                     @else
-                                                        <option value="{{ $v }}" @if(in_array($v, explode(",", $row->{$c}))){{ 'selected' }}@endif>{{ $v }}</option>
+                                                        <option value="{{ $value }}" @if(isset($row->{$c}) and $row->{$c} == $value){{ 'selected' }}@endif>{{ $v }}</option>
                                                     @endif
                                                 @endforeach
-                                            @endif
-                                        </select>
-                                        @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
-                                            <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
-                                        @endif
-                                    </div>
-                                </div>
-                                <hr>
-                            @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['select', 'multiselect']))
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control select2" id="{{ $c }}" @if($f[$c]['type'] == 'multiselect') name="{{ $c }}[]" multiple @else name="{{ $c }}" @endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
-                                            <option value=""></option>
-                                            @if($f[$c]['data'] and is_string($f[$c]['data']))
-                                                @php
-                                                    $prs = explode(":", $f[$c]['data']);
-                                                    if(isset($prs[4])) {
-                                                        $app = app($prs[0])->where($prs[3], $prs[4])->get();
-                                                    } else {
-                                                        $app = app($prs[0])->whereNotNull('id')->get();
-                                                    }
-                                                @endphp
-                                                @if(count($prs) >= 3)
-                                                    @foreach($app as $v)
-                                                        @if(isset($v->{$prs[1]}) and isset($v->{$prs[2]}))
-                                                            @if($f[$c]['type'] == 'multiselect')
-                                                                <option value="{{ $v->{$prs[1]} }}" @if(in_array($v->{$prs[1]}, explode(",", $row->{$c}))){{ 'selected' }}@endif>id{{ $v->id }}. {{ $v->{$prs[2]} }}</option>
-                                                            @else
-                                                                <option value="{{ $v->{$prs[1]} }}" @if(isset($row->{$c}) and $row->{$c} == $v->{$prs[1]}){{ 'selected' }}@endif>id{{ $v->id }}. {{ $v->{$prs[2]} }}</option>
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
-                                                @endif
                                             @endif
                                         </select>
                                         @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
