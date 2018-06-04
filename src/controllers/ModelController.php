@@ -130,7 +130,6 @@ class ModelController extends Controller
                     // error
                     $this->fastleo_columns[$k]['data'] = [];
                 }
-                dump($this->fastleo_columns[$k]['data']);
             }
 
         }
