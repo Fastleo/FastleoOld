@@ -119,7 +119,9 @@ class ModelController extends Controller
                         foreach ($this->fastleo_columns[$k]['data'] as $value) {
                             $columns[$k]['data'] = explode($this->fastleo_columns[$k]['delimiter'], $value);
                         }
-                        $this->fastleo_columns[$k]['data'] = $columns[$k]['data'];
+                        if (isset($columns[$k]['data'])) {
+                            $this->fastleo_columns[$k]['data'] = $columns[$k]['data'];
+                        }
                     }
                     // value = value
                     $this->fastleo_columns[$k]['key'] = null;
