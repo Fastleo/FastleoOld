@@ -65,9 +65,9 @@
                                                 @foreach($f[$c]['data'] as $k => $v)
                                                     @php isset($f[$c]['key']) ? $value = $k : $value = $v; @endphp
                                                     @if(isset($f[$c]['multiple']))
-                                                        <option value="{{ $value }}" @if(in_array($value, explode(",", $row->{$c}))){{ 'selected' }}@endif>{{ $v }}</option>
+                                                        <option value="{{ $value }}" @if(in_array($value, explode(",", $row->{$c}))){{ 'selected' }}@endif>@if($value != $v){{ $value . '.' }}@endif {{ $v }}</option>
                                                     @else
-                                                        <option value="{{ $value }}" @if(isset($row->{$c}) and $row->{$c} == $value){{ 'selected' }}@endif>{{ $v }}</option>
+                                                        <option value="{{ $value }}" @if(isset($row->{$c}) and $row->{$c} == $value){{ 'selected' }}@endif>@if($value != $v){{ $value . '.' }}@endif {{ $v }}</option>
                                                     @endif
                                                 @endforeach
                                             @endif
