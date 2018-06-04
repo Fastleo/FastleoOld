@@ -46,8 +46,10 @@
             'tinymce' => false, // default false
             'visible' => true, // default true
             'editing' => true, // default true
-            'description' => 'string', // default false
-            'data' => [], // [array|ModelName], example 'Article:column_key:column_value', example [10,20,30]
+            'description' => '', // default ''
+            'data' => [], // array, example [10,20,30]
+            'data' => '', // example 'App\User:id:email:admin:1'
+                          // 'Model:column_key:column_value:where:value'
         ],
     ];
     

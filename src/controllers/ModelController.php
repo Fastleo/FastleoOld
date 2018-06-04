@@ -30,19 +30,19 @@ class ModelController extends Controller
         // Model namespace
         $this->model = 'App\\' . request()->appmodels[$this->name]['name'];
 
-        // Model test
+        // Model exist
         if (!class_exists($this->model)) {
             return false;
         }
 
         // Start App
-        $this->app = new $this->model();
+        $this->app = $this->getModel();
 
         // Table name
-        $this->table = $this->app->getTable();
+        $this->table = $this->getTable();
 
         // Table column list
-        $this->schema = Schema::getColumnListing($this->table);
+        $this->schema = $this->getColumns();
 
         // Exclude visible columns
         $this->exclude_list_name = array_merge($this->exclude_list_name, $this->app->getHidden());
@@ -55,11 +55,44 @@ class ModelController extends Controller
         // Table columns
         if (count($this->schema) > 0) {
             foreach ($this->schema as $column) {
-                $this->columns[$column] = Schema::getColumnType($this->table, $column);
+                $this->columns[$column] = $this->getColumnType($column);
             }
         } else {
             die('Not exist table ' . $this->table);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getModel()
+    {
+        return app($this->model);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getTable()
+    {
+        return $this->app->getTable();
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getColumns()
+    {
+        return Schema::getColumnListing($this->table);
+    }
+
+    /**
+     * @param $column
+     * @return mixed
+     */
+    private function getColumnType($column)
+    {
+        return Schema::getColumnType($this->table, $column);
     }
 
     /**

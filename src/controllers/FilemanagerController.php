@@ -64,7 +64,6 @@ class FilemanagerController extends Controller
                 $source_image = imagecreatefromjpeg($path . '/' . $image);
         }
 
-
         $width = imagesx($source_image);
         $height = imagesy($source_image);
         $desired_height = floor($height * ($desired_width / $width));
