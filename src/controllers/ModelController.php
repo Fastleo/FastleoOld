@@ -103,8 +103,12 @@ class ModelController extends Controller
         foreach ($this->fastleo_columns as $k => $v) {
             // value = key
             $this->fastleo_columns[$k]['key'] = true;
+            
             if (isset($v['data']) and is_string($v['data'])) {
-                $prs = explode(":", $v['data']);
+                // data parsing
+                $prs = explode(isset($this->fastleo_columns[$k]['delimiter']) ? $this->fastleo_columns[$k]['delimiter'] : ":", $v['data']);
+
+                // create array
                 if (count($prs) == 5) {
                     // Model:column_key:column_value:where:value
                     $this->fastleo_columns[$k]['data'] = app($prs[0])->where($prs[3], $prs[4])->orderBy('id')->pluck($prs[2], $prs[1])->toArray();
@@ -122,6 +126,7 @@ class ModelController extends Controller
                 }
             }
         }
+
         return $this->fastleo_columns;
     }
 
