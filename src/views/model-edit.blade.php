@@ -58,7 +58,7 @@
                                 <hr>
                             @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['select', 'multiselect']))
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif</label>
+                                    <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
                                     <div class="col-sm-9">
                                         <select class="form-control select2" id="{{ $c }}" @if(isset($f[$c]['multiple'])) name="{{ $c }}[]" multiple @else name="{{ $c }}" @endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
                                             <option value=""></option>
@@ -66,7 +66,7 @@
                                                 @foreach($f[$c]['data'] as $k => $v)
                                                     @php isset($f[$c]['key']) ? $value = $k : $value = $v; @endphp
                                                     @if(isset($f[$c]['multiple']))
-                                                        <option value="{{ $value }}" @if(in_array($value, explode(",", $row->{$c}))){{ 'selected' }}@endif>@if($value != $v){{ $value . '.' }}@endif {{ $v }}</option>
+                                                        <option value="{{ $value }}" @if(isset($row->{$c}) and in_array($value, explode(",", $row->{$c}))){{ 'selected' }}@endif>@if($value != $v){{ $value . '.' }}@endif {{ $v }}</option>
                                                     @else
                                                         <option value="{{ $value }}" @if(isset($row->{$c}) and $row->{$c} == $value){{ 'selected' }}@endif>@if($value != $v){{ $value . '.' }}@endif {{ $v }}</option>
                                                     @endif
