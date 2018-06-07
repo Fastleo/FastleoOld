@@ -151,7 +151,7 @@ class ModelController extends Controller
         if ($request->get('search')) {
             $search = $request->get('search');
             $query = $this->app::where('id', $search);
-            foreach ($this->fastleo_columns as $c => $value) {
+            foreach ($this->columns as $c => $value) {
                 $query->orWhere($c, 'LIKE', '%' . $search . '%');
             }
             $rows = $query->paginate(16);
