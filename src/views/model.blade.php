@@ -3,11 +3,19 @@
 @section('content')
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <h3>{{ isset($model['title']) ? $model['title'] : $model_title }} / Список записей</h3>
         </div>
-        <div class="col-6">
-            <a href="/fastleo/app/{{ $model_name }}/add" class="btn btn-success float-right">Добавить запись</a>
+        <div class="col-4 text-right">
+            <form class="form-inline" action="" method="get" id="search" @if(request()->get('search') == null) style="display: none;" @endif>
+                    <input type="text" name="search" class="form-control" placeholder="Поиск" value="@if(request()->get('search')){{ request()->get('search') }}@endif">
+                    <button type="submit" class="btn btn-success form-control">Найти</button>
+                    <a href="/fastleo/app/{{ $model_name }}" class="form-control btn btn-warning">Сброс</a>
+            </form>
+        </div>
+        <div class="col-4 text-right">
+            <a href="" onclick="$('#search').toggle(); return false;" class="btn btn-info">Поиск</a>
+            <a href="/fastleo/app/{{ $model_name }}/add?{{ request()->getQueryString() }}" class="btn btn-success">Добавить запись</a>
         </div>
     </div>
     <div class="row">
@@ -47,7 +55,7 @@
                             @if(!isset($f[$c]['visible']) or $f[$c]['visible'] == true)
                                 @if(!in_array($t, $exclude_type) and !in_array($c, $exclude_name) and $i < 10)
                                     <td>
-                                        <a href="/fastleo/app/{{ $model_name }}/edit/{{ $row->id }}">{{ $row->{$c} }}</a>
+                                        <a href="/fastleo/app/{{ $model_name }}/edit/{{ $row->id }}?{{ request()->getQueryString() }}">{{ $row->{$c} }}</a>
                                     </td>
                                     @php ++$i; @endphp
                                 @endif
@@ -61,7 +69,7 @@
     </div>
     <div class="row">
         <div class="col">
-            {{ $rows->links() }}
+            {{ $rows->appends(request()->all())->links() }}
         </div>
     </div>
 

@@ -12,6 +12,8 @@ class ModelController extends Controller
 
     public $fastleo_model, $fastleo_columns;
 
+    public $exclude_get_list = ['_token', 'page', 'search'];
+
     public $exclude_list_type = ['text', 'longtext'];
     public $exclude_list_name = ['sort', 'menu', 'password', 'remember_token', 'admin'];
 
@@ -143,9 +145,20 @@ class ModelController extends Controller
      * Rows list
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rows = $this->app::paginate(16);
+        // Search all rows
+        if ($request->get('search')) {
+            $search = $request->get('search');
+            $query = $this->app::where('id', $search);
+            foreach ($this->fastleo_columns as $c => $value) {
+                $query->orWhere($c, 'LIKE', '%' . $search . '%');
+            }
+            $rows = $query->paginate(16);
+        } else {
+            $rows = $this->app::paginate(16);
+        }
+
         return view('fastleo::model', [
             'exclude_type' => $this->exclude_list_type,
             'exclude_name' => $this->exclude_list_name,
@@ -167,17 +180,17 @@ class ModelController extends Controller
     public function add(Request $request, $model)
     {
         // add
-        if ($request->all()) {
+        if ($request->except($this->exclude_get_list)) {
             if (isset($this->columns['created_at'])) {
                 $request->request->add(['created_at' => \Carbon\Carbon::now()]);
             }
-            foreach ($request->all() as $k => $v) {
+            foreach ($request->except($this->exclude_get_list) as $k => $v) {
                 if (is_array($v)) {
                     $request->request->add([$k => implode(",", $v)]);
                 }
             }
-            $id = $this->app->insertGetId($request->except(['_token']));
-            header('Location: /fastleo/app/' . $model . '/edit/' . $id);
+            $id = $this->app->insertGetId($request->except($this->exclude_get_list));
+            header('Location: /fastleo/app/' . $model . '/edit/' . $id . '?' . $request->getQueryString());
             die;
         }
 
@@ -203,17 +216,17 @@ class ModelController extends Controller
     public function edit(Request $request, $model, $row_id)
     {
         // edit
-        if ($request->all()) {
+        if ($request->except($this->exclude_get_list)) {
             if (isset($this->columns['updated_at'])) {
                 $request->request->add(['updated_at' => \Carbon\Carbon::now()]);
             }
-            foreach ($request->all() as $k => $v) {
+            foreach ($request->except($this->exclude_get_list) as $k => $v) {
                 if (is_array($v)) {
                     $request->request->add([$k => implode(",", $v)]);
                 }
             }
-            $this->app->where('id', $row_id)->update($request->except(['_token']));
-            header('Location: /fastleo/app/' . $model . '/edit/' . $row_id);
+            $this->app->where('id', $row_id)->update($request->except($this->exclude_get_list));
+            header('Location: /fastleo/app/' . $model . '/edit/' . $row_id . '?' . $request->getQueryString());
             die;
         }
 
