@@ -143,6 +143,7 @@ class ModelController extends Controller
 
     /**
      * Rows list
+     * @param Request $request
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
@@ -151,8 +152,10 @@ class ModelController extends Controller
         if ($request->get('search')) {
             $search = $request->get('search');
             $query = $this->app::where('id', $search);
-            foreach ($this->columns as $c => $value) {
-                $query->orWhere($c, 'LIKE', '%' . $search . '%');
+            foreach ($this->columns as $column => $type) {
+                if (in_array($type, ['string', 'text'])) {
+                    $query->orWhere($column, 'LIKE', '%' . $search . '%');
+                }
             }
             $rows = $query->paginate(16);
         } else {
