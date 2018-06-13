@@ -41,27 +41,31 @@ class FilemanagerController extends Controller
             File::makeDirectory($this->dir . '/.thumbs', $mode = 0777, true, true);
         }
     }
-
+    
     /**
-     * Resize images
      * @param $path
      * @param $image
      * @param int $desired_width
+     * @return bool
      */
     private function resize($path, $image, $desired_width = 122)
     {
         switch (pathinfo($this->dir . '/' . $image, PATHINFO_EXTENSION)) {
             case 'png':
-                $source_image = imagecreatefrompng($path . '/' . $image);
+                $source_image = @imagecreatefrompng($path . '/' . $image);
                 break;
             case 'jpeg':
-                $source_image = imagecreatefromjpeg($path . '/' . $image);
+                $source_image = @imagecreatefromjpeg($path . '/' . $image);
                 break;
             case 'gif':
-                $source_image = imagecreatefromgif($path . '/' . $image);
+                $source_image = @imagecreatefromgif($path . '/' . $image);
                 break;
             default:
-                $source_image = imagecreatefromjpeg($path . '/' . $image);
+                $source_image = @imagecreatefromjpeg($path . '/' . $image);
+        }
+
+        if (!$source_image) {
+            return false;
         }
 
         $width = imagesx($source_image);
@@ -69,8 +73,9 @@ class FilemanagerController extends Controller
         $desired_height = floor($height * ($desired_width / $width));
         $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
         imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
-
         imagejpeg($virtual_image, $path . '/.thumbs/' . $image);
+
+        return true;
     }
 
     /**

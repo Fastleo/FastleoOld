@@ -29,8 +29,6 @@
     composer dump-autoload
 
 ****Fastleo setting model****
-
-    public $fastleo = true;
     
     public $fastleo_model = [
         'menu' => true,
