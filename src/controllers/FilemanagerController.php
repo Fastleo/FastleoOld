@@ -10,7 +10,7 @@ ini_set('gd.jpeg_ignore_warning', true);
 
 class FilemanagerController extends Controller
 {
-    public $images = ['png', 'jpg', 'jpeg', 'gif', 'bmp'];
+    public $images = ['png', 'jpg', 'jpeg', 'gif'];
 
     public $upload = '/uploads';
 
@@ -41,7 +41,7 @@ class FilemanagerController extends Controller
             File::makeDirectory($this->dir . '/.thumbs', $mode = 0777, true, true);
         }
     }
-    
+
     /**
      * @param $path
      * @param $image
@@ -50,9 +50,14 @@ class FilemanagerController extends Controller
      */
     private function resize($path, $image, $desired_width = 122)
     {
-        switch (pathinfo($this->dir . '/' . $image, PATHINFO_EXTENSION)) {
+        $ext = pathinfo($this->dir . '/' . $image, PATHINFO_EXTENSION);
+
+        switch ($ext) {
             case 'png':
                 $source_image = @imagecreatefrompng($path . '/' . $image);
+                break;
+            case 'jpg':
+                $source_image = @imagecreatefromjpeg($path . '/' . $image);
                 break;
             case 'jpeg':
                 $source_image = @imagecreatefromjpeg($path . '/' . $image);
@@ -60,8 +65,6 @@ class FilemanagerController extends Controller
             case 'gif':
                 $source_image = @imagecreatefromgif($path . '/' . $image);
                 break;
-            default:
-                $source_image = @imagecreatefromjpeg($path . '/' . $image);
         }
 
         if (!$source_image) {
@@ -73,7 +76,21 @@ class FilemanagerController extends Controller
         $desired_height = floor($height * ($desired_width / $width));
         $virtual_image = imagecreatetruecolor($desired_width, $desired_height);
         imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desired_width, $desired_height, $width, $height);
-        imagejpeg($virtual_image, $path . '/.thumbs/' . $image);
+
+        switch ($ext) {
+            case 'png':
+                imagepng($virtual_image, $path . '/.thumbs/' . $image);
+                break;
+            case 'jpg':
+                imagejpeg($virtual_image, $path . '/.thumbs/' . $image);
+                break;
+            case 'jpeg':
+                imagejpeg($virtual_image, $path . '/.thumbs/' . $image);
+                break;
+            case 'gif':
+                imagegif($virtual_image, $path . '/.thumbs/' . $image);
+                break;
+        }
 
         return true;
     }
@@ -107,13 +124,14 @@ class FilemanagerController extends Controller
         if (count($scan) > 0) {
             foreach ($scan as $e) {
                 if (!in_array($e, ['.', '..', '.thumbs']) and is_file($this->dir . '/' . $e)) {
+                    $ext = pathinfo($this->dir . '/' . $e, PATHINFO_EXTENSION);
                     $files[] = [
                         'name' => $e,
                         'url' => $this->upload . '/' . $e,
-                        'thumbs' => $this->upload . '/.thumbs/' . $e,
-                        'ext' => pathinfo($this->dir . '/' . $e, PATHINFO_EXTENSION),
+                        'thumbs' => (file_exists($this->dir . '/.thumbs/' . $e)) ? $this->upload . '/.thumbs/' . $e : '',
+                        'ext' => $ext,
                     ];
-                    if (!file_exists($this->dir . '/.thumbs/' . $e)) {
+                    if (!file_exists($this->dir . '/.thumbs/' . $e) and in_array($ext, ['jpg', 'jpeg', 'png', 'gif',])) {
                         self::resize($this->dir, $e);
                     }
                 }
@@ -146,8 +164,12 @@ class FilemanagerController extends Controller
         $files = $request->file('files');
         if (isset($files) and count($files) > 0) {
             foreach ($files as $file) {
-                $file->move($this->dir, $file->getClientOriginalName());
-                self::resize($this->dir, $file->getClientOriginalName());
+                $name = str_replace([' '], ['_'], $file->getClientOriginalName());
+                $file->move($this->dir, $name);
+                $ext = pathinfo($this->dir . '/' . $name, PATHINFO_EXTENSION);
+                if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif',])) {
+                    self::resize($this->dir, $name);
+                }
             }
             header('Location: /fastleo/filemanager?' . request()->getQueryString());
             die;
