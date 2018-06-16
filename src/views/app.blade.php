@@ -38,7 +38,7 @@
                 <li class="nav-item">
                     <br>
                     <a href="https://softonline.org" target="_blank">
-                        <small>Fastleo v1.0.0</small>
+                        <small>Fastleo 0.1.0</small>
                     </a>
                     <br>
                     <a href="https://github.com/Camanru/Fastleo" target="_blank">

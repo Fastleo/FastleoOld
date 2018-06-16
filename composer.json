@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.1",
         "doctrine/dbal": "^2.7",
         "illuminate/support": ">=5.6"
     },
