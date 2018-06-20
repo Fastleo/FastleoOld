@@ -50,7 +50,7 @@ class FilemanagerController extends Controller
      */
     private function resize($path, $image, $desired_width = 122)
     {
-        $ext = pathinfo($this->dir . '/' . $image, PATHINFO_EXTENSION);
+        $ext = self::getExtention($this->dir . '/' . $image);
 
         switch ($ext) {
             case 'png':
@@ -92,7 +92,7 @@ class FilemanagerController extends Controller
                 break;
         }
 
-        return true;
+        return $this->upload . '/.thumbs/' . $image;
     }
 
     /**
@@ -125,15 +125,17 @@ class FilemanagerController extends Controller
             foreach ($scan as $e) {
                 if (!in_array($e, ['.', '..', '.thumbs']) and is_file($this->dir . '/' . $e)) {
                     $ext = pathinfo($this->dir . '/' . $e, PATHINFO_EXTENSION);
+                    if (!file_exists($this->dir . '/.thumbs/' . $e) and in_array($ext, ['jpg', 'jpeg', 'png', 'gif',])) {
+                        $thumbs = self::resize($this->dir, $e);
+                    } else {
+                        $thumbs = (file_exists($this->dir . '/.thumbs/' . $e)) ? $this->upload . '/.thumbs/' . $e : '';
+                    }
                     $files[] = [
                         'name' => $e,
                         'url' => $this->upload . '/' . $e,
-                        'thumbs' => (file_exists($this->dir . '/.thumbs/' . $e)) ? $this->upload . '/.thumbs/' . $e : '',
+                        'thumbs' => $thumbs,
                         'ext' => $ext,
                     ];
-                    if (!file_exists($this->dir . '/.thumbs/' . $e) and in_array($ext, ['jpg', 'jpeg', 'png', 'gif',])) {
-                        self::resize($this->dir, $e);
-                    }
                 }
             }
         }
@@ -180,5 +182,12 @@ class FilemanagerController extends Controller
     public function create()
     {
         return view('fastleo::filemanager/create');
+    }
+
+    public function getExtention($file)
+    {
+        $mime_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $file);
+        $mime_array = explode("/", $mime_type);
+        return end($mime_array);
     }
 }

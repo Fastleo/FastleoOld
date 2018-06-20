@@ -33,7 +33,17 @@
                 @endphp
                 <a href="">
                     <div class="block image" style="background-image: url('{{ $background }}');" data-url="{{ $file['url'] }}">
-                        <span class="filename">{{ str_limit($file['name'], 10, '..') }}.{{ $file['ext'] }}</span>
+                        {{--<span class="filename">{{ str_limit($file['name'], 10, '..') }}.{{ $file['ext'] }}</span>--}}
+                        <span class="filename">
+                            @php
+                                $len = strlen($file['name']);
+                            @endphp
+                            @if($len > 34)
+                                {{ str_limit($file['name'], 15, '...') }}{{ substr($file['name'], -18) }}
+                            @else
+                                {{ $file['name'] }}
+                            @endif
+                        </span>
                     </div>
                 </a>
             @endforeach

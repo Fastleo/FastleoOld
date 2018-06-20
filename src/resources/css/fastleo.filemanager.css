@@ -1,3 +1,11 @@
+.fastleo-nav {
+    color: #ffffff;
+}
+
+.fastleo-nav a {
+    color: #ffffff;
+}
+
 .block {
     width: 122px;
     height: 91px;
@@ -9,6 +17,12 @@
 }
 
 .filename {
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    word-break: break-all;
+    font-size: 12px;
+    line-height: 3px;
     position: relative;
-    top: 100px;
+    top: 90px;
 }

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/fastleo.filemanager.css">
 </head>
 <body>
-<nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap">
+<nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
     <a class="navbar-brand" href="/fastleo/filemanager">Fastleo Filemanager</a>
     <div class="pull-right">
         <a href="/fastleo/filemanager/uploads?folder={{ request()->input('folder') }}">Загрузить файл</a> /
