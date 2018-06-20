@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-ini_set('gd.jpeg_ignore_warning', true);
-
 class FilemanagerController extends Controller
 {
     public $images = ['png', 'jpg', 'jpeg', 'gif'];
@@ -125,7 +123,7 @@ class FilemanagerController extends Controller
             foreach ($scan as $e) {
                 if (!in_array($e, ['.', '..', '.thumbs']) and is_file($this->dir . '/' . $e)) {
                     $ext = pathinfo($this->dir . '/' . $e, PATHINFO_EXTENSION);
-                    if (!file_exists($this->dir . '/.thumbs/' . $e) and in_array($ext, ['jpg', 'jpeg', 'png', 'gif',])) {
+                    if (!file_exists($this->dir . '/.thumbs/' . $e) and in_array(mb_strtolower($ext), $this->images)) {
                         $thumbs = self::resize($this->dir, $e);
                     } else {
                         $thumbs = (file_exists($this->dir . '/.thumbs/' . $e)) ? $this->upload . '/.thumbs/' . $e : '';
@@ -169,7 +167,7 @@ class FilemanagerController extends Controller
                 $name = str_replace([' '], ['_'], $file->getClientOriginalName());
                 $file->move($this->dir, $name);
                 $ext = pathinfo($this->dir . '/' . $name, PATHINFO_EXTENSION);
-                if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif',])) {
+                if (in_array(mb_strtolower($ext), $this->images)) {
                     self::resize($this->dir, $name);
                 }
             }
