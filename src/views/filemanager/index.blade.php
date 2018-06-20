@@ -25,7 +25,7 @@
         @if(isset($files) and count($files) > 0)
             @foreach($files as $file)
                 @php
-                    if(in_array($file['ext'], $images) and $file['thumbs'] != '') {
+                    if(in_array(strtolower($file['ext']), $images) and $file['thumbs'] != '') {
                         $background = $file['thumbs'];
                     } else {
                         $background = '/ico/'.$file['ext'].'.jpg';
@@ -33,7 +33,6 @@
                 @endphp
                 <a href="">
                     <div class="block image" style="background-image: url('{{ $background }}');" data-url="{{ $file['url'] }}">
-                        {{--<span class="filename">{{ str_limit($file['name'], 10, '..') }}.{{ $file['ext'] }}</span>--}}
                         <span class="filename">
                             @php
                                 $len = strlen($file['name']);
