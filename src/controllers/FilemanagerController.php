@@ -48,7 +48,9 @@ class FilemanagerController extends Controller
      */
     private function resize($path, $image, $desired_width = 122)
     {
-        $ext = self::getExtention($this->dir . '/' . $image);
+        $mime_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $this->dir . '/' . $image);
+        $mime_array = explode("/", $mime_type);
+        $ext = end($mime_array);
 
         switch ($ext) {
             case 'png':
@@ -177,15 +179,17 @@ class FilemanagerController extends Controller
         return view('fastleo::filemanager/uploads');
     }
 
-    public function create()
+    /**
+     * @param Request $request
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(Request $request)
     {
+        if ($request->post('folder_name')) {
+            File::makeDirectory(base_path('public/uploads/' . $request->get('folder') . '/' . $request->post('folder_name')), 0777);
+            header('Location: /fastleo/filemanager?' . request()->getQueryString());
+            die;
+        }
         return view('fastleo::filemanager/create');
-    }
-
-    public function getExtention($file)
-    {
-        $mime_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $file);
-        $mime_array = explode("/", $mime_type);
-        return end($mime_array);
     }
 }
