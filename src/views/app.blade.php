@@ -12,7 +12,7 @@
 </head>
 <body>
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
-    <a class="navbar-brand" href="#">Fastleo Admin Panel</a>
+    <a class="navbar-brand" href="/fastleo/info">Fastleo Admin Panel</a>
     <div class="pull-right">
         <a href="#" class="filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager">Файловый менеджер</a> /
         <a href="/" target="_blank">Перейти на сайт</a> /
@@ -38,7 +38,7 @@
                 <li class="nav-item">
                     <br>
                     <a href="https://softonline.org" target="_blank">
-                        <small>Fastleo 0.1.1</small>
+                        <small>Softonline</small>
                     </a>
                     <br>
                     <a href="https://github.com/Camanru/Fastleo" target="_blank">

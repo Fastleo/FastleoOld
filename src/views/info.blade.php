@@ -4,7 +4,14 @@
 
     <div class="row">
         <div class="col">
-            Info page
+            <table class="table table-hover">
+                @foreach($params as $param)
+                    <tr>
+                        <td width="200">{{ $param['title'] }}</td>
+                        <td>{{ $param['value'] }}</td>
+                    </tr>
+                @endforeach
+            </table>
         </div>
     </div>
 

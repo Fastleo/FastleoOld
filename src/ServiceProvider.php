@@ -2,6 +2,8 @@
 
 namespace Camanru\Fastleo;
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
@@ -13,6 +15,9 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
+        // Route
+        include __DIR__ . '/routes/routes.php';
+
         // Console commands
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -20,8 +25,9 @@ class ServiceProvider extends BaseServiceProvider
             ]);
         }
 
-        // Route
-        include __DIR__ . '/routes/routes.php';
+        // Composer
+        $fastleo_composer = json_decode(file_get_contents(__DIR__ . '/../composer.json'));
+        Config::set(['fastleo_composer' => $fastleo_composer]);
 
         // Migrations
         $this->loadMigrationsFrom(__DIR__ . '/migrations');
