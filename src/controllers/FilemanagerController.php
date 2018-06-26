@@ -195,7 +195,8 @@ class FilemanagerController extends Controller
     public function create(Request $request)
     {
         if ($request->post('folder_name')) {
-            File::makeDirectory(base_path('public/uploads/' . $request->get('folder') . '/' . $request->post('folder_name')), 0777);
+            $folder_name = str_replace(' ', '_', $request->post('folder_name'));
+            File::makeDirectory(base_path('public/uploads/' . $request->get('folder') . '/' . $folder_name), 0777);
             header('Location: /fastleo/filemanager?' . request()->getQueryString());
             die;
         }
