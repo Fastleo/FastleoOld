@@ -97,11 +97,20 @@ class FilemanagerController extends Controller
 
     /**
      * Folders list
+     * @param Request $request
      * @param array $folders
      * @return array
      */
-    protected function getFolders($folders = [])
+    protected function getFolders(Request $request, $folders = [])
     {
+        if (!$request->has('folder')) {
+            header('Location: /fastleo/filemanager?' . request()->getQueryString() . '&folder=' . $request->session()->get('folder'));
+            die;
+        }
+
+        $request->session()->put('folder', $request->get('folder'));
+        $request->session()->save();
+
         $scan = scandir($this->dir);
         if (count($scan) > 0) {
             foreach ($scan as $e) {
@@ -150,7 +159,7 @@ class FilemanagerController extends Controller
     public function index(Request $request)
     {
         return view('fastleo::filemanager/index', [
-            'folders' => self::getFolders(),
+            'folders' => self::getFolders($request),
             'files' => self::getFiles(),
             'images' => $this->images,
         ]);
