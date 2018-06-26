@@ -24,7 +24,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th></th>
+                    <th width="50"></th>
                     @php $i = 1; @endphp
                     @foreach($model_columns as $c => $t)
                         @if(!isset($f[$c]['visible']) or $f[$c]['visible'] == true)
@@ -34,7 +34,7 @@
                             @endif
                         @endif
                     @endforeach
-                    <th></th>
+                    <th width="50"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,7 +63,8 @@
                             @endif
                         @endforeach
                         <td>
-                            <a href="/fastleo/app/{{ $model_name }}/delete/{{ $row->id }}?{{ request()->getQueryString() }}" onclick="return confirm('Удалить запись?'); return false;">удалить запись</a>
+                            <a href="/fastleo/app/{{ $model_name }}/edit/{{ $row->id }}?{{ request()->getQueryString() }}"><i class="far fa-edit"></i></a>
+                            <a href="/fastleo/app/{{ $model_name }}/delete/{{ $row->id }}?{{ request()->getQueryString() }}" onclick="return confirm('Удалить запись?');"><i class="far fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 @endforeach
