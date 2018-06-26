@@ -104,7 +104,8 @@
                         @endif
                     @endforeach
                 @endif
-                <input type="submit" class="btn btn-success" value="Сохранить запись">
+                <input type="submit" class="btn btn-success" value="Сохранить">
+                <input type="submit" name="id" class="btn btn-warning" value="Сохранить и выйти">
                 <a href="/fastleo/app/{{ $model_name }}?{{ request()->getQueryString() }}" class="btn btn-primary">Вернуться</a>
             </form>
         </div>

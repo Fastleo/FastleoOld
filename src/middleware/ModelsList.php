@@ -23,14 +23,13 @@ class ModelsList
                     if (class_exists('App\\' . $pathInfo['filename'])) {
                         $name = 'App\\' . $pathInfo['filename'];
                         $app = new $name();
-                        if (isset($app->fastleo) and $app->fastleo == false) {
-                            continue;
-                        }
-                        if (isset($app->fastleo_model['menu']) and $app->fastleo_model['menu'] == true) {
-                            $models[strtolower($pathInfo['filename'])] = [
-                                'name' => isset($app->fastleo_model['name']) ? $app->fastleo_model['name'] : $pathInfo['filename'],
-                                'title' => isset($app->fastleo_model['title']) ? $app->fastleo_model['title'] : $pathInfo['filename'],
-                            ];
+                        if (isset($app->fastleo_model)) {
+                            if (!isset($app->fastleo_model['menu']) or $app->fastleo_model['menu'] == true) {
+                                $models[strtolower($pathInfo['filename'])] = [
+                                    'name' => isset($app->fastleo_model['name']) ? $app->fastleo_model['name'] : $pathInfo['filename'],
+                                    'title' => isset($app->fastleo_model['title']) ? $app->fastleo_model['title'] : $pathInfo['filename'],
+                                ];
+                            }
                         }
                     }
                 }

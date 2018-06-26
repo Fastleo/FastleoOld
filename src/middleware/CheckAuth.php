@@ -15,7 +15,7 @@ class CheckAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->is('fastleo/*')) {
+        if ($request->is('fastleo/*') or $request->is('fastleo')) {
 
             if ($request->session()->get('admin') == 1 and $request->path() == 'fastleo') {
                 return redirect('/fastleo/info');

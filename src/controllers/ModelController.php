@@ -13,7 +13,7 @@ class ModelController extends Controller
 
     public $fastleo_model, $fastleo_columns;
 
-    public $exclude_get_list = ['_token', 'page', 'search'];
+    public $exclude_get_list = ['id', '_token', 'page', 'search'];
 
     public $exclude_list_type = ['text', 'longtext'];
     public $exclude_list_name = ['sort', 'menu', 'password', 'remember_token', 'admin'];
@@ -193,9 +193,15 @@ class ModelController extends Controller
                     $request->request->add([$k => implode(",", $v)]);
                 }
             }
+
             Session::flash('message', 'Запись успешно добавлена');
             $id = $this->app->insertGetId($request->except($this->exclude_get_list));
-            header('Location: /fastleo/app/' . $model . '/edit/' . $id . '?' . $request->getQueryString());
+
+            if (!is_null($request->get('id'))) {
+                header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+            } else {
+                header('Location: /fastleo/app/' . $model . '/edit/' . $id . '?' . $request->getQueryString());
+            }
             die;
         }
 
@@ -230,9 +236,15 @@ class ModelController extends Controller
                     $request->request->add([$k => implode(",", $v)]);
                 }
             }
+
             Session::flash('message', 'Запись успешно отредактированна');
             $this->app->where('id', $row_id)->update($request->except($this->exclude_get_list));
-            header('Location: /fastleo/app/' . $model . '/edit/' . $row_id . '?' . $request->getQueryString());
+
+            if (!is_null($request->get('id'))) {
+                header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+            } else {
+                header('Location: /fastleo/app/' . $model . '/edit/' . $row_id . '?' . $request->getQueryString());
+            }
             die;
         }
 
