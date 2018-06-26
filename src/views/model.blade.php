@@ -34,6 +34,7 @@
                             @endif
                         @endif
                     @endforeach
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,6 +62,9 @@
                                 @endif
                             @endif
                         @endforeach
+                        <td>
+                            <a href="/fastleo/app/{{ $model_name }}/delete/{{ $row->id }}?{{ request()->getQueryString() }}" onclick="return confirm('Удалить запись?'); return false;">удалить запись</a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

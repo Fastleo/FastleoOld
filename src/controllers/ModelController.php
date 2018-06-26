@@ -249,6 +249,19 @@ class ModelController extends Controller
     }
 
     /**
+     * Delete row
+     * @param Request $request
+     * @param $model
+     * @param $row_id
+     */
+    public function delete(Request $request, $model, $row_id)
+    {
+        $this->app->where('id', $row_id)->delete();
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
      * Включение и отключение меню
      * @param Request $request
      * @param $model
