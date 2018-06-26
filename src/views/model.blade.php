@@ -24,7 +24,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th width="50"></th>
+                    <th width="80"></th>
                     @php $i = 1; @endphp
                     @foreach($model_columns as $c => $t)
                         @if(!isset($f[$c]['visible']) or $f[$c]['visible'] == true)
@@ -34,7 +34,7 @@
                             @endif
                         @endif
                     @endforeach
-                    <th width="50"></th>
+                    <th width="80"></th>
                 </tr>
                 </thead>
                 <tbody>
