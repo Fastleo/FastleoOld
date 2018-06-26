@@ -5,7 +5,6 @@ namespace Camanru\Fastleo;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Session;
 
 class ModelController extends Controller
 {
@@ -194,7 +193,7 @@ class ModelController extends Controller
                 }
             }
 
-            Session::flash('message', 'Запись успешно добавлена');
+            session()->flash('message', 'Запись успешно добавлена');
             $id = $this->app->insertGetId($request->except($this->exclude_get_list));
 
             if (!is_null($request->get('id'))) {
@@ -237,7 +236,7 @@ class ModelController extends Controller
                 }
             }
 
-            Session::flash('message', 'Запись успешно отредактированна');
+            session()->flash('message', 'Запись успешно отредактированна');
             $this->app->where('id', $row_id)->update($request->except($this->exclude_get_list));
 
             if (!is_null($request->get('id'))) {
@@ -293,7 +292,7 @@ class ModelController extends Controller
             'menu' => $menu
         ]);
         //return $menu;
-        header('Location: /fastleo/app/' . $model . '?' . request()->getQueryString());
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
         die;
     }
 }

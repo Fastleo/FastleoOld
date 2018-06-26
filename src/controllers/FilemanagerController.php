@@ -16,10 +16,10 @@ class FilemanagerController extends Controller
 
     /**
      * FilemanagerController constructor.
+     * @param Request $request
      */
     public function __construct(Request $request)
     {
-
         // upload folder name
         $this->dir = base_path('public' . $this->upload);
 
