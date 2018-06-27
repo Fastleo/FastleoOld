@@ -159,7 +159,11 @@ class ModelController extends Controller
             }
             $rows = $query->paginate(16);
         } else {
-            $rows = $this->app::paginate(16);
+            if (isset($this->columns['sort'])) {
+                $rows = $this->app::orderBy('sort')->paginate(16);
+            } else {
+                $rows = $this->app::paginate(16);
+            }
         }
 
         return view('fastleo::model', [
@@ -291,7 +295,61 @@ class ModelController extends Controller
         $this->app::where('id', $row_id)->update([
             'menu' => $menu
         ]);
-        //return $menu;
+
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
+     * Sorting up
+     * @param Request $request
+     * @param $model
+     * @param $row_id
+     */
+    public function up(Request $request, $model, $row_id)
+    {
+        $current = $this->app::where('id', $row_id);
+        $current_sort = $current->first();
+
+        $prev = $this->app::where('sort', '<', $current_sort->sort)->orderBy('sort', 'desc');
+        $prev_sort = $prev->first();
+
+        if (!is_null($prev_sort)) {
+            $current->update([
+                'sort' => $prev_sort->sort
+            ]);
+            $this->app::where('id', $prev_sort->id)->update([
+                'sort' => $current_sort->sort
+            ]);
+        }
+
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
+     * Sorting down
+     * @param Request $request
+     * @param $model
+     * @param $row_id
+     */
+    public function down(Request $request, $model, $row_id)
+    {
+        $current = $this->app::where('id', $row_id);
+        $current_sort = $current->first();
+
+        $next = $this->app::where('sort', '>', $current_sort->sort)->orderBy('sort');
+        $next_sort = $next->first();
+
+        if (!is_null($next_sort)) {
+            $current->update([
+                'sort' => $next_sort->sort
+            ]);
+            $this->app::where('id', $next_sort->id)->update([
+                'sort' => $current_sort->sort
+            ]);
+        }
+
         header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
         die;
     }

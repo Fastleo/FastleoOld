@@ -7,7 +7,6 @@
     protected $middleware = [
         ...
         \Camanru\Fastleo\ModelsList::class,
-        ...
     ]
 
 ****Publish the package’s****

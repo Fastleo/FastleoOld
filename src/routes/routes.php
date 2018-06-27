@@ -12,6 +12,8 @@ Route::middleware(['web', Camanru\Fastleo\CheckAuth::class])->group(function () 
     // Models
     Route::get('/fastleo/app/{model}', 'Camanru\Fastleo\ModelController@index');
     Route::any('/fastleo/app/{model}/add', 'Camanru\Fastleo\ModelController@add');
+    Route::get('/fastleo/app/{model}/up/{row_id}', 'Camanru\Fastleo\ModelController@up')->where('row_id', '[0-9]+');
+    Route::get('/fastleo/app/{model}/down/{row_id}', 'Camanru\Fastleo\ModelController@down')->where('row_id', '[0-9]+');
     Route::get('/fastleo/app/{model}/menu/{row_id}', 'Camanru\Fastleo\ModelController@menu')->where('row_id', '[0-9]+');
     Route::any('/fastleo/app/{model}/edit/{row_id}', 'Camanru\Fastleo\ModelController@edit')->where('row_id', '[0-9]+');
     Route::get('/fastleo/app/{model}/delete/{row_id}', 'Camanru\Fastleo\ModelController@delete')->where('row_id', '[0-9]+');

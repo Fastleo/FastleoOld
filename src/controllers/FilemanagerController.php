@@ -103,14 +103,17 @@ class FilemanagerController extends Controller
      */
     protected function getFolders(Request $request, $folders = [])
     {
+        // Redirect to folder
         if (!$request->has('folder')) {
             header('Location: /fastleo/filemanager?' . request()->getQueryString() . '&folder=' . $request->session()->get('folder'));
             die;
         }
 
+        // save current folder
         $request->session()->put('folder', $request->get('folder'));
         $request->session()->save();
 
+        // folders list
         $scan = scandir($this->dir);
         if (count($scan) > 0) {
             foreach ($scan as $e) {
