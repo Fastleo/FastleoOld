@@ -8,6 +8,7 @@ Route::middleware(['web', Camanru\Fastleo\CheckAuth::class])->group(function () 
 
     // Info
     Route::get('/fastleo/info', 'Camanru\Fastleo\InfoController@index');
+    Route::get('/fastleo/clean', 'Camanru\Fastleo\InfoController@clean');
 
     // Models
     Route::get('/fastleo/app/{model}', 'Camanru\Fastleo\ModelController@index');

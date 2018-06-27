@@ -14,5 +14,12 @@
             </table>
         </div>
     </div>
+    {{--
+    <div class="row">
+        <div class="col">
+            <a href="/fastleo/clean" class="btn btn-warning">Очистить кэш</a>
+        </div>
+    </div>
+    --}}
 
 @endsection
