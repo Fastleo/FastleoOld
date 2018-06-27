@@ -160,9 +160,9 @@ class ModelController extends Controller
             $rows = $query->paginate(15);
         } else {
             if (isset($this->columns['sort'])) {
-                $rows = $this->app::orderBy('sort', 'asc')->paginate(15);
+                $rows = $this->app::orderByRaw('LENGTH(sort), sort')->paginate(15);
             } else {
-                $rows = $this->app::paginate(15);
+                $rows = $this->app::orderByRaw('LENGTH(id), id')->paginate(15);
             }
         }
 
@@ -277,7 +277,7 @@ class ModelController extends Controller
      */
     public function delete(Request $request, $model, $row_id)
     {
-        if(isset($this->columns['sort'])) {
+        if (isset($this->columns['sort'])) {
             $row = $this->app->where('id', $row_id)->first();
             $this->app->where('sort', '>', $row->sort)->decrement('sort');
         }
