@@ -157,12 +157,12 @@ class ModelController extends Controller
                     $query->orWhere($column, 'LIKE', '%' . $search . '%');
                 }
             }
-            $rows = $query->paginate(16);
+            $rows = $query->paginate(15);
         } else {
             if (isset($this->columns['sort'])) {
-                $rows = $this->app::orderBy('sort')->paginate(16);
+                $rows = $this->app::orderBy('sort', 'asc')->paginate(15);
             } else {
-                $rows = $this->app::paginate(16);
+                $rows = $this->app::paginate(15);
             }
         }
 
@@ -190,6 +190,9 @@ class ModelController extends Controller
         if ($request->except($this->exclude_get_list)) {
             if (isset($this->columns['created_at'])) {
                 $request->request->add(['created_at' => \Carbon\Carbon::now()]);
+            }
+            if (isset($this->columns['sort'])) {
+                $request->request->add(['sort' => $this->app->max('sort') + 1]);
             }
             foreach ($request->except($this->exclude_get_list) as $k => $v) {
                 if (is_array($v)) {
@@ -274,6 +277,10 @@ class ModelController extends Controller
      */
     public function delete(Request $request, $model, $row_id)
     {
+        if(isset($this->columns['sort'])) {
+            $row = $this->app->where('id', $row_id)->first();
+            $this->app->where('sort', '>', $row->sort)->decrement('sort');
+        }
         $this->app->where('id', $row_id)->delete();
         header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
         die;
@@ -338,7 +345,7 @@ class ModelController extends Controller
         $current = $this->app::where('id', $row_id);
         $current_sort = $current->first();
 
-        $next = $this->app::where('sort', '>', $current_sort->sort)->orderBy('sort');
+        $next = $this->app::where('sort', '>', $current_sort->sort)->orderBy('sort', 'asc');
         $next_sort = $next->first();
 
         if (!is_null($next_sort)) {
