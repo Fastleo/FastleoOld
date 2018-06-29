@@ -4,18 +4,29 @@
 
     <div class="row">
         <div class="col-4">
-            <h3>{{ isset($model['title']) ? $model['title'] : $model_title }} / Список записей</h3>
+            <h3>{{ isset($model['title']) ? $model['title'] : $model_title }}</h3>
         </div>
         <div class="col-4 text-right">
             <form class="form-inline" action="" method="get" id="search" @if(request()->get('search') == null) style="display: none;" @endif>
-                    <input type="text" name="search" class="form-control" placeholder="Поиск" value="@if(request()->get('search')){{ request()->get('search') }}@endif">
-                    <button type="submit" class="btn btn-success form-control">Найти</button>
-                    <a href="/fastleo/app/{{ $model_name }}" class="form-control btn btn-warning">Сброс</a>
+                <input type="text" name="search" class="form-control" placeholder="Поиск" value="@if(request()->get('search')){{ request()->get('search') }}@endif">
+                <button type="submit" class="btn btn-success form-control">Найти</button>
+                <a href="/fastleo/app/{{ $model_name }}" class="form-control btn btn-warning">Сброс</a>
             </form>
         </div>
         <div class="col-4 text-right">
             <a href="" onclick="$('#search').toggle(); return false;" class="btn btn-info">Поиск</a>
-            <a href="/fastleo/app/{{ $model_name }}/add?{{ request()->getQueryString() }}" class="btn btn-success">Добавить запись</a>
+            <div class="btn-group">
+                <a href="/fastleo/app/{{ $model_name }}/add?{{ request()->getQueryString() }}" class="btn btn-success">Добавить запись</a>
+                <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/menu_add">Добавить видимость</a>
+                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/menu_on">Включить все</a>
+                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/menu_off">Выключить все</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/sorting_add">Добавить сортировку</a>
+                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/sorting_fix">Исправить сортировку</a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">

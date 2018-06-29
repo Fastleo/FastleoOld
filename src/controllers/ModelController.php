@@ -5,6 +5,7 @@ namespace Camanru\Fastleo;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 class ModelController extends Controller
 {
@@ -160,7 +161,7 @@ class ModelController extends Controller
             $rows = $query->paginate(15);
         } else {
             if (isset($this->columns['sort'])) {
-                $rows = $this->app::orderByRaw('LENGTH(sort), sort')->paginate(15);
+                $rows = $this->app::orderByRaw('LENGTH(sort), sort, LENGTH(id), id')->paginate(15);
             } else {
                 $rows = $this->app::orderByRaw('LENGTH(id), id')->paginate(15);
             }
@@ -357,6 +358,91 @@ class ModelController extends Controller
             ]);
         }
 
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
+     * Добавление сортировки
+     * @param Request $request
+     * @param $model
+     */
+    public function sortingAdd(Request $request, $model)
+    {
+        if (!isset($this->columns['sort'])) {
+            Schema::table($this->table, function (Blueprint $table) {
+                $table->string('sort')->after('id')->nullable;
+            });
+        }
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
+     * Исправление сортировки
+     * @param Request $request
+     * @param $model
+     */
+    public function sortingFix(Request $request, $model)
+    {
+        if (isset($this->columns['sort'])) {
+            $rows = $this->app::orderByRaw('LENGTH(sort), sort, LENGTH(id), id')->get();
+            $i = 1;
+            foreach ($rows as $row) {
+                $this->app::where('id', $row->id)->update([
+                    'sort' => $i
+                ]);
+                ++$i;
+            }
+        }
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
+     * ДОбавление меню, если его нет
+     * @param Request $request
+     * @param $model
+     */
+    public function menuAdd(Request $request, $model)
+    {
+        if (!isset($this->columns['menu'])) {
+            Schema::table($this->table, function (Blueprint $table) {
+                $table->string('menu')->after('id')->default('1');
+            });
+        }
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
+     * Выключить все записи
+     * @param Request $request
+     * @param $model
+     */
+    public function menuOn(Request $request, $model)
+    {
+        if (isset($this->columns['menu'])) {
+            $this->app::query()->update([
+                'menu' => 1
+            ]);
+        }
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
+     * Включить все записи
+     * @param Request $request
+     * @param $model
+     */
+    public function menuOff(Request $request, $model)
+    {
+        if (isset($this->columns['menu'])) {
+            $this->app::query()->update([
+                'menu' => 0
+            ]);
+        }
         header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
         die;
     }
