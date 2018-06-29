@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use League\Csv\Writer;
+use League\Csv\Reader;
 
 class ModelController extends Controller
 {
@@ -443,6 +445,69 @@ class ModelController extends Controller
                 'menu' => 0
             ]);
         }
+        header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
+        die;
+    }
+
+    /**
+     * Export rows
+     * @param Request $request
+     * @param $model
+     * @throws \League\Csv\CannotInsertRecord
+     * @throws \League\Csv\Exception
+     */
+    public function rowsExport(Request $request, $model)
+    {
+        $csv = Writer::createFromFileObject(new \SplTempFileObject());
+        $csv->setDelimiter(';');
+        $csv->insertOne(array_diff($this->schema, $this->app->getHidden()));
+        $csv->insertAll($this->app::get()->toArray());
+        $csv->output($this->table . '_' . date("Y_m_d_His") . '.csv');
+        die();
+    }
+
+    /**
+     * Import rows
+     * @param Request $request
+     * @param $model
+     * @throws \League\Csv\Exception
+     */
+    public function rowsImport(Request $request, $model)
+    {
+        // Загрузка файла на сервер
+        $file = $request->file('import');
+        $name = str_replace([' '], ['_'], $file->getClientOriginalName());
+        $file->move(base_path('storage/framework/cache'), $name);
+        $csv_file = 'storage/framework/cache/' . $name;
+
+        // Расширение файла
+        $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), base_path($csv_file));
+
+        // читаем данные из csv
+        if ($mime == 'text/plain') {
+
+            $csv = Reader::createFromPath(base_path($csv_file), 'r');
+            $csv->setDelimiter(';');
+            $csv->setHeaderOffset(0);
+            $records = $csv->getRecords();
+
+            // Обновляем или вставляем запись
+            foreach ($records as $offset => $row) {
+                unset($row['created_at'], $row['updated_at']);
+                if (isset($row['id']) and is_numeric($row['id'])) {
+                    $row['updated_at'] = \Carbon\Carbon::now();
+                    $this->app::where('id', $row['id'])->update($row);
+                } else {
+                    unset($row['id']);
+                    $row['created_at'] = $row['updated_at'] = \Carbon\Carbon::now();
+                    if (isset($this->columns['sort'])) {
+                        $row['sort'] = $this->app::count() + 1;
+                    }
+                    $this->app::insert($row);
+                }
+            }
+        }
+
         header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
         die;
     }

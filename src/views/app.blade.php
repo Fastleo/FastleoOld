@@ -93,6 +93,20 @@
             }
         });
         $('.select2').select2();
+
+        $('#import').click(function () {
+            $('input[name=import]').trigger('click');
+            return false;
+        });
+
+        $('input[name=import]').on('change', function () {
+            if (confirm('Вы уверены, что хотите импортировать данные из файла ' + $(this).val())) {
+                $('#form').submit();
+            } else {
+                window.location.reload();
+                return false;
+            }
+        });
     });
 </script>
 </body>

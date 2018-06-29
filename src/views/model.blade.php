@@ -14,7 +14,6 @@
             </form>
         </div>
         <div class="col-4 text-right">
-            <a href="" onclick="$('#search').toggle(); return false;" class="btn btn-info">Поиск</a>
             <div class="btn-group">
                 <a href="/fastleo/app/{{ $model_name }}/add?{{ request()->getQueryString() }}" class="btn btn-success">Добавить запись</a>
                 <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
@@ -25,10 +24,18 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/sorting_add">Добавить сортировку</a>
                     <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/sorting_fix">Исправить сортировку</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/rows_export" download>Экспортировать данные</a>
+                    <a class="dropdown-item" href="" id="import">Импортировать данные</a>
                 </div>
             </div>
+            <a href="" onclick="$('#search').toggle(); return false;" class="btn btn-info">Поиск</a>
         </div>
     </div>
+    <form action="/fastleo/app/{{ $model_name }}/rows_import?{{ request()->getQueryString() }}" method="post" enctype="multipart/form-data" id="form" style="display: none;">
+        {{ csrf_field() }}
+        <input type="file" name="import">
+    </form>
     <div class="row">
         <div class="col">
             <br>
