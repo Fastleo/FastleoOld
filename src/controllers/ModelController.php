@@ -371,7 +371,7 @@ class ModelController extends Controller
     {
         if (!isset($this->columns['sort'])) {
             Schema::table($this->table, function (Blueprint $table) {
-                $table->string('sort')->after('id')->nullable;
+                $table->integer('sort')->after('id')->nullable();
             });
         }
         header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
@@ -408,7 +408,7 @@ class ModelController extends Controller
     {
         if (!isset($this->columns['menu'])) {
             Schema::table($this->table, function (Blueprint $table) {
-                $table->string('menu')->after('id')->default('1');
+                $table->integer('menu')->after('id')->default('1');
             });
         }
         header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
