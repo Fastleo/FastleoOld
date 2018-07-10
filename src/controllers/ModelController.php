@@ -163,9 +163,9 @@ class ModelController extends Controller
             $rows = $query->paginate(15);
         } else {
             if (isset($this->columns['sort'])) {
-                $rows = $this->app::orderByRaw('LENGTH(sort), sort, LENGTH(id), id')->paginate(15);
+                $rows = $this->app::orderByRaw('LENGTH(sort), sort, id')->paginate(15);
             } else {
-                $rows = $this->app::orderByRaw('LENGTH(id), id')->paginate(15);
+                $rows = $this->app::orderBy('id')->paginate(15);
             }
         }
 

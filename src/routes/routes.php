@@ -19,7 +19,7 @@ Route::middleware(['web', Camanru\Fastleo\CheckAuth::class])->group(function () 
     Route::get('/fastleo/app/{model}/sorting_fix', 'Camanru\Fastleo\ModelController@sortingFix');
     Route::get('/fastleo/app/{model}/sorting_add', 'Camanru\Fastleo\ModelController@sortingAdd');
     Route::get('/fastleo/app/{model}/rows_export', 'Camanru\Fastleo\ModelController@rowsExport');
-    Route::any('/fastleo/app/{model}/rows_import', 'Camanru\Fastleo\ModelController@rowsImport');
+    Route::post('/fastleo/app/{model}/rows_import', 'Camanru\Fastleo\ModelController@rowsImport');
     Route::get('/fastleo/app/{model}/up/{row_id}', 'Camanru\Fastleo\ModelController@up')->where('row_id', '[0-9]+');
     Route::get('/fastleo/app/{model}/down/{row_id}', 'Camanru\Fastleo\ModelController@down')->where('row_id', '[0-9]+');
     Route::get('/fastleo/app/{model}/menu/{row_id}', 'Camanru\Fastleo\ModelController@menu')->where('row_id', '[0-9]+');
