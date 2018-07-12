@@ -13,9 +13,15 @@
 
     php artisan vendor:publish --tag=fastleo --force
 
+****Make migrate****
+
+    php artisan migrate
+
 ****Create admin****
 
     php artisan fastleo:user
+
+row admin is boolean
 
 ****Clear cache****
 
@@ -26,6 +32,10 @@
     php artisan cache:clear
 
     composer dump-autoload
+
+****Enter in fastleo****
+
+    http://site.org/fastleo
 
 ****Fastleo setting model****
     
