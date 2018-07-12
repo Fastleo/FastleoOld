@@ -37,6 +37,16 @@
 
 ****Fastleo setting model****
     
+    public $fastleo_model = [];
+    
+    public $fastleo_columns = [
+        'column' => [
+            'title' => 'Column Name'
+        ],
+    ]
+
+****Extend Fastleo setting model****
+    
     public $fastleo_model = [
         'menu' => true,
         'name' => 'ModelName',
@@ -44,15 +54,16 @@
     ];
 
     public $fastleo_columns = [
-        'column_name' => [
+        'column' => [
             'title' => 'Column Name',
-            'type' => 'string', // [string|text|integer|checkbox|select]
-            'media' => false, // if string type, default false
-            'tinymce' => false, // if text type, default false
-            'visible' => true, // default true
-            'editing' => true, // default true
-            'description' => '', // default ''
-            'multiple' => false, // if select type, default false
+            'type' => 'string', // string|text|integer|checkbox|select
+            'media' => false,
+            'tinymce' => false,
+            'visible' => true,
+            'required' => false,
+            'disabled' => false,
+            'description' => '',
+            'multiple' => false,
             'data' => [], // array, example [10,20,30]
             'data' => '', // example 'App\User:id:email:admin:1'
                           // 'Model:column_key:column_value'

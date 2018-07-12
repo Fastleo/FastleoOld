@@ -26,7 +26,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
                                     <div class="col-sm-9">
-                                        <textarea name="{{ $c }}" id="{{ $c }}" class="form-control @if(isset($f[$c]['tinymce']) and $f[$c]['tinymce'] == true){{ 'tinymce' }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>@if(isset($row->{$c})){!! trim($row->{$c}) !!}@endif</textarea>
+                                        <textarea name="{{ $c }}" id="{{ $c }}" class="form-control @if(isset($f[$c]['tinymce']) and $f[$c]['tinymce'] == true){{ 'tinymce' }}@endif" @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif>@if(isset($row->{$c})){!! trim($row->{$c}) !!}@endif</textarea>
                                         @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
                                             <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
                                         @endif
@@ -38,7 +38,7 @@
                                     <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
                                     <div class="col-sm-2">
                                         <div class="input-group">
-                                            <input type="number" name="{{ $c }}" id="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="@if(isset($row->{$c})){{ $row->{$c} }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
+                                            <input type="number" name="{{ $c }}" id="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="@if(isset($row->{$c})){{ $row->{$c} }}@endif" @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif>
                                             @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
                                                 <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
                                             @endif
@@ -54,7 +54,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-check">
                                             <input type="hidden" name="{{ $c }}" value="0">
-                                            <input type="checkbox" name="{{ $c }}" class="form-check-input" id="{{ $c }}" placeholder="{{ $t }}" value="1" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif @if(isset($row->{$c}) and $row->{$c} == 1){{ 'checked' }}@endif>
+                                            <input type="checkbox" name="{{ $c }}" class="form-check-input" id="{{ $c }}" placeholder="{{ $t }}" value="1" @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif @if(isset($row->{$c}) and $row->{$c} == 1){{ 'checked' }}@endif>
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control select2" id="{{ $c }}" @if(isset($f[$c]['multiple'])) name="{{ $c }}[]" multiple @else name="{{ $c }}" @endif @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
+                                        <select class="form-control select2" id="{{ $c }}" @if(isset($f[$c]['multiple'])) name="{{ $c }}[]" multiple @else name="{{ $c }}" @endif @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif>
                                             <option value=""></option>
                                             @if($f[$c]['data'] and is_array($f[$c]['data']))
                                                 @foreach($f[$c]['data'] as $k => $v)
@@ -92,7 +92,7 @@
                                                     <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
                                                 </div>
                                             @endif
-                                            <input type="text" name="{{ $c }}" id="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="@if(isset($row->{$c})){{ $row->{$c} }}@endif" @if(isset($f[$c]['editing']) and $f[$c]['editing'] == false){{ 'disabled' }}@endif>
+                                            <input type="text" name="{{ $c }}" id="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="@if(isset($row->{$c})){{ $row->{$c} }}@endif" @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif>
                                         </div>
                                         @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
                                             <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
