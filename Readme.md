@@ -19,9 +19,7 @@
 
 ****Create admin****
 
-    php artisan fastleo:user
-
-row admin is boolean
+    php artisan fastleo:admin
 
 ****Clear cache****
 

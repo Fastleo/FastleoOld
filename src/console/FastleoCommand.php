@@ -13,19 +13,19 @@ class FastleoCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'fastleo:user';
+    protected $signature = 'fastleo:admin';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create new user';
+    protected $description = 'Create new admin';
 
     /**
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'admin'];
+    protected $fillable = ['name', 'email', 'password'];
 
     /**
      * Create a new command instance.
@@ -54,6 +54,8 @@ class FastleoCommand extends Command
                 $user->$fillable = $this->ask(($k + 1) . "/" . count($fillables) . " User $fillable");
             }
         }
+
+        $user->admin = true;
 
         if ($this->confirm("Do you want to create the user?", true)) {
             $user->save();
