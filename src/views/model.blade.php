@@ -18,14 +18,19 @@
                 <a href="/fastleo/app/{{ $model_name }}/add?{{ request()->getQueryString() }}" class="btn btn-success">Добавить запись</a>
                 <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/menu_add">Добавить видимость</a>
+                    @if(!isset($model_columns['menu']))
+                        <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/menu_add">Добавить видимость</a>
+                    @endif
                     <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/menu_on">Включить все</a>
                     <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/menu_off">Выключить все</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/sorting_add">Добавить сортировку</a>
+                    @if(!isset($model_columns['sort']))
+                        <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/sorting_add">Добавить сортировку</a>
+                    @endif
                     <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/sorting_fix">Исправить сортировку</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/rows_export" download>Экспортировать данные</a>
+                    <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/rows_export?encode=utf8" download>Экспортировать данные</a>
+                    {{--<a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/rows_export?encode=cp1251" download>Экспортировать данные CP1251</a>--}}
                     <a class="dropdown-item" href="" id="import">Импортировать данные</a>
                 </div>
             </div>

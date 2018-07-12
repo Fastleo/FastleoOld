@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use League\Csv\CharsetConverter;
 use League\Csv\Writer;
 use League\Csv\Reader;
 
@@ -462,6 +463,9 @@ class ModelController extends Controller
         $csv->setDelimiter(';');
         $csv->insertOne(array_diff($this->schema, $this->app->getHidden()));
         $csv->insertAll($this->app::get()->toArray());
+        if ($request->encode == 'cp1251') {
+            //CharsetConverter::addTo($csv, 'UTF-8', 'Windows-1251');
+        }
         $csv->output($this->table . '_' . date("Y_m_d_His") . '.csv');
         die();
     }
