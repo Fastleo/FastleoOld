@@ -30,14 +30,16 @@ class ServiceProvider extends BaseServiceProvider
         config()->set(['fastleo_composer' => $fastleo_composer]);
 
         // Migrations
-        $this->loadMigrationsFrom(__DIR__ . '/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         // Views
-        $this->loadViewsFrom(__DIR__ . '/views', 'fastleo');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'fastleo');
 
         // Src
         $this->publishes([
-            __DIR__ . '/resources' => resource_path('../public'),
+            __DIR__ . '/resources/css' => resource_path('../public/css'),
+            __DIR__ . '/resources/ico' => resource_path('../public/ico'),
+            __DIR__ . '/resources/js' => resource_path('../public/js'),
         ], 'fastleo');
     }
 
