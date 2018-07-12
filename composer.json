@@ -1,7 +1,7 @@
 {
     "name": "camanru/fastleo",
     "type": "project",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "authors": [
         {
             "name": "Roman Zakharov",
@@ -30,7 +30,7 @@
         "post-install-cmd": [
             "php artisan vendor:publish --tag=fastleo --force"
         ],
-        "post-update-cmd": [
+        "post-autoload-dump": [
             "php artisan vendor:publish --tag=fastleo --force"
         ]
     }
