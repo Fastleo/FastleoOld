@@ -1,6 +1,5 @@
 <?php
 
-
 Route::group(['prefix' => 'fastleo', 'middleware' => ['web', Camanru\Fastleo\CheckAuth::class]], function () {
 
     // Auth

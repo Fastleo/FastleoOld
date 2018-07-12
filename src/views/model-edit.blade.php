@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col">
             <h3>{{ isset($model['title']) ? $model['title'] : $model_title }} / @if(isset($row_id)){{ 'Редактировать' }}@else{{ 'Создать' }}@endif запись</h3>
-            @if(Session::has('message'))
-                <div class="alert alert-success">{{ Session::get('message') }}</div>
+            @if(session()->has('message'))
+                <div class="alert alert-success">{{ session()->get('message') }}</div>
             @endif
         </div>
     </div>

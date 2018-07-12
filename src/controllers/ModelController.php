@@ -161,14 +161,15 @@ class ModelController extends Controller
                     $query->orWhere($column, 'LIKE', '%' . $search . '%');
                 }
             }
-            $rows = $query->paginate(15);
         } else {
             if (isset($this->columns['sort'])) {
-                $rows = $this->app::orderByRaw('LENGTH(sort), sort, id')->paginate(15);
+                $query = $this->app::orderByRaw('LENGTH(sort), sort, id');
             } else {
-                $rows = $this->app::orderBy('id')->paginate(15);
+                $query = $this->app::orderBy('id');
             }
         }
+
+        $rows = $query->paginate(15);
 
         return view('fastleo::model', [
             'exclude_type' => $this->exclude_list_type,
@@ -463,9 +464,6 @@ class ModelController extends Controller
         $csv->setDelimiter(';');
         $csv->insertOne(array_diff($this->schema, $this->app->getHidden()));
         $csv->insertAll($this->app::get()->toArray());
-        if ($request->encode == 'cp1251') {
-            //CharsetConverter::addTo($csv, 'UTF-8', 'Windows-1251');
-        }
         $csv->output($this->table . '_' . date("Y_m_d_His") . '.csv');
         die();
     }

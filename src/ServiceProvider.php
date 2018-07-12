@@ -27,7 +27,7 @@ class ServiceProvider extends BaseServiceProvider
 
         // Composer
         $fastleo_composer = json_decode(file_get_contents(__DIR__ . '/../composer.json'));
-        Config::set(['fastleo_composer' => $fastleo_composer]);
+        config()->set(['fastleo_composer' => $fastleo_composer]);
 
         // Migrations
         $this->loadMigrationsFrom(__DIR__ . '/migrations');

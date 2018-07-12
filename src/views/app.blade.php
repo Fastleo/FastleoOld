@@ -29,7 +29,7 @@
                 @if(isset(request()->appmodels) and count(request()->appmodels) > 0)
                     @foreach(request()->appmodels as $model)
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('fastleo/app/'. strtolower($model['name'])) ? 'active' : '' }}" href="/fastleo/app/{{ strtolower($model['name']) }}">
+                            <a class="nav-link {{ request()->is('fastleo/app/'. strtolower($model['name'])) ? 'active' : '' }}" href="/fastleo/app/{{ strtolower($model['name']) }}">
                                 <i class="fas fa-box-open"></i> {{ $model['title'] }}
                             </a>
                         </li>
