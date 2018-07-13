@@ -8,7 +8,12 @@ Route::group(['prefix' => 'fastleo', 'middleware' => ['web', Camanru\Fastleo\Che
 
     // Info
     Route::get('/info', 'Camanru\Fastleo\InfoController@index');
-    Route::get('/clean', 'Camanru\Fastleo\InfoController@clean');
+    Route::get('/clean', function(){
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        return redirect('/fastleo/info');
+    });
 
     // Models
     Route::get('/app/{model}', 'Camanru\Fastleo\ModelController@index');
