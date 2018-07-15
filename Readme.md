@@ -51,6 +51,7 @@
         'menu' => true,
         'name' => 'ModelName',
         'title' => 'Model Title',
+        'icon' => 'fas fa-box-open', // https://fontawesome.com/icons
     ];
 
     public $fastleo_columns = [
