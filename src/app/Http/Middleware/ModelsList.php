@@ -26,6 +26,7 @@ class ModelsList
                         if (isset($app->fastleo_model)) {
                             if (!isset($app->fastleo_model['menu']) or $app->fastleo_model['menu'] == true) {
                                 $models[strtolower($pathInfo['filename'])] = [
+                                    'icon' => isset($app->fastleo_model['icon']) ? $app->fastleo_model['icon'] : null,
                                     'name' => isset($app->fastleo_model['name']) ? $app->fastleo_model['name'] : $pathInfo['filename'],
                                     'title' => isset($app->fastleo_model['title']) ? $app->fastleo_model['title'] : $pathInfo['filename'],
                                 ];
