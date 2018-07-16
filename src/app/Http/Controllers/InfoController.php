@@ -37,9 +37,4 @@ class InfoController extends Controller
             'params' => $params
         ]);
     }
-
-    public function clean()
-    {
-
-    }
 }

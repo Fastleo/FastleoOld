@@ -41,6 +41,9 @@
                     @endforeach
                 @endif
                 <li class="nav-item">
+                    <a href="/fastleo/log" class="nav-link"><i class="fas fa-exclamation-triangle"></i> Laravel log</a>
+                </li>
+                <li class="nav-item">
                     <br>
                     <a href="https://softonline.org" target="_blank">
                         <small>Softonline</small>

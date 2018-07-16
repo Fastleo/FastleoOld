@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Console\Command;
 use App\User;
 
-class FastleoCommand extends Command
+class FastleoAdmin extends Command
 {
     /**
      * The name and signature of the console command.

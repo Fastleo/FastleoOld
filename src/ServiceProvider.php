@@ -14,12 +14,13 @@ class ServiceProvider extends BaseServiceProvider
     public function boot()
     {
         // Route
-        include __DIR__ . '/routes/routes.php';
+        include __DIR__ . '/routes/web.php';
 
         // Console commands
         if ($this->app->runningInConsole()) {
             $this->commands([
-                FastleoCommand::class
+                FastleoAdmin::class,
+                FastleoClear::class,
             ]);
         }
 
