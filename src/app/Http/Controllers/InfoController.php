@@ -12,6 +12,7 @@ class InfoController extends Controller
     public function index()
     {
         $params = [];
+        $phpversion = explode("-", phpversion());
 
         $params[] = [
             'title' => 'Версия Fastleo',
@@ -25,7 +26,7 @@ class InfoController extends Controller
 
         $params[] = [
             'title' => 'Версия PHP',
-            'value' => phpversion()
+            'value' => $phpversion[0]
         ];
 
         $params[] = [
