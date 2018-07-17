@@ -15,7 +15,7 @@
         @endif
         @if(isset($folders) and count($folders) > 0)
             @foreach($folders as $folder)
-                <a href="?folder=@if(request()->input('folder')){{ request()->input('folder') . '/' }}@endif{{ $folder }}&field={{ request()->input('field') }}">
+                <a href="?folder=@if(request()->input('folder')){{ request()->input('folder') }}@endif/{{ $folder }}&field={{ request()->input('field') }}">
                     <div class="block" style="background-image: url('/ico/folder.png');">
                         <span class="filename">{{ $folder }}</span>
                     </div>

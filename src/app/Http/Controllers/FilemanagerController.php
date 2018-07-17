@@ -30,8 +30,11 @@ class FilemanagerController extends Controller
 
         // Change dir
         if ($request->get('folder')) {
+            if ($request->get('folder') == '/') {
+                $request->merge(['folder' => '']);
+            }
             $this->dir = base_path('public' . $this->upload . '/' . $request->get('folder'));
-            $this->upload = $this->upload . '/' . $request->get('folder');
+            $this->upload = $this->upload . $request->get('folder');
         }
 
         // create thumbs folder
@@ -101,8 +104,9 @@ class FilemanagerController extends Controller
      * @param array $folders
      * @return array
      */
-    protected function getFolders(Request $request, $folders = [])
+    protected function getFolders($request, $folders = [])
     {
+
         // Redirect to folder
         if (!$request->has('folder')) {
             header('Location: /fastleo/filemanager?' . request()->getQueryString() . '&folder=' . $request->session()->get('folder'));
@@ -137,10 +141,10 @@ class FilemanagerController extends Controller
             foreach ($scan as $e) {
                 if (!in_array($e, ['.', '..', '.thumbs']) and is_file($this->dir . '/' . $e)) {
                     $ext = pathinfo($this->dir . '/' . $e, PATHINFO_EXTENSION);
-                    if (!file_exists($this->dir . '/.thumbs/' . $e) and in_array(strtolower($ext), $this->images)) {
+                    if (!file_exists($this->dir . '/.thumbs' . $e) and in_array(strtolower($ext), $this->images)) {
                         $thumbs = self::resize($this->dir, $e);
                     } else {
-                        $thumbs = (file_exists($this->dir . '/.thumbs/' . $e)) ? $this->upload . '/.thumbs/' . $e : '';
+                        $thumbs = (file_exists($this->dir . '/.thumbs' . $e)) ? $this->upload . '/.thumbs' . $e : '';
                     }
                     $files[] = [
                         'name' => $e,

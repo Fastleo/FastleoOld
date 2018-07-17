@@ -11,7 +11,17 @@
 </head>
 <body>
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
-    <a class="navbar-brand" href="/fastleo/filemanager">Fastleo Filemanager</a> /{{ request()->input('folder') }}
+    <a class="navbar-brand" href="/fastleo/filemanager">Fastleo Filemanager</a>
+    <div class="pull-center">
+        @php $folders = explode("/", request()->input('folder')) @endphp
+        @php $link = '' @endphp
+        @foreach($folders as $folder)
+            @if($folder != '')
+                @php $link = $link . '/' . $folder @endphp
+                <a href="?folder={{ $link }}">/{{ $folder }}</a>
+            @endif
+        @endforeach
+    </div>
     <div class="pull-right">
         <a href="/fastleo/filemanager/uploads?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Загрузить файл</a> /
         <a href="/fastleo/filemanager/create?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Создать папку</a>
