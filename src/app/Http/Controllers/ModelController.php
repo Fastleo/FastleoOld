@@ -26,7 +26,6 @@ class ModelController extends Controller
 
     /**
      * ModelController constructor.
-     * @param Request $request
      */
     public function __construct()
     {
@@ -453,12 +452,10 @@ class ModelController extends Controller
 
     /**
      * Export rows
-     * @param Request $request
-     * @param $model
      * @throws \League\Csv\CannotInsertRecord
      * @throws \League\Csv\Exception
      */
-    public function rowsExport(Request $request, $model)
+    public function rowsExport()
     {
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
         $csv->setDelimiter(';');

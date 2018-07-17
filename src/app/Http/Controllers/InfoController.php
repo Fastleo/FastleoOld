@@ -4,11 +4,15 @@ namespace Camanru\Fastleo;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 
 class InfoController extends Controller
 {
+    /**
+     * Info page
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $params = [];
@@ -37,5 +41,17 @@ class InfoController extends Controller
         return view('fastleo::info', [
             'params' => $params
         ]);
+    }
+
+    /**
+     * Clear cache
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     */
+    public function clear()
+    {
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
+        return redirect('/fastleo/info');
     }
 }

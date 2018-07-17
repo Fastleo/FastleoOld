@@ -14,6 +14,6 @@ class UrlTest extends TestCase
     public function testMain()
     {
         $response = $this->get('/fastleo');
-        $response->assertStatus(500);
+        $response->assertStatus(200);
     }
 }
