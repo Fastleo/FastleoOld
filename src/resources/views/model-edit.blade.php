@@ -94,7 +94,7 @@
                                             <div class="col-sm-7">
                                                 <div class="input-group">
                                                     @if(isset($f[$c]['media']) and $f[$c]['media'] == true)
-                                                        <div class="input-group-prepend filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager?field={{ $c }}{{ $v->id }}">
+                                                        <div class="input-group-prepend filemanager" data-src="/fastleo/filemanager?field={{ $c }}{{ $v->id }}">
                                                             <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
                                                         </div>
                                                     @endif
@@ -106,9 +106,6 @@
                                                         <span class="input-group-text delInput">-</span>
                                                     </div>
                                                 </div>
-                                                @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
-                                                    <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
-                                                @endif
                                             </div>
                                         </div>
                                     @endforeach
@@ -120,7 +117,7 @@
                                         <div class="col-sm-7">
                                             <div class="input-group">
                                                 @if(isset($f[$c]['media']) and $f[$c]['media'] == true)
-                                                    <div class="input-group-prepend filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager?field={{ $c }}1">
+                                                    <div class="input-group-prepend filemanager" data-src="/fastleo/filemanager?field={{ $c }}1">
                                                         <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
                                                     </div>
                                                 @endif
@@ -132,11 +129,11 @@
                                                     <span class="input-group-text delInput">-</span>
                                                 </div>
                                             </div>
-                                            @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
-                                                <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
-                                            @endif
                                         </div>
                                     </div>
+                                @endif
+                                @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
+                                    <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
                                 @endif
                                 <hr>
                             @else
@@ -145,7 +142,7 @@
                                     <div class="col-sm-7">
                                         <div class="input-group">
                                             @if(isset($f[$c]['media']) and $f[$c]['media'] == true)
-                                                <div class="input-group-prepend filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager?field={{ $c }}">
+                                                <div class="input-group-prepend filemanager" data-src="/fastleo/filemanager?field={{ $c }}">
                                                     <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
                                                 </div>
                                             @endif

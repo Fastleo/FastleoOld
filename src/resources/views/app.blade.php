@@ -14,7 +14,7 @@
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
     <a class="navbar-brand" href="/fastleo/info">Fastleo Admin Panel</a>
     <div class="pull-right">
-        <a href="#" class="filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager">Файловый менеджер</a> /
+        <a href="#" class="filemanager" data-src="/fastleo/filemanager">Файловый менеджер</a> /
         <a href="/" target="_blank">Перейти на сайт</a> /
         <a href="/fastleo/logout">Выйти</a>
     </div>
@@ -93,13 +93,13 @@
     });
     $(document).ready(function () {
 
-        $('.filemanager').fancybox({
-            iframe: {
-                css: {
-                    width: '1020px',
-                    height: '640px',
-                }
-            }
+        $('.filemanager').on('click', function () {
+            var url = $(this).attr('data-src');
+            var w = 1020;
+            var h = 640;
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            return window.open(url, 'filemanager', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
         });
 
         $('.select2').select2();

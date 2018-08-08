@@ -52,8 +52,8 @@
     @if(request()->input('field'))
         <script type="text/javascript">
             $('.image').on('click', function () {
-                parent.filemanager('{{ request()->input('field') }}', $(this).attr('data-url'));
-                parent.$.fancybox.close();
+                window.opener.filemanager('{{ request()->input('field') }}', $(this).attr('data-url'));
+                window.self.close();
             });
         </script>
     @else
