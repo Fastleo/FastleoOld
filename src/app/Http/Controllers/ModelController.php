@@ -206,7 +206,7 @@ class ModelController extends Controller
             // возможно есть массивы
             foreach ($request->except($this->exclude_get_list) as $key => $value) {
                 if (is_array($value)) {
-                    if (!isset($this->fastleo_columns[$key]['type']) or $this->fastleo_columns[$key]['type'] != 'hasMany') {
+                    if (!isset($this->fastleo_columns[$key]['type']) or $this->fastleo_columns[$key]['type'] != 'include') {
                         $request->request->add([$key => implode(",", $value)]);
                     } else {
                         $many[$key] = $value;
@@ -218,7 +218,7 @@ class ModelController extends Controller
             // add row
             $id = $this->app->insertGetId($request->except($this->exclude_get_list));
 
-            // HasMany
+            // include
             if (isset($many)) {
                 foreach ($many as $key => $value) {
                     if (count($value) > 0) {
@@ -274,7 +274,7 @@ class ModelController extends Controller
             // возможно есть массивы
             foreach ($request->except($this->exclude_get_list) as $key => $value) {
                 if (is_array($value)) {
-                    if (!isset($this->fastleo_columns[$key]['type']) or $this->fastleo_columns[$key]['type'] != 'hasMany') {
+                    if (!isset($this->fastleo_columns[$key]['type']) or $this->fastleo_columns[$key]['type'] != 'include') {
                         $request->request->add([$key => implode(",", $value)]);
                     } else {
                         $many[$key] = $value;
@@ -283,7 +283,7 @@ class ModelController extends Controller
                 }
             }
 
-            // HasMany
+            // include
             if (isset($many)) {
                 foreach ($many as $key => $value) {
                     if (count($value) > 0) {

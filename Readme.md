@@ -24,11 +24,8 @@
 ****Clear cache****
 
     php artisan route:clear
-
     php artisan config:clear
-
     php artisan cache:clear
-
     composer dump-autoload
 
 ****Enter in fastleo****
@@ -38,12 +35,7 @@
 ****Fastleo setting model****
     
     public $fastleo_model = [];
-    
-    public $fastleo_columns = [
-        'column' => [
-            'title' => 'Column Name'
-        ],
-    ]
+    public $fastleo_columns = [];
 
 ****Extend Fastleo setting model****
     
@@ -57,13 +49,14 @@
     public $fastleo_columns = [
         'column' => [
             'title' => 'Column Name',
-            'type' => 'string', // string|text|integer|checkbox|select|hasMany
+            'type' => 'string', // string|text|integer|checkbox|select|include
             'media' => false,
             'tinymce' => false,
             'visible' => true,
             'required' => false,
             'disabled' => false,
             'description' => '',
+            'placeholder' => '',
             'multiple' => false,
             'data' => [], // array, example [10,20,30]
             'data' => '', // example 'App\User:id:email:admin:1'

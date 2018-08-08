@@ -3,14 +3,20 @@
 @section('content')
 
     <div class="row">
-        <div class="col-4">
+        <div class="col-2">
             <h3>{{ isset($model['title']) ? $model['title'] : $model_title }}</h3>
         </div>
-        <div class="col-4 text-right">
-            <form class="form-inline" action="" method="get" id="search" @if(request()->get('search') == null) style="display: none;" @endif>
-                <input type="text" name="search" class="form-control" placeholder="Поиск" value="@if(request()->get('search')){{ request()->get('search') }}@endif">
-                <button type="submit" class="btn btn-success form-control">Найти</button>
-                <a href="/fastleo/app/{{ $model_name }}" class="form-control btn btn-warning">Сброс</a>
+        <div class="col-6 text-right">
+            <form action="" method="get" id="search" @if(request()->get('search') == null) style="display: none;" @endif>
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Поиск" value="@if(request()->get('search')){{ request()->get('search') }}@endif">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-success form-control">Найти</button>
+                    </div>
+                    <div class="input-group-append">
+                        <a href="/fastleo/app/{{ $model_name }}" class="form-control btn btn-warning">Сброс</a>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="col-4 text-right">
