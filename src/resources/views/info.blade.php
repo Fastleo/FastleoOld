@@ -17,6 +17,7 @@
     <div class="row">
         <div class="col">
             <a href="/fastleo/info/clear" class="btn btn-warning">Очистить кэш</a>
+            <a href="/fastleo/log/clear" class="btn btn-warning">Очистить log</a>
         </div>
     </div>
 
