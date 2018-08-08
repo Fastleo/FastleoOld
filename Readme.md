@@ -57,7 +57,7 @@
     public $fastleo_columns = [
         'column' => [
             'title' => 'Column Name',
-            'type' => 'string', // string|text|integer|checkbox|select
+            'type' => 'string', // string|text|integer|checkbox|select|hasMany
             'media' => false,
             'tinymce' => false,
             'visible' => true,

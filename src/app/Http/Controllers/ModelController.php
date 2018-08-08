@@ -192,20 +192,49 @@ class ModelController extends Controller
     {
         // add
         if ($request->except($this->exclude_get_list)) {
+
+            // дата создания
             if (isset($this->columns['created_at'])) {
                 $request->request->add(['created_at' => \Carbon\Carbon::now()]);
             }
+
+            // сортировка
             if (isset($this->columns['sort'])) {
                 $request->request->add(['sort' => $this->app->max('sort') + 1]);
             }
-            foreach ($request->except($this->exclude_get_list) as $k => $v) {
-                if (is_array($v)) {
-                    $request->request->add([$k => implode(",", $v)]);
+
+            // возможно есть массивы
+            foreach ($request->except($this->exclude_get_list) as $key => $value) {
+                if (is_array($value)) {
+                    if (!isset($this->fastleo_columns[$key]['type']) or $this->fastleo_columns[$key]['type'] != 'hasMany') {
+                        $request->request->add([$key => implode(",", $value)]);
+                    } else {
+                        $many[$key] = $value;
+                        $request->request->add([$key => null]);
+                    }
                 }
             }
 
-            session()->flash('message', 'Запись успешно добавлена');
+            // add row
             $id = $this->app->insertGetId($request->except($this->exclude_get_list));
+
+            // HasMany
+            if (isset($many)) {
+                foreach ($many as $key => $value) {
+                    if (count($value) > 0) {
+                        $manyName = substr($key, 0, -1);
+                        $manyApp = app('App\\' . ucfirst($manyName));
+                        foreach ($value as $k => $v) {
+                            if (!is_null($v)) {
+                                $manyApp::insert([
+                                    $model . '_id' => $id,
+                                    $manyName => $v,
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
 
             if (!is_null($request->get('id'))) {
                 header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
@@ -241,13 +270,38 @@ class ModelController extends Controller
             if (isset($this->columns['updated_at'])) {
                 $request->request->add(['updated_at' => \Carbon\Carbon::now()]);
             }
-            foreach ($request->except($this->exclude_get_list) as $k => $v) {
-                if (is_array($v)) {
-                    $request->request->add([$k => implode(",", $v)]);
+
+            // возможно есть массивы
+            foreach ($request->except($this->exclude_get_list) as $key => $value) {
+                if (is_array($value)) {
+                    if (!isset($this->fastleo_columns[$key]['type']) or $this->fastleo_columns[$key]['type'] != 'hasMany') {
+                        $request->request->add([$key => implode(",", $value)]);
+                    } else {
+                        $many[$key] = $value;
+                        $request->request->add([$key => null]);
+                    }
                 }
             }
 
-            session()->flash('message', 'Запись успешно отредактированна');
+            // HasMany
+            if (isset($many)) {
+                foreach ($many as $key => $value) {
+                    if (count($value) > 0) {
+                        $manyName = substr($key, 0, -1);
+                        $manyApp = app('App\\' . ucfirst($manyName));
+                        $manyApp::where($model . '_id', $row_id)->delete();
+                        foreach ($value as $k => $v) {
+                            if (!is_null($v)) {
+                                $manyApp::insert([
+                                    $model . '_id' => $row_id,
+                                    $manyName => $v,
+                                ]);
+                            }
+                        }
+                    }
+                }
+            }
+
             $this->app->where('id', $row_id)->update($request->except($this->exclude_get_list));
 
             if (!is_null($request->get('id'))) {

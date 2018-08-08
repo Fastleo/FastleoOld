@@ -92,6 +92,7 @@
         }
     });
     $(document).ready(function () {
+
         $('.filemanager').fancybox({
             iframe: {
                 css: {
@@ -100,6 +101,7 @@
                 }
             }
         });
+
         $('.select2').select2();
 
         $('#import').click(function () {
@@ -114,6 +116,29 @@
                 window.location.reload();
                 return false;
             }
+        });
+
+        $('.addInput').on('click', function () {
+            var div = $(this).closest('div.row');
+            var name = div.find('input').attr('data-name');
+            var elements = $('input[data-name=' + name + ']').length;
+            var divCopy = div.clone(true);
+            divCopy.find('input').val('');
+            divCopy.find('input').attr('id', divCopy.find('input').attr('id').replace(/\d+/g, parseInt(elements + 1)));
+            divCopy.find('input').attr('name', divCopy.find('input').attr('name').replace(/\d+/g, parseInt(elements + 1)));
+            divCopy.find('.filemanager').attr('data-src', divCopy.find('.filemanager').attr('data-src').replace(/field=(\w+)/g, 'field=' + name + parseInt(elements + 1)));
+            div.after(divCopy);
+            return false;
+        });
+
+        $('.delInput').on('click', function () {
+            var div = $(this).closest('div.row');
+            var name = div.find('input').attr('data-name');
+            var elements = $('input[data-name=' + name + ']').length;
+            if (elements > 1) {
+                div.remove();
+            }
+            return false;
         });
     });
 </script>
