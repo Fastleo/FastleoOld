@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Fastleo Admin Panel</title>
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.1.0/css/all.css">
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.2.0/css/all.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
     <link rel="stylesheet" href="/css/fastleo.admin.css">
@@ -14,7 +14,7 @@
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
     <a class="navbar-brand" href="/fastleo/info">Fastleo Admin Panel</a>
     <div class="pull-right">
-        <a href="#" class="filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager">Файловый менеджер</a> /
+        <a href="#" class="filemanager" data-src="/fastleo/filemanager">Файловый менеджер</a> /
         <a href="/" target="_blank">Перейти на сайт</a> /
         <a href="/fastleo/logout">Выйти</a>
     </div>
@@ -61,9 +61,9 @@
     </div>
 </div>
 <script src="//code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-<script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/4.8.0/tinymce.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/4.8.1/tinymce.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 
@@ -92,14 +92,16 @@
         }
     });
     $(document).ready(function () {
-        $('.filemanager').fancybox({
-            iframe: {
-                css: {
-                    width: '1020px',
-                    height: '640px',
-                }
-            }
+
+        $('.filemanager').on('click', function () {
+            var url = $(this).attr('data-src');
+            var w = 1020;
+            var h = 640;
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            return window.open(url, 'filemanager', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
         });
+
         $('.select2').select2();
 
         $('#import').click(function () {
@@ -114,6 +116,29 @@
                 window.location.reload();
                 return false;
             }
+        });
+
+        $('.addInput').on('click', function () {
+            var div = $(this).closest('div.row');
+            var name = div.find('input').attr('data-name');
+            var elements = $('input[data-name=' + name + ']').length;
+            var divCopy = div.clone(true);
+            divCopy.find('input').val('');
+            divCopy.find('input').attr('id', divCopy.find('input').attr('id').replace(/\d+/g, parseInt(elements + 1)));
+            divCopy.find('input').attr('name', divCopy.find('input').attr('name').replace(/\d+/g, parseInt(elements + 1)));
+            divCopy.find('.filemanager').attr('data-src', divCopy.find('.filemanager').attr('data-src').replace(/field=(\w+)/g, 'field=' + name + parseInt(elements + 1)));
+            div.after(divCopy);
+            return false;
+        });
+
+        $('.delInput').on('click', function () {
+            var div = $(this).closest('div.row');
+            var name = div.find('input').attr('data-name');
+            var elements = $('input[data-name=' + name + ']').length;
+            if (elements > 1) {
+                div.remove();
+            }
+            return false;
         });
     });
 </script>

@@ -82,13 +82,67 @@
                                     </div>
                                 </div>
                                 <hr>
+                            @elseif(isset($f[$c]['type']) and in_array($f[$c]['type'], ['hasMany']))
+                                @if(isset($row) and count($row->{$c}()->get()) > 0)
+                                    @php $include = $row->{$c}()->get() @endphp
+                                    @php $string = substr($c, 0, -1) @endphp
+                                    @foreach($include as $v)
+                                        <div class="form-group row">
+                                            <div class="col-sm-2">
+                                                <label class="form-check-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <div class="input-group">
+                                                    @if(isset($f[$c]['media']) and $f[$c]['media'] == true)
+                                                        <div class="input-group-prepend filemanager" data-src="/fastleo/filemanager?field={{ $c }}{{ $v->id }}">
+                                                            <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
+                                                        </div>
+                                                    @endif
+                                                    <input type="text" name="{{ $c }}[{{ $v->id }}]" id="{{ $c }}{{ $v->id }}" data-name="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="{{ $v->{$string} }}" @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text addInput">+</span>
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text delInput">-</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="form-group row">
+                                        <div class="col-sm-2">
+                                            <label class="form-check-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="input-group">
+                                                @if(isset($f[$c]['media']) and $f[$c]['media'] == true)
+                                                    <div class="input-group-prepend filemanager" data-src="/fastleo/filemanager?field={{ $c }}1">
+                                                        <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
+                                                    </div>
+                                                @endif
+                                                <input type="text" name="{{ $c }}[1]" id="{{ $c }}1" data-name="{{ $c }}" class="form-control" placeholder="{{ $t }}" value="" @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text addInput">+</span>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text delInput">-</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
+                                    <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
+                                @endif
+                                <hr>
                             @else
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-7">
                                         <div class="input-group">
                                             @if(isset($f[$c]['media']) and $f[$c]['media'] == true)
-                                                <div class="input-group-prepend filemanager" data-fancybox data-type="iframe" data-src="/fastleo/filemanager?field={{ $c }}">
+                                                <div class="input-group-prepend filemanager" data-src="/fastleo/filemanager?field={{ $c }}">
                                                     <div class="input-group-text"><i class="fas fa-folder-open"></i></div>
                                                 </div>
                                             @endif
