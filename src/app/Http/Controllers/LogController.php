@@ -3,9 +3,6 @@
 namespace Camanru\Fastleo;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 
 class LogController extends Controller
 {

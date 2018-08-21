@@ -70,7 +70,7 @@ class FilemanagerController extends Controller
                 break;
         }
 
-        if (!$source_image) {
+        if (!isset($source_imag)) {
             return false;
         }
 

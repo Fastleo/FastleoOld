@@ -3,7 +3,6 @@
 namespace Camanru\Fastleo;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 
@@ -52,6 +51,7 @@ class InfoController extends Controller
         Artisan::call('cache:clear');
         Artisan::call('route:clear');
         Artisan::call('config:clear');
-        return redirect('/fastleo/info');
+        header('Location: ' . route('fastleo.info'));
+        die;
     }
 }
