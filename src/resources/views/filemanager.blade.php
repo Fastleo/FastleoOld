@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
-    <a href="{{ route('filemanager') }}" class="navbar-brand">Fastleo Filemanager</a>
+    <a href="{{ route('fastleo.filemanager') }}" class="navbar-brand">Fastleo Filemanager</a>
     <div class="pull-center">
         @php $folders = explode("/", request()->input('folder')) @endphp
         @php $link = '' @endphp
@@ -23,8 +23,8 @@
         @endforeach
     </div>
     <div class="pull-right">
-        <a href="{{ route('filemanager.uploads') }}?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Загрузить файл</a> /
-        <a href="{{ route('filemanager.create') }}?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Создать папку</a>
+        <a href="{{ route('fastleo.filemanager.uploads') }}?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Загрузить файл</a> /
+        <a href="{{ route('fastleo.filemanager.create') }}?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Создать папку</a>
     </div>
 </nav>
 <div class="container-fluid">

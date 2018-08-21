@@ -16,8 +16,8 @@
     </div>
     <div class="row">
         <div class="col">
-            <a href="{{ route('info.clear') }}" class="btn btn-warning">Очистить кэш</a>
-            <a href="{{ route('log.clear') }}" class="btn btn-warning">Очистить log</a>
+            <a href="{{ route('fastleo.info.clear') }}" class="btn btn-warning">Очистить кэш</a>
+            <a href="{{ route('fastleo.log.clear') }}" class="btn btn-warning">Очистить log</a>
         </div>
     </div>
 
