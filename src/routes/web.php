@@ -4,7 +4,7 @@ Route::group(['prefix' => 'fastleo', 'middleware' => ['web', Camanru\Fastleo\Che
 
     // Auth
     Route::match(['get', 'post'], '', 'Camanru\Fastleo\LoginController@login')->name('fastleo');
-    Route::get('/logout', 'Camanru\Fastleo\LoginController@logout')->name('fastleo.logout');
+    Route::get('/logout', 'Camanru\Fastleo\LoginController@logout')->name('logout');
 
     // Info
     Route::get('/info', 'Camanru\Fastleo\InfoController@index')->name('info');

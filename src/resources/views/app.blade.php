@@ -12,12 +12,12 @@
 </head>
 <body>
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
-    <a class="navbar-brand" href="/fastleo/info">Fastleo Admin Panel</a>
+    <a class="navbar-brand" href="{{ route('info') }}">Fastleo Admin Panel</a>
     @if(session()->has('admin'))
         <div class="pull-right">
             <a href="#" class="filemanager" data-src="/fastleo/filemanager">Файловый менеджер</a> /
             <a href="/" target="_blank">Перейти на сайт</a> /
-            <a href="/fastleo/logout">Выйти</a>
+            <a href="{{ route('logout') }}">Выйти</a>
         </div>
     @endif
 </nav>
@@ -27,7 +27,7 @@
             <ul class="nav flex-column">
                 @if(session()->has('admin'))
                     <li class="nav-item">
-                        <a href="/fastleo/info" class="nav-link"><i class="fas fa-home"></i> Информация</a>
+                        <a href="{{ route('info') }}" class="nav-link"><i class="fas fa-home"></i> Информация</a>
                     </li>
                     @if(isset(request()->appmodels) and count(request()->appmodels) > 0)
                         @foreach(request()->appmodels as $model)
@@ -44,7 +44,7 @@
                         @endforeach
                     @endif
                     <li class="nav-item">
-                        <a href="/fastleo/log" class="nav-link"><i class="fas fa-exclamation-triangle"></i> Laravel log</a>
+                        <a href="{{ route('log') }}" class="nav-link"><i class="fas fa-exclamation-triangle"></i> Laravel log</a>
                     </li>
                 @endif
                 <li class="nav-item">

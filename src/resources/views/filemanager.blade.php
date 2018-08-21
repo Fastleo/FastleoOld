@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Fastleo Filemanager</title>
-    <script src="//code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
     <link rel="stylesheet" href="/css/fastleo.filemanager.css">
 </head>
 <body>
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
-    <a class="navbar-brand" href="/fastleo/filemanager">Fastleo Filemanager</a>
+    <a href="{{ route('filemanager') }}" class="navbar-brand">Fastleo Filemanager</a>
     <div class="pull-center">
         @php $folders = explode("/", request()->input('folder')) @endphp
         @php $link = '' @endphp
@@ -23,8 +23,8 @@
         @endforeach
     </div>
     <div class="pull-right">
-        <a href="/fastleo/filemanager/uploads?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Загрузить файл</a> /
-        <a href="/fastleo/filemanager/create?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Создать папку</a>
+        <a href="{{ route('filemanager.uploads') }}?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Загрузить файл</a> /
+        <a href="{{ route('filemanager.create') }}?folder={{ request()->input('folder') }}&field={{ request()->input('field') }}">Создать папку</a>
     </div>
 </nav>
 <div class="container-fluid">

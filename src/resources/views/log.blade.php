@@ -7,7 +7,7 @@
             <h3>Laravel error log</h3>
         </div>
         <div class="col text-right">
-            <a href="/fastleo/log/clear" class="btn btn-warning">Очистить log</a>
+            <a href="{{ route('log.clear') }}" class="btn btn-warning">Очистить log</a>
         </div>
     </div>
     <div class="row">
