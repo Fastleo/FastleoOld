@@ -1,14 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <title>Fastleo Admin Panel</title>
-</head>
-<body>
-<div class="container">
-    <form action="/fastleo" method="post">
+@extends('fastleo::app')
+
+@section('content')
+
+    <form action="{{ route('fastleo') }}" method="post" class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
         {{ csrf_field() }}
         <div class="form-group">
             <label for="email">Email address</label>
@@ -18,11 +12,7 @@
             <label for="password">Password</label>
             <input type="password" name="password" class="form-control" id="password" placeholder="Password">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Войти</button>
     </form>
-</div>
-<script src="//code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-<script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-</body>
-</html>
+
+@endsection

@@ -13,36 +13,40 @@
 <body>
 <nav class="navbar navbar-light navbar-dark bg-dark flex-md-nowrap fastleo-nav">
     <a class="navbar-brand" href="/fastleo/info">Fastleo Admin Panel</a>
-    <div class="pull-right">
-        <a href="#" class="filemanager" data-src="/fastleo/filemanager">Файловый менеджер</a> /
-        <a href="/" target="_blank">Перейти на сайт</a> /
-        <a href="/fastleo/logout">Выйти</a>
-    </div>
+    @if(session()->has('admin'))
+        <div class="pull-right">
+            <a href="#" class="filemanager" data-src="/fastleo/filemanager">Файловый менеджер</a> /
+            <a href="/" target="_blank">Перейти на сайт</a> /
+            <a href="/fastleo/logout">Выйти</a>
+        </div>
+    @endif
 </nav>
 <div class="container-fluid fastleo-container">
     <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-4 bg-light fastleo-menu">
             <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a href="/fastleo/info" class="nav-link"><i class="fas fa-home"></i> Информация</a>
-                </li>
-                @if(isset(request()->appmodels) and count(request()->appmodels) > 0)
-                    @foreach(request()->appmodels as $model)
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('fastleo/app/'. strtolower($model['name'])) ? 'active' : '' }}" href="/fastleo/app/{{ strtolower($model['name']) }}">
-                                @if(isset($model['icon']) and $model['icon'] != '')
-                                    <i class="{{ $model['icon'] }}"></i>
-                                @else
-                                    <i class="fas fa-box-open"></i>
-                                @endif
-                                {{ $model['title'] }}
-                            </a>
-                        </li>
-                    @endforeach
+                @if(session()->has('admin'))
+                    <li class="nav-item">
+                        <a href="/fastleo/info" class="nav-link"><i class="fas fa-home"></i> Информация</a>
+                    </li>
+                    @if(isset(request()->appmodels) and count(request()->appmodels) > 0)
+                        @foreach(request()->appmodels as $model)
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->is('fastleo/app/'. strtolower($model['name'])) ? 'active' : '' }}" href="/fastleo/app/{{ strtolower($model['name']) }}">
+                                    @if(isset($model['icon']) and $model['icon'] != '')
+                                        <i class="{{ $model['icon'] }}"></i>
+                                    @else
+                                        <i class="fas fa-box-open"></i>
+                                    @endif
+                                    {{ $model['title'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
+                    <li class="nav-item">
+                        <a href="/fastleo/log" class="nav-link"><i class="fas fa-exclamation-triangle"></i> Laravel log</a>
+                    </li>
                 @endif
-                <li class="nav-item">
-                    <a href="/fastleo/log" class="nav-link"><i class="fas fa-exclamation-triangle"></i> Laravel log</a>
-                </li>
                 <li class="nav-item">
                     <br>
                     <a href="https://softonline.org" target="_blank">
