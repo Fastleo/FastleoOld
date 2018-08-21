@@ -7,17 +7,17 @@ Route::group(['prefix' => 'fastleo', 'middleware' => ['web', Camanru\Fastleo\Che
     Route::get('/logout', 'Camanru\Fastleo\LoginController@logout')->name('fastleo.logout');
 
     // Info
-    Route::get('/info', 'Camanru\Fastleo\InfoController@index');
-    Route::get('/info/clear', 'Camanru\Fastleo\InfoController@clear');
+    Route::get('/info', 'Camanru\Fastleo\InfoController@index')->name('info');
+    Route::get('/info/clear', 'Camanru\Fastleo\InfoController@clear')->name('info.clear');
 
     // Log
-    Route::get('/log', 'Camanru\Fastleo\LogController@index');
-    Route::get('/log/clear', 'Camanru\Fastleo\LogController@clear');
+    Route::get('/log', 'Camanru\Fastleo\LogController@index')->name('log');
+    Route::get('/log/clear', 'Camanru\Fastleo\LogController@clear')->name('log.clear');
 
     // Filemanager
-    Route::get('/filemanager', 'Camanru\Fastleo\FilemanagerController@index');
-    Route::any('/filemanager/create', 'Camanru\Fastleo\FilemanagerController@create');
-    Route::any('/filemanager/uploads', 'Camanru\Fastleo\FilemanagerController@uploads');
+    Route::get('/filemanager', 'Camanru\Fastleo\FilemanagerController@index')->name('filemanager');
+    Route::any('/filemanager/create', 'Camanru\Fastleo\FilemanagerController@create')->name('filemanager.create');
+    Route::any('/filemanager/uploads', 'Camanru\Fastleo\FilemanagerController@uploads')->name('filemanager.uploads');
 
     // Models
     Route::get('/app/{model}', 'Camanru\Fastleo\ModelController@index');
