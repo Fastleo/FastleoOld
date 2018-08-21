@@ -23,9 +23,7 @@
 
 ****Clear cache****
 
-    php artisan route:clear
-    php artisan config:clear
-    php artisan cache:clear
+    php artisan fastleo:clear
     composer dump-autoload
 
 ****Enter in fastleo****

@@ -26,7 +26,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="{{ $c }}">@if(isset($f[$c]['title'])){{ $f[$c]['title'] }}@else{{ ucfirst($c) }}@endif:</label>
                                     <div class="col-sm-9">
-                                        <textarea name="{{ $c }}" id="{{ $c }}" class="form-control @if(isset($f[$c]['tinymce']) and $f[$c]['tinymce'] == true){{ 'tinymce' }}@endif" @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif>@if(isset($row->{$c})){!! trim($row->{$c}) !!}@endif</textarea>
+                                        <textarea name="{{ $c }}" id="{{ $c }}" class="form-control @if(isset($f[$c]['tinymce']) and $f[$c]['tinymce'] == true){{ 'tinymce' }}@endif" rows="10" @if(isset($f[$c]['disabled']) and $f[$c]['disabled'] == true){{ 'disabled' }}@endif @if(isset($f[$c]['required']) and $f[$c]['required'] == true){{ 'required' }}@endif>@if(isset($row->{$c})){!! trim($row->{$c}) !!}@endif</textarea>
                                         @if(isset($f[$c]['description']) and $f[$c]['description'] != '')
                                             <small id="emailHelp" class="form-text text-muted">{{ $f[$c]['description'] }}</small>
                                         @endif

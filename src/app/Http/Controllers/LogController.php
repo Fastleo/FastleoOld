@@ -23,7 +23,7 @@ class LogController extends Controller
             }
         }
         return view('fastleo::log', [
-            'logs' => $logs
+            'logs' => array_reverse($logs)
         ]);
     }
 
