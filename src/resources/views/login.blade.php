@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <form action="{{ route('fastleo.fastleo') }}" method="post" class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
+    <form action="{{ route('fastleo') }}" method="post" class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
         {{ csrf_field() }}
         <div class="form-group">
             <label for="email">Email address</label>
