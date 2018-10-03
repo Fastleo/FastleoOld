@@ -5,6 +5,7 @@ namespace Camanru\Fastleo;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class InfoController extends Controller
 {
@@ -16,6 +17,17 @@ class InfoController extends Controller
     {
         $params = [];
         $phpversion = explode("-", phpversion());
+
+        if (env('DB_CONNECTION') == 'mysql') {
+            $db = DB::select('SELECT version() as server_version;');
+        } elseif (env('DB_CONNECTION') == 'pgsql') {
+            $db = DB::select('SHOW server_version;');
+        } elseif (env('DB_CONNECTION') == 'sqlite') {
+            $db = DB::select('SELECT sqlite_version() AS server_version;');
+        } else {
+            $db[0] = new \stdClass();
+            $db[0]->server_version = '';
+        }
 
         $params[] = [
             'title' => 'Версия Fastleo',
@@ -34,7 +46,7 @@ class InfoController extends Controller
 
         $params[] = [
             'title' => 'Драйвер БД',
-            'value' => env('DB_CONNECTION')
+            'value' => env('DB_CONNECTION') . ' ' . $db[0]->server_version ?? ''
         ];
 
         return view('fastleo::info', [
