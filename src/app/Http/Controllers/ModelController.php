@@ -162,7 +162,7 @@ class ModelController extends Controller
             }
         } else {
             if (isset($this->columns['sort'])) {
-                $query = $this->app::orderBy('sort', SORT_NATURAL, true);
+                $query = $this->app::orderBy('sort')->orderBy('id');
             } else {
                 $query = $this->app::orderBy('id');
             }
@@ -431,6 +431,7 @@ class ModelController extends Controller
                 $table->integer('sort')->after('id')->nullable();
             });
         }
+        $this->columns['sort'] = 'integer';
         $this->sortingFix($request, $model);
     }
 
@@ -442,7 +443,7 @@ class ModelController extends Controller
     public function sortingFix(Request $request, $model)
     {
         if (isset($this->columns['sort'])) {
-            $rows = $this->app::orderByRaw('sort, id')->get();
+            $rows = $this->app::orderBy('sort')->orderBy('id')->get();
             $i = 1;
             foreach ($rows as $row) {
                 $this->app::where('id', $row->id)->update([
