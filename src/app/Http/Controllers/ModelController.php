@@ -145,6 +145,23 @@ class ModelController extends Controller
     }
 
     /**
+     * Query search
+     * @param $query
+     * @param $search
+     * @return mixed
+     */
+    private function search($search)
+    {
+        $query = $this->app::whereNull('id');
+        foreach ($this->columns as $column => $type) {
+            if (in_array($type, ['string', 'text'])) {
+                $query->orWhere($column, 'LIKE', '%' . $search . '%');
+            }
+        }
+        return $query;
+    }
+
+    /**
      * Rows list
      * @param Request $request
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -153,21 +170,19 @@ class ModelController extends Controller
     {
         // Search all rows
         if ($request->get('search')) {
-            $search = $request->get('search');
-            $query = $this->app::where('id', $search);
-            foreach ($this->columns as $column => $type) {
-                if (in_array($type, ['string', 'text'])) {
-                    $query->orWhere($column, 'LIKE', '%' . $search . '%');
-                }
-            }
+            $query = $this->search($request->get('search'));
         } else {
-            if (isset($this->columns['sort'])) {
-                $query = $this->app::orderBy('sort')->orderBy('id');
-            } else {
-                $query = $this->app::orderBy('id');
-            }
+            $query = $this->app::whereNotNull('id');
         }
 
+        // sorting
+        if (isset($this->columns['sort'])) {
+            $query->orderBy('sort')->orderBy('id');
+        } else {
+            $query->orderBy('id');
+        }
+
+        // all rows
         $rows = $query->paginate(15);
 
         return view('fastleo::model', [
@@ -509,14 +524,18 @@ class ModelController extends Controller
      * @throws \League\Csv\CannotInsertRecord
      * @throws \League\Csv\Exception
      */
-    public function rowsExport()
+    public function rowsExport(Request $request)
     {
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
-        $csv->setDelimiter(';');
         $csv->insertOne(array_diff($this->schema, $this->app->getHidden()));
-        $csv->insertAll($this->app::get()->toArray());
+        if ($request->get('search')) {
+            $csv->insertAll($this->search($request->get('search'))->orderBy('id')->get()->toArray());
+        } else {
+            $csv->insertAll($this->app::orderBy('id')->get()->toArray());
+        }
+        $csv->setOutputBOM(Writer::BOM_UTF8);
         $csv->output($this->table . '_' . date("Y_m_d_His") . '.csv');
-        die();
+        die;
     }
 
     /**
@@ -536,26 +555,37 @@ class ModelController extends Controller
         // Расширение файла
         $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), base_path($csv_file));
 
+        //
+        $csv_data = file_get_contents(base_path($csv_file));
+        (strpos($csv_data, "\t") !== false) ? $delimiter = "\t" : $delimiter = ",";
+        unset($csv_data);
+
         // читаем данные из csv
         if ($mime == 'text/plain') {
 
             $csv = Reader::createFromPath(base_path($csv_file), 'r');
-            $csv->setDelimiter(';');
             $csv->setHeaderOffset(0);
+            $csv->setDelimiter($delimiter);
             $records = $csv->getRecords();
 
             // Обновляем или вставляем запись
             foreach ($records as $offset => $row) {
-                unset($row['created_at'], $row['updated_at']);
                 if (isset($row['id']) and is_numeric($row['id'])) {
-                    $row['updated_at'] = \Carbon\Carbon::now();
+                    if (isset($row['updated_at'])) {
+                        $row['updated_at'] = \Carbon\Carbon::now();
+                    }
                     $this->app::where('id', $row['id'])->update($row);
                 } else {
-                    unset($row['id']);
-                    $row['created_at'] = $row['updated_at'] = \Carbon\Carbon::now();
+                    if (isset($row['created_at'])) {
+                        $row['created_at'] = \Carbon\Carbon::now();
+                    }
+                    if (isset($row['updated_at'])) {
+                        $row['updated_at'] = \Carbon\Carbon::now();
+                    }
                     if (isset($this->columns['sort'])) {
                         $row['sort'] = $this->app::count() + 1;
                     }
+                    unset($row['id']);
                     $this->app::insert($row);
                 }
             }
