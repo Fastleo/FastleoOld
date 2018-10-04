@@ -36,7 +36,6 @@
                     <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/sorting_fix">Исправить сортировку</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/rows_export?{{ request()->getQueryString() }}" download>Экспортировать данные</a>
-                    {{--<a class="dropdown-item" href="/fastleo/app/{{ $model_name }}/rows_export?encode=cp1251" download>Экспортировать данные CP1251</a>--}}
                     <a class="dropdown-item" href="" id="import">Импортировать данные</a>
                 </div>
             </div>
