@@ -585,6 +585,9 @@ class ModelController extends Controller
                     if (isset($this->columns['sort'])) {
                         $row['sort'] = $this->app::count() + 1;
                     }
+                    if (isset($this->columns['menu'])) {
+                        $row['menu'] = 1;
+                    }
                     unset($row['id']);
                     $this->app::insert($row);
                 }
