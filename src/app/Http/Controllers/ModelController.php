@@ -589,6 +589,11 @@ class ModelController extends Controller
                         $row['menu'] = 1;
                     }
                     unset($row['id']);
+                    foreach($row as $k => $r) {
+                        if($r == '') {
+                            $row[$k] = null;
+                        }
+                    }
                     $this->app::insert($row);
                 }
             }
