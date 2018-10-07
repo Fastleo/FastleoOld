@@ -101,6 +101,37 @@ class ModelController extends Controller
     }
 
     /**
+     * Unset empty value in array
+     * @param array $array
+     * @param array $exclude
+     * @return array
+     */
+    private function unsetForeach(array $array, array $exclude = [])
+    {
+        foreach ($array as $k => $r) {
+            if ($r == '' or in_array($k, $exclude)) {
+                unset($array[$k]);
+            }
+        }
+        return $array;
+    }
+
+    /**
+     * Null value in array
+     * @param array $array
+     * @return array
+     */
+    private function nullForeach(array $array)
+    {
+        foreach ($array as $k => $r) {
+            if ($r == '') {
+                $array[$k] = NULL;
+            }
+        }
+        return $array;
+    }
+
+    /**
      * @return array
      */
     private function parsColumns()
@@ -574,11 +605,7 @@ class ModelController extends Controller
                     if (isset($row['updated_at'])) {
                         $row['updated_at'] = \Carbon\Carbon::now();
                     }
-                    foreach ($row as $k => $r) {
-                        if ($r == '') {
-                            $row[$k] = NULL;
-                        }
-                    }
+                    $row = $this->nullForeach($row);
                     $this->app::where('id', $row['id'])->update($row);
                 } else {
                     if (isset($row['created_at'])) {
@@ -593,11 +620,7 @@ class ModelController extends Controller
                     if (isset($this->columns['menu'])) {
                         $row['menu'] = 1;
                     }
-                    foreach ($row as $k => $r) {
-                        if ($r == '' or in_array($k, ['id'])) {
-                            unset($row[$k]);
-                        }
-                    }
+                    $row = $this->unsetForeach($row, ['id']);
                     $this->app::insert($row);
                 }
             }
