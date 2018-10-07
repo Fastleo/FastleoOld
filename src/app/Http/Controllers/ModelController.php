@@ -231,7 +231,7 @@ class ModelController extends Controller
             }
 
             // add row
-            $id = $this->app->insertGetId($request->except($this->exclude_get_list));
+            $insert_id = $this->app->insertGetId($request->except($this->exclude_get_list));
 
             // include
             if (isset($many)) {
@@ -239,10 +239,10 @@ class ModelController extends Controller
                     if (count($value) > 0) {
                         $manyName = substr($key, 0, -1);
                         $manyApp = app('App\\' . ucfirst($manyName));
-                        foreach ($value as $k => $v) {
+                        foreach ($value as $v) {
                             if (!is_null($v)) {
                                 $manyApp::insert([
-                                    $model . '_id' => $id,
+                                    $model . '_id' => $insert_id,
                                     $manyName => $v,
                                 ]);
                             }
@@ -254,7 +254,7 @@ class ModelController extends Controller
             if (!is_null($request->get('id'))) {
                 header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
             } else {
-                header('Location: /fastleo/app/' . $model . '/edit/' . $id . '?' . $request->getQueryString());
+                header('Location: /fastleo/app/' . $model . '/edit/' . $insert_id . '?' . $request->getQueryString());
             }
             die;
         }
@@ -305,7 +305,7 @@ class ModelController extends Controller
                         $manyName = substr($key, 0, -1);
                         $manyApp = app('App\\' . ucfirst($manyName));
                         $manyApp::where($model . '_id', $row_id)->delete();
-                        foreach ($value as $k => $v) {
+                        foreach ($value as $v) {
                             if (!is_null($v)) {
                                 $manyApp::insert([
                                     $model . '_id' => $row_id,
@@ -459,12 +459,12 @@ class ModelController extends Controller
     {
         if (isset($this->columns['sort'])) {
             $rows = $this->app::orderBy('sort')->orderBy('id')->get();
-            $i = 1;
+            $sort = 1;
             foreach ($rows as $row) {
                 $this->app::where('id', $row->id)->update([
-                    'sort' => $i
+                    'sort' => $sort
                 ]);
-                ++$i;
+                $sort++;
             }
         }
         header('Location: /fastleo/app/' . $model . '?' . $request->getQueryString());
@@ -569,7 +569,7 @@ class ModelController extends Controller
             $records = $csv->getRecords();
 
             // Обновляем или вставляем запись
-            foreach ($records as $offset => $row) {
+            foreach ($records as $row) {
                 if (isset($row['id']) and is_numeric($row['id'])) {
                     if (isset($row['updated_at'])) {
                         $row['updated_at'] = \Carbon\Carbon::now();

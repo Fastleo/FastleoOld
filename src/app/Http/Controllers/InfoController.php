@@ -19,14 +19,14 @@ class InfoController extends Controller
         $phpversion = explode("-", phpversion());
 
         if (env('DB_CONNECTION') == 'mysql') {
-            $db = DB::select('SELECT version() as server_version;');
+            $typeDB = DB::select('SELECT version() as server_version;');
         } elseif (env('DB_CONNECTION') == 'pgsql') {
-            $db = DB::select('SHOW server_version;');
+            $typeDB = DB::select('SHOW server_version;');
         } elseif (env('DB_CONNECTION') == 'sqlite') {
-            $db = DB::select('SELECT sqlite_version() AS server_version;');
+            $typeDB = DB::select('SELECT sqlite_version() AS server_version;');
         } else {
-            $db[0] = new \stdClass();
-            $db[0]->server_version = '';
+            $typeDB[0] = new \stdClass();
+            $typeDB[0]->server_version = '';
         }
 
         $params[] = [
@@ -46,7 +46,7 @@ class InfoController extends Controller
 
         $params[] = [
             'title' => 'Драйвер БД',
-            'value' => env('DB_CONNECTION') . ' ' . $db[0]->server_version ?? ''
+            'value' => env('DB_CONNECTION') . ' ' . $typeDB[0]->server_version ?? ''
         ];
 
         return view('fastleo::info', [
