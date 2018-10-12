@@ -558,6 +558,7 @@ class ModelController extends Controller
     public function rowsExport(Request $request)
     {
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
+        $csv->setDelimiter(';');
         $csv->insertOne(array_diff($this->schema, $this->app->getHidden()));
         if ($request->get('search')) {
             $csv->insertAll($this->search($request->get('search'))->orderBy('id')->get()->toArray());
@@ -595,6 +596,7 @@ class ModelController extends Controller
         if ($mime == 'text/plain') {
 
             $csv = Reader::createFromPath(base_path($csv_file), 'r');
+            $csv->setDelimiter(';');
             $csv->setHeaderOffset(0);
             $csv->setDelimiter($delimiter);
             $records = $csv->getRecords();
