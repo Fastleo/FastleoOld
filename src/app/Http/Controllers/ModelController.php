@@ -603,7 +603,7 @@ class ModelController extends Controller
 
             // Обновляем или вставляем запись
             foreach ($records as $row) {
-                if (isset($row['id']) and is_numeric($row['id'])) {
+                if (isset($row['id']) and is_numeric($row['id']) and !is_null($this->app::where('id', $row['id'])->first())) {
                     if (isset($row['updated_at'])) {
                         $row['updated_at'] = \Carbon\Carbon::now();
                     }
