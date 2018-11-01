@@ -104,12 +104,19 @@ class ModelController extends Controller
      * Unset empty value in array
      * @param array $array
      * @param array $exclude
+     * @param array $inclusion
      * @return array
      */
-    private function unsetForeach(array $array, array $exclude = [])
+    private function unsetForeach(array $array, array $exclude = [], array $inclusion = [])
     {
         foreach ($array as $k => $r) {
-            if ($r == '' or in_array($k, $exclude)) {
+            if ($r == '') {
+                unset($array[$k]);
+            }
+            if (count($exclude) > 0 and in_array($k, $exclude)) {
+                unset($array[$k]);
+            }
+            if (count($inclusion) > 0 and !in_array($k, $inclusion)) {
                 unset($array[$k]);
             }
         }
@@ -119,13 +126,17 @@ class ModelController extends Controller
     /**
      * Null value in array
      * @param array $array
+     * @param array $inclusion
      * @return array
      */
-    private function nullForeach(array $array)
+    private function nullForeach(array $array, array $inclusion = [])
     {
         foreach ($array as $k => $r) {
             if ($r == '') {
                 $array[$k] = NULL;
+            }
+            if (count($inclusion) > 0 and !in_array($k, $inclusion)) {
+                unset($array[$k]);
             }
         }
         return $array;
@@ -578,6 +589,9 @@ class ModelController extends Controller
      */
     public function rowsImport(Request $request, $model)
     {
+        // Разделитель
+        $delimiter = ';';
+
         // Загрузка файла на сервер
         $file = $request->file('import');
         $name = str_replace([' '], ['_'], $file->getClientOriginalName());
@@ -587,18 +601,22 @@ class ModelController extends Controller
         // Расширение файла
         $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), base_path($csv_file));
 
-        //
-        $csv_data = file_get_contents(base_path($csv_file));
-        (strpos($csv_data, "\t") !== false) ? $delimiter = "\t" : $delimiter = ",";
-        unset($csv_data);
+        // Проверка разделителя
+        $csv_open = fopen(base_path($csv_file), 'r');
+        $csv_data = fgets($csv_open, 4096);
+        fseek($csv_open, 0);
+
+        // Разделитель табуляция
+        if (strpos($csv_data, "\t") !== false) {
+            $delimiter = "\t";
+        }
 
         // читаем данные из csv
         if ($mime == 'text/plain') {
 
             $csv = Reader::createFromPath(base_path($csv_file), 'r');
-            $csv->setDelimiter(';');
-            $csv->setHeaderOffset(0);
             $csv->setDelimiter($delimiter);
+            $csv->setHeaderOffset(0);
             $records = $csv->getRecords();
 
             // Обновляем или вставляем запись
@@ -607,7 +625,7 @@ class ModelController extends Controller
                     if (isset($row['updated_at'])) {
                         $row['updated_at'] = \Carbon\Carbon::now();
                     }
-                    $row = $this->nullForeach($row);
+                    $row = $this->nullForeach($row, $this->getColumns());
                     $this->app::where('id', $row['id'])->update($row);
                 } else {
                     if (isset($row['created_at'])) {
@@ -622,7 +640,7 @@ class ModelController extends Controller
                     if (isset($this->columns['menu'])) {
                         $row['menu'] = 1;
                     }
-                    $row = $this->unsetForeach($row, ['id']);
+                    $row = $this->unsetForeach($row, ['id'], $this->getColumns());
                     $this->app::insert($row);
                 }
             }
