@@ -619,13 +619,23 @@ class ModelController extends Controller
             $csv->setHeaderOffset(0);
             $records = $csv->getRecords();
 
+            // Возможно есть новые столбцы
+            $new_columns = array_diff($csv->getHeader(), $this->getColumns());
+            if (count($new_columns) > 0) {
+                Schema::table($this->table, function (Blueprint $table) use ($new_columns) {
+                    foreach ($new_columns as $new_column) {
+                        $table->string($new_column)->nullable();
+                    }
+                });
+            }
+
             // Обновляем или вставляем запись
             foreach ($records as $row) {
                 if (isset($row['id']) and is_numeric($row['id']) and !is_null($this->app::where('id', $row['id'])->first())) {
                     if (isset($row['updated_at'])) {
                         $row['updated_at'] = \Carbon\Carbon::now();
                     }
-                    $row = $this->nullForeach($row, $this->getColumns());
+                    $row = $this->nullForeach($row);
                     $this->app::where('id', $row['id'])->update($row);
                 } else {
                     if (isset($row['created_at'])) {
@@ -640,7 +650,7 @@ class ModelController extends Controller
                     if (isset($this->columns['menu'])) {
                         $row['menu'] = 1;
                     }
-                    $row = $this->unsetForeach($row, ['id'], $this->getColumns());
+                    $row = $this->unsetForeach($row, ['id']);
                     $this->app::insert($row);
                 }
             }
