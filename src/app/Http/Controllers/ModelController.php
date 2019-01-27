@@ -187,6 +187,17 @@ class ModelController extends Controller
     }
 
     /**
+     * @param $model_name
+     * @return string
+     */
+    private function getModelName($model_name)
+    {
+        $array_name = explode('_', $model_name);
+        array_map("ucfirst", $array_name);
+        return implode('', $array_name);
+    }
+
+    /**
      * Query search
      * @param $query
      * @param $search
@@ -280,7 +291,7 @@ class ModelController extends Controller
                 foreach ($many as $key => $value) {
                     if (count($value) > 0) {
                         $manyName = substr($key, 0, -1);
-                        $manyApp = app('App\\' . ucfirst($manyName));
+                        $manyApp = app('App\\' . self::getModelName($manyName));
                         foreach ($value as $v) {
                             if (!is_null($v)) {
                                 $manyApp::insert([
