@@ -358,7 +358,7 @@ class ModelController extends Controller
                 foreach ($many as $key => $value) {
                     if (count($value) > 0) {
                         $manyName = substr($key, 0, -1);
-                        $manyApp = app('App\\' . ucfirst($manyName));
+                        $manyApp = app('App\\' . self::getModelName($manyName));
                         $manyApp::where($model . '_id', $row_id)->delete();
                         foreach ($value as $v) {
                             if (!is_null($v)) {
