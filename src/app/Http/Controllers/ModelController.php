@@ -193,7 +193,9 @@ class ModelController extends Controller
     private function getModelName($model_name)
     {
         $array_name = explode('_', $model_name);
-        array_map("ucfirst", $array_name);
+        foreach ($array_name as $k => $name) {
+            $array_name[$k] = ucfirst($name);
+        }
         return implode('', $array_name);
     }
 
