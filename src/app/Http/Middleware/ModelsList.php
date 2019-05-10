@@ -23,19 +23,18 @@ class ModelsList
                     if (class_exists('App\\' . $pathInfo['filename'])) {
                         $name = 'App\\' . $pathInfo['filename'];
                         $app = new $name();
-                        if (isset($app->fastleo_model)) {
-                            if (!isset($app->fastleo_model['menu']) or $app->fastleo_model['menu'] == true) {
-                                $appmodels[strtolower($pathInfo['filename'])] = [
-                                    'icon' => isset($app->fastleo_model['icon']) ? $app->fastleo_model['icon'] : null,
-                                    'name' => isset($app->fastleo_model['name']) ? $app->fastleo_model['name'] : $pathInfo['filename'],
-                                    'title' => isset($app->fastleo_model['title']) ? $app->fastleo_model['title'] : $pathInfo['filename'],
-                                ];
-                            }
+                        if (isset($app->fastleo) and $app->fastleo == false) {
+                            continue;
                         }
+                        $appmodels[strtolower($pathInfo['filename'])] = [
+                            'icon' => $app->fastleo_model['icon'] ?? null,
+                            'name' => $app->fastleo_model['name'] ?? $pathInfo['filename'],
+                            'title' => $app->fastleo_model['title'] ?? $pathInfo['filename'],
+                        ];
                     }
                 }
             }
-            $request->merge(['appmodels' => $appmodels]);
+            $request->appmodels = $appmodels;
         }
         return $next($request);
     }
