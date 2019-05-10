@@ -2,7 +2,7 @@
     "name": "camanru/fastleo",
     "type": "library",
     "license": "CC-BY-SA-4.0",
-    "version": "0.1.35.2",
+    "version": "0.1.36",
     "authors": [
         {
             "name": "Roman Zakharov",
@@ -41,10 +41,13 @@
     "scripts": {
         "test": "phpunit",
         "post-install-cmd": [
-            "@php artisan vendor:publish --tag=fastleo --force"
+            "php artisan vendor:publish --tag=fastleo --force"
         ],
         "post-autoload-dump": [
-            "@php artisan vendor:publish --tag=fastleo --force"
+            "php artisan vendor:publish --tag=fastleo --force"
+        ],
+        "post-update-cmd": [
+            "php artisan vendor:publish --tag=fastleo --force"
         ]
     }
 }

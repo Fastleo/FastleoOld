@@ -16,7 +16,7 @@ class ModelsList
     public function handle(Request $request, Closure $next)
     {
         if ($request->is('fastleo/*')) {
-            $models = [];
+            $appmodels = [];
             foreach (scandir(base_path('app')) as $file) {
                 $pathInfo = pathinfo($file);
                 if (isset($pathInfo['extension']) and $pathInfo['extension'] == 'php') {
@@ -25,7 +25,7 @@ class ModelsList
                         $app = new $name();
                         if (isset($app->fastleo_model)) {
                             if (!isset($app->fastleo_model['menu']) or $app->fastleo_model['menu'] == true) {
-                                $models[strtolower($pathInfo['filename'])] = [
+                                $appmodels[strtolower($pathInfo['filename'])] = [
                                     'icon' => isset($app->fastleo_model['icon']) ? $app->fastleo_model['icon'] : null,
                                     'name' => isset($app->fastleo_model['name']) ? $app->fastleo_model['name'] : $pathInfo['filename'],
                                     'title' => isset($app->fastleo_model['title']) ? $app->fastleo_model['title'] : $pathInfo['filename'],
@@ -35,7 +35,7 @@ class ModelsList
                     }
                 }
             }
-            $request->appmodels = $models;
+            $request->merge(['appmodels' => $appmodels]);
         }
         return $next($request);
     }
