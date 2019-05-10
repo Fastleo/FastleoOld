@@ -133,7 +133,9 @@
             divCopy.find('input').val('');
             divCopy.find('input').attr('id', divCopy.find('input').attr('id').replace(/\d+/g, parseInt(elements + 1)));
             divCopy.find('input').attr('name', divCopy.find('input').attr('name').replace(/\d+/g, parseInt(elements + 1)));
-            divCopy.find('.filemanager').attr('data-src', divCopy.find('.filemanager').attr('data-src').replace(/field=(\w+)/g, 'field=' + name + parseInt(elements + 1)));
+            if (divCopy.find('.filemanager').length > 0) {
+                divCopy.find('.filemanager').attr('data-src', divCopy.find('.filemanager').attr('data-src').replace(/field=(\w+)/g, 'field=' + name + parseInt(elements + 1)));
+            }
             div.after(divCopy);
             return false;
         });
