@@ -2,7 +2,7 @@
     "name": "camanru/fastleo",
     "type": "library",
     "license": "CC-BY-SA-4.0",
-    "version": "0.1.39",
+    "version": "0.1.40",
     "authors": [
         {
             "name": "Roman Zakharov",
@@ -14,12 +14,12 @@
         "php": ">=7.2",
         "ext-fileinfo": "*",
         "ext-gd": "*",
-        "doctrine/dbal": "^2.7",
-        "league/csv": "^9.1",
+        "doctrine/dbal": "^2.9",
+        "league/csv": "^9.2",
         "illuminate/support": ">=5.6"
     },
     "require-dev": {
-        "phpunit/phpunit" : "^7.0"
+        "phpunit/phpunit" : "^7.5"
     },
     "autoload": {
         "psr-4": {
@@ -37,17 +37,5 @@
                 "Camanru\\Fastleo\\ServiceProvider"
             ]
         }
-    },
-    "scripts": {
-        "test": "phpunit",
-        "post-install-cmd": [
-            "php artisan vendor:publish --tag=fastleo --force"
-        ],
-        "post-autoload-dump": [
-            "php artisan vendor:publish --tag=fastleo --force"
-        ],
-        "post-update-cmd": [
-            "php artisan vendor:publish --tag=fastleo --force"
-        ]
     }
 }
