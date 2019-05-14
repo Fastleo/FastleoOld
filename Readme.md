@@ -55,6 +55,7 @@
             'disabled' => false,
             'description' => '',
             'placeholder' => '',
+            'default' => '',
             'multiple' => false,
             'data' => [], // array, example [10,20,30]
             'data' => '', // example 'App\User:id:email:admin:1'
