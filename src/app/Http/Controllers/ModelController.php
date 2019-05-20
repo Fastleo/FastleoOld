@@ -625,7 +625,7 @@ class ModelController extends Controller
         }
 
         // читаем данные из csv
-        if ($mime == 'text/plain') {
+        if ($mime == 'text/plain' or $mime == 'application/octet-stream') {
 
             $csv = Reader::createFromPath(base_path($csv_file), 'r');
             $csv->setDelimiter($delimiter);
