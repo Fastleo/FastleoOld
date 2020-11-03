@@ -1,6 +1,6 @@
 <?php
 
-namespace Camanru\Fastleo;
+namespace Camanru\Fastleo\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

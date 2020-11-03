@@ -1,6 +1,6 @@
 <?php
 
-namespace Camanru\Fastleo;
+namespace Camanru\Fastleo\app\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

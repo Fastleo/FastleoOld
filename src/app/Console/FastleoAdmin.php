@@ -1,6 +1,6 @@
 <?php
 
-namespace Camanru\Fastleo;
+namespace Camanru\Fastleo\app\Console;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Console\Command;
