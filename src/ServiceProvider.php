@@ -2,6 +2,8 @@
 
 namespace Camanru\Fastleo;
 
+use Camanru\Fastleo\app\Console\FastleoAdmin;
+use Camanru\Fastleo\app\Console\FastleoClear;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
